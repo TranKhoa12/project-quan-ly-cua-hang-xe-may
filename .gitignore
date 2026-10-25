@@ -6,3 +6,6 @@ node_modules/
 *.tsbuildinfo
 out/
 supabase/.temp/
+
+.vercel
+.env*

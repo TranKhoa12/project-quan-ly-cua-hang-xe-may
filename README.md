@@ -97,7 +97,7 @@ Các bước tiếp theo để vận hành thật: Auth/phiên server; quyền t
 
 Đưa repository lên tài khoản Git của bạn, import trong Vercel và chọn framework Next.js. Build command `npm run build`, thư mục gốc là thư mục dự án này. Nếu chưa cấu hình backend, bản triển khai vẫn chỉ là demo localStorage. Chọn gói phù hợp hoạt động thương mại khi sử dụng thật.
 
-Supabase đã liên kết và cấu hình Auth; chưa triển khai website lên Vercel. Cần đặt ba biến môi trường nêu tại `docs/auth-setup.md` khi deploy. Key quản trị chỉ dùng server.
+Supabase đã liên kết và cấu hình Auth. Website đã triển khai lên https://dangkietmoto.vercel.app, có ba biến môi trường production theo `docs/auth-setup.md`; key quản trị lưu dạng Secret và chỉ dùng server. Source mới vẫn cần một deployment thành công để xuất hiện trên URL thật; build cục bộ không tự cập nhật Vercel.
 
 ## Kiểm tra đã thực hiện
 

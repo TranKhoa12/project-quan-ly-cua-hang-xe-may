@@ -1,0 +1,8 @@
+.git
+.next
+.npm-cache
+.vercel
+node_modules
+.env*
+*.tsbuildinfo
+supabase/.temp
