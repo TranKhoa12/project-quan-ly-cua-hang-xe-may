@@ -1,0 +1,2079 @@
+{
+  "reviewedOn": "2026-10-26",
+  "scope": "Generic Vietnamese reference names; no OEM codes or model/year fitment claims. Aliases are editorial local terminology.",
+  "sources": {
+    "wave": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf",
+    "vario": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf",
+    "yamaha": "https://global.yamaha-motor.com/business/mc/customer-support/vn/genuine-parts/"
+  },
+  "terms": [
+    {
+      "name": "Pít tông",
+      "aliases": [
+        "Piston"
+      ],
+      "category": "Động cơ",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Xéc măng",
+      "aliases": [
+        "Bạc piston",
+        "Bạc xéc măng"
+      ],
+      "category": "Động cơ",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Chốt pít tông",
+      "aliases": [
+        "Ắc piston"
+      ],
+      "category": "Động cơ",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Phe chốt pít tông",
+      "aliases": [
+        "Phe piston"
+      ],
+      "category": "Động cơ",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Xi lanh",
+      "aliases": [
+        "Nòng xi lanh",
+        "Nòng máy"
+      ],
+      "category": "Động cơ",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Đầu xi lanh",
+      "aliases": [
+        "Đầu bò",
+        "Quy lát"
+      ],
+      "category": "Động cơ",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Nắp đầu xi lanh",
+      "aliases": [
+        "Nắp đầu bò"
+      ],
+      "category": "Động cơ",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Trục khuỷu",
+      "aliases": [
+        "Dên",
+        "Cốt máy"
+      ],
+      "category": "Động cơ",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Thanh truyền",
+      "aliases": [
+        "Tay dên"
+      ],
+      "category": "Động cơ",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Trục cam",
+      "aliases": [
+        "Cốt cam"
+      ],
+      "category": "Động cơ",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Cò mổ",
+      "aliases": [
+        "Cò xupáp"
+      ],
+      "category": "Động cơ",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Xupáp nạp",
+      "aliases": [
+        "Súp páp hút",
+        "Van nạp"
+      ],
+      "category": "Động cơ",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Xupáp xả",
+      "aliases": [
+        "Súp páp xả",
+        "Van xả"
+      ],
+      "category": "Động cơ",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Lò xo xupáp",
+      "aliases": [
+        "Lò xo súp páp"
+      ],
+      "category": "Động cơ",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Ống dẫn hướng xupáp",
+      "aliases": [
+        "Ống dẫn hướng súp páp"
+      ],
+      "category": "Động cơ",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Phớt xupáp",
+      "aliases": [
+        "Phốt ghít",
+        "Phớt súp páp"
+      ],
+      "category": "Động cơ",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Sên cam",
+      "aliases": [
+        "Xích cam"
+      ],
+      "category": "Động cơ",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Nhông cam",
+      "aliases": [
+        "Bánh răng cam"
+      ],
+      "category": "Động cơ",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Tăng sên cam",
+      "aliases": [
+        "Tăng xích cam"
+      ],
+      "category": "Động cơ",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Thanh dẫn hướng sên cam",
+      "aliases": [
+        "Thanh dẫn hướng xích cam"
+      ],
+      "category": "Động cơ",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Bơm nhớt",
+      "aliases": [
+        "Bơm dầu động cơ"
+      ],
+      "category": "Động cơ",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Lưới lọc nhớt",
+      "aliases": [
+        "Lưới lọc dầu"
+      ],
+      "category": "Động cơ",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Que thăm nhớt",
+      "aliases": [
+        "Thước thăm dầu"
+      ],
+      "category": "Động cơ",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Ốc xả nhớt",
+      "aliases": [
+        "Bu lông xả dầu"
+      ],
+      "category": "Động cơ",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Lốc máy trái",
+      "aliases": [
+        "Cácte trái"
+      ],
+      "category": "Động cơ",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Lốc máy phải",
+      "aliases": [
+        "Cácte phải"
+      ],
+      "category": "Động cơ",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Nắp lốc máy trái",
+      "aliases": [
+        "Nắp máy trái"
+      ],
+      "category": "Động cơ",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Nắp lốc máy phải",
+      "aliases": [
+        "Nắp máy phải"
+      ],
+      "category": "Động cơ",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Gioăng đầu xi lanh",
+      "aliases": [
+        "Ron quy lát",
+        "Gioăng quy lát"
+      ],
+      "category": "Gioăng, phớt và vòng bi",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Gioăng chân xi lanh",
+      "aliases": [
+        "Ron chân nòng"
+      ],
+      "category": "Gioăng, phớt và vòng bi",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Gioăng nắp đầu xi lanh",
+      "aliases": [
+        "Ron nắp đầu bò"
+      ],
+      "category": "Gioăng, phớt và vòng bi",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Gioăng lốc máy",
+      "aliases": [
+        "Ron lốc máy"
+      ],
+      "category": "Gioăng, phớt và vòng bi",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Gioăng cổ pô",
+      "aliases": [
+        "Ron cổ pô"
+      ],
+      "category": "Gioăng, phớt và vòng bi",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Gioăng cổ hút",
+      "aliases": [
+        "Ron cổ hút"
+      ],
+      "category": "Gioăng, phớt và vòng bi",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Phớt trục khuỷu",
+      "aliases": [
+        "Phốt dên"
+      ],
+      "category": "Gioăng, phớt và vòng bi",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Phớt cần số",
+      "aliases": [
+        "Phốt cần số"
+      ],
+      "category": "Gioăng, phớt và vòng bi",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Phớt trục đạp",
+      "aliases": [
+        "Phốt giò đạp"
+      ],
+      "category": "Gioăng, phớt và vòng bi",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Phớt nhông trước",
+      "aliases": [
+        "Phốt nhông tải"
+      ],
+      "category": "Gioăng, phớt và vòng bi",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Vòng bi trục khuỷu",
+      "aliases": [
+        "Bạc đạn dên"
+      ],
+      "category": "Gioăng, phớt và vòng bi",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Vòng bi bánh trước",
+      "aliases": [
+        "Bạc đạn bánh trước"
+      ],
+      "category": "Gioăng, phớt và vòng bi",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Vòng bi bánh sau",
+      "aliases": [
+        "Bạc đạn bánh sau"
+      ],
+      "category": "Gioăng, phớt và vòng bi",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Vòng bi hộp số",
+      "aliases": [
+        "Bạc đạn hộp số"
+      ],
+      "category": "Gioăng, phớt và vòng bi",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Vòng bi cổ lái",
+      "aliases": [
+        "Bạc đạn cổ",
+        "Chén cổ"
+      ],
+      "category": "Gioăng, phớt và vòng bi",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Vòng đệm chữ O",
+      "aliases": [
+        "O-ring",
+        "Ron O"
+      ],
+      "category": "Gioăng, phớt và vòng bi",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Phớt bụi bánh xe",
+      "aliases": [
+        "Phốt bụi bánh xe"
+      ],
+      "category": "Gioăng, phớt và vòng bi",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Bộ nhông sên dĩa",
+      "aliases": [
+        "Bộ nhông xích",
+        "Nhông sên đĩa"
+      ],
+      "category": "Truyền động xe số",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Nhông trước",
+      "aliases": [
+        "Nhông tải",
+        "Nhông nhỏ"
+      ],
+      "category": "Truyền động xe số",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Dĩa sau",
+      "aliases": [
+        "Đĩa tải",
+        "Nhông sau"
+      ],
+      "category": "Truyền động xe số",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Sên tải",
+      "aliases": [
+        "Xích tải",
+        "Sên truyền động"
+      ],
+      "category": "Truyền động xe số",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Khóa sên",
+      "aliases": [
+        "Mắt nối xích"
+      ],
+      "category": "Truyền động xe số",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Tăng sên bánh sau",
+      "aliases": [
+        "Tăng xích bánh sau"
+      ],
+      "category": "Truyền động xe số",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Cao su đùm",
+      "aliases": [
+        "Cao su giảm chấn đùm"
+      ],
+      "category": "Truyền động xe số",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Bộ ly hợp",
+      "aliases": [
+        "Bộ nồi",
+        "Bộ côn"
+      ],
+      "category": "Truyền động xe số",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Lá bố ly hợp",
+      "aliases": [
+        "Lá bố nồi",
+        "Lá côn"
+      ],
+      "category": "Truyền động xe số",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Lá thép ly hợp",
+      "aliases": [
+        "Lá sắt nồi"
+      ],
+      "category": "Truyền động xe số",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Lò xo ly hợp",
+      "aliases": [
+        "Lò xo nồi"
+      ],
+      "category": "Truyền động xe số",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Chuông ly hợp xe số",
+      "aliases": [
+        "Chuông nồi xe số"
+      ],
+      "category": "Truyền động xe số",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Bố ba càng xe số",
+      "aliases": [
+        "Guốc ly hợp xe số"
+      ],
+      "category": "Truyền động xe số",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Dây côn",
+      "aliases": [
+        "Dây ly hợp"
+      ],
+      "category": "Truyền động xe số",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Tay côn",
+      "aliases": [
+        "Tay ly hợp"
+      ],
+      "category": "Truyền động xe số",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Trục sơ cấp hộp số",
+      "aliases": [
+        "Trục chính hộp số"
+      ],
+      "category": "Truyền động xe số",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Trục thứ cấp hộp số",
+      "aliases": [
+        "Trục phụ hộp số"
+      ],
+      "category": "Truyền động xe số",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Bánh răng hộp số",
+      "aliases": [
+        "Nhông hộp số"
+      ],
+      "category": "Truyền động xe số",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Càng gạt số",
+      "aliases": [
+        "Heo số"
+      ],
+      "category": "Truyền động xe số",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Trống số",
+      "aliases": [
+        "Heo quay số"
+      ],
+      "category": "Truyền động xe số",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Cần số",
+      "aliases": [
+        "Cần sang số"
+      ],
+      "category": "Truyền động xe số",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Trục cần số",
+      "aliases": [
+        "Cốt cần số"
+      ],
+      "category": "Truyền động xe số",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Cần đạp khởi động",
+      "aliases": [
+        "Giò đạp",
+        "Cần đạp máy"
+      ],
+      "category": "Truyền động xe số",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Trục đạp khởi động",
+      "aliases": [
+        "Cốt giò đạp"
+      ],
+      "category": "Truyền động xe số",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Lò xo cần đạp",
+      "aliases": [
+        "Lò xo giò đạp"
+      ],
+      "category": "Truyền động xe số",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Dây curoa",
+      "aliases": [
+        "Dây đai truyền động",
+        "Dây cu roa"
+      ],
+      "category": "Truyền động xe ga",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Bi nồi",
+      "aliases": [
+        "Bi văng",
+        "Bi nồi trước"
+      ],
+      "category": "Truyền động xe ga",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Chén bi nồi",
+      "aliases": [
+        "Đĩa dẫn động biến tốc"
+      ],
+      "category": "Truyền động xe ga",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Má puly trước",
+      "aliases": [
+        "Mặt puly trước"
+      ],
+      "category": "Truyền động xe ga",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Ống lót puly trước",
+      "aliases": [
+        "Ắc nồi trước"
+      ],
+      "category": "Truyền động xe ga",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Miếng trượt nồi trước",
+      "aliases": [
+        "Kẹp trượt nồi"
+      ],
+      "category": "Truyền động xe ga",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Puly sau",
+      "aliases": [
+        "Bộ puly bị động"
+      ],
+      "category": "Truyền động xe ga",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Bố ba càng xe ga",
+      "aliases": [
+        "Bố nồi sau",
+        "Guốc ly hợp xe ga"
+      ],
+      "category": "Truyền động xe ga",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Chuông nồi xe ga",
+      "aliases": [
+        "Chuông ly hợp xe ga"
+      ],
+      "category": "Truyền động xe ga",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Lò xo bố ba càng",
+      "aliases": [
+        "Lò xo guốc ly hợp"
+      ],
+      "category": "Truyền động xe ga",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Lò xo nồi sau",
+      "aliases": [
+        "Lò xo trụ nồi sau"
+      ],
+      "category": "Truyền động xe ga",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Vòng bi nồi sau",
+      "aliases": [
+        "Bạc đạn nồi sau"
+      ],
+      "category": "Truyền động xe ga",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Phớt láp",
+      "aliases": [
+        "Phốt láp"
+      ],
+      "category": "Truyền động xe ga",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Bánh răng láp",
+      "aliases": [
+        "Bánh răng truyền động cuối"
+      ],
+      "category": "Truyền động xe ga",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Trục láp",
+      "aliases": [
+        "Trục truyền động cuối"
+      ],
+      "category": "Truyền động xe ga",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Gioăng nắp láp",
+      "aliases": [
+        "Ron hộp láp"
+      ],
+      "category": "Truyền động xe ga",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Lọc gió hộp truyền động",
+      "aliases": [
+        "Lọc gió nồi"
+      ],
+      "category": "Truyền động xe ga",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Bơm xăng",
+      "aliases": [
+        "Cụm bơm nhiên liệu"
+      ],
+      "category": "Nhiên liệu và khí nạp",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Lọc xăng",
+      "aliases": [
+        "Lọc nhiên liệu"
+      ],
+      "category": "Nhiên liệu và khí nạp",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Kim phun",
+      "aliases": [
+        "Béc phun",
+        "Vòi phun xăng"
+      ],
+      "category": "Nhiên liệu và khí nạp",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Họng ga",
+      "aliases": [
+        "Thân bướm ga"
+      ],
+      "category": "Nhiên liệu và khí nạp",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Cổ hút",
+      "aliases": [
+        "Ống góp nạp"
+      ],
+      "category": "Nhiên liệu và khí nạp",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Ống dẫn xăng",
+      "aliases": [
+        "Ống nhiên liệu"
+      ],
+      "category": "Nhiên liệu và khí nạp",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Bình xăng",
+      "aliases": [
+        "Bình nhiên liệu"
+      ],
+      "category": "Nhiên liệu và khí nạp",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Nắp bình xăng",
+      "aliases": [
+        "Nắp thùng xăng"
+      ],
+      "category": "Nhiên liệu và khí nạp",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Phao xăng",
+      "aliases": [
+        "Cảm biến mức nhiên liệu"
+      ],
+      "category": "Nhiên liệu và khí nạp",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Dây ga",
+      "aliases": [
+        "Dây tay ga"
+      ],
+      "category": "Nhiên liệu và khí nạp",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Hộp lọc gió",
+      "aliases": [
+        "Bầu lọc gió"
+      ],
+      "category": "Nhiên liệu và khí nạp",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Ống hút gió",
+      "aliases": [
+        "Ống dẫn khí nạp"
+      ],
+      "category": "Nhiên liệu và khí nạp",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Cảm biến vị trí bướm ga",
+      "aliases": [
+        "TPS"
+      ],
+      "category": "Nhiên liệu và khí nạp",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Cảm biến áp suất khí nạp",
+      "aliases": [
+        "MAP"
+      ],
+      "category": "Nhiên liệu và khí nạp",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Cảm biến nhiệt độ khí nạp",
+      "aliases": [
+        "IAT"
+      ],
+      "category": "Nhiên liệu và khí nạp",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Van điều khiển không tải",
+      "aliases": [
+        "Van garanti"
+      ],
+      "category": "Nhiên liệu và khí nạp",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Bộ chế hòa khí",
+      "aliases": [
+        "Bình xăng con",
+        "Chế hoà khí"
+      ],
+      "category": "Nhiên liệu và khí nạp",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Phao bình xăng con",
+      "aliases": [
+        "Phao chế hòa khí"
+      ],
+      "category": "Nhiên liệu và khí nạp",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Kim phao",
+      "aliases": [
+        "Van kim bình xăng con"
+      ],
+      "category": "Nhiên liệu và khí nạp",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Giclơ chính",
+      "aliases": [
+        "Jiclơ chính",
+        "Béc xăng chính"
+      ],
+      "category": "Nhiên liệu và khí nạp",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Giclơ không tải",
+      "aliases": [
+        "Jiclơ phụ",
+        "Béc garanti"
+      ],
+      "category": "Nhiên liệu và khí nạp",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Van xăng",
+      "aliases": [
+        "Khóa xăng"
+      ],
+      "category": "Nhiên liệu và khí nạp",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Dây le gió",
+      "aliases": [
+        "Dây kéo e"
+      ],
+      "category": "Nhiên liệu và khí nạp",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Két nước",
+      "aliases": [
+        "Két làm mát"
+      ],
+      "category": "Làm mát",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Bơm nước",
+      "aliases": [
+        "Bơm nước làm mát"
+      ],
+      "category": "Làm mát",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Quạt két nước",
+      "aliases": [
+        "Quạt làm mát"
+      ],
+      "category": "Làm mát",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Nắp két nước",
+      "aliases": [
+        "Nắp két làm mát"
+      ],
+      "category": "Làm mát",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Bình nước phụ",
+      "aliases": [
+        "Bình giãn nở nước làm mát"
+      ],
+      "category": "Làm mát",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Ống nước làm mát",
+      "aliases": [
+        "Ống két nước"
+      ],
+      "category": "Làm mát",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Van hằng nhiệt",
+      "aliases": [
+        "Thermostat"
+      ],
+      "category": "Làm mát",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Cảm biến nhiệt độ nước làm mát",
+      "aliases": [
+        "ECT"
+      ],
+      "category": "Làm mát",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Phớt bơm nước",
+      "aliases": [
+        "Phốt bơm nước"
+      ],
+      "category": "Làm mát",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Gioăng bơm nước",
+      "aliases": [
+        "Ron bơm nước"
+      ],
+      "category": "Làm mát",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Ắc quy",
+      "aliases": [
+        "Bình điện",
+        "Bình ắc quy"
+      ],
+      "category": "Điện và ắc quy",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Mâm lửa",
+      "aliases": [
+        "Cuộn phát điện",
+        "Stator"
+      ],
+      "category": "Điện và ắc quy",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Vô lăng mâm lửa",
+      "aliases": [
+        "Rotor máy phát"
+      ],
+      "category": "Điện và ắc quy",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Bộ chỉnh lưu điều áp",
+      "aliases": [
+        "Cục sạc",
+        "Bộ sạc"
+      ],
+      "category": "Điện và ắc quy",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Mô tơ đề",
+      "aliases": [
+        "Củ đề",
+        "Máy đề"
+      ],
+      "category": "Điện và ắc quy",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Chổi than mô tơ đề",
+      "aliases": [
+        "Than đề"
+      ],
+      "category": "Điện và ắc quy",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Rơ le đề",
+      "aliases": [
+        "Rơle khởi động"
+      ],
+      "category": "Điện và ắc quy",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Bánh răng đề",
+      "aliases": [
+        "Nhông đề"
+      ],
+      "category": "Điện và ắc quy",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Ly hợp đề một chiều",
+      "aliases": [
+        "Bi đề",
+        "Bộ ly hợp khởi động"
+      ],
+      "category": "Điện và ắc quy",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Cầu chì",
+      "aliases": [
+        "Cầu chì điện"
+      ],
+      "category": "Điện và ắc quy",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Hộp cầu chì",
+      "aliases": [
+        "Đế cầu chì"
+      ],
+      "category": "Điện và ắc quy",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Bộ dây điện",
+      "aliases": [
+        "Bó dây điện",
+        "Dây điện sườn"
+      ],
+      "category": "Điện và ắc quy",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Còi",
+      "aliases": [
+        "Kèn xe"
+      ],
+      "category": "Điện và ắc quy",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Ổ khóa điện",
+      "aliases": [
+        "Khóa máy"
+      ],
+      "category": "Điện và ắc quy",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Công tắc đề",
+      "aliases": [
+        "Nút đề"
+      ],
+      "category": "Điện và ắc quy",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Công tắc đèn",
+      "aliases": [
+        "Nút bật đèn"
+      ],
+      "category": "Điện và ắc quy",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Công tắc xi nhan",
+      "aliases": [
+        "Công tắc báo rẽ"
+      ],
+      "category": "Điện và ắc quy",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Công tắc còi",
+      "aliases": [
+        "Nút còi"
+      ],
+      "category": "Điện và ắc quy",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Công tắc đèn phanh",
+      "aliases": [
+        "Công tắc đèn thắng"
+      ],
+      "category": "Điện và ắc quy",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Công tắc chân chống",
+      "aliases": [
+        "Công tắc chống nghiêng"
+      ],
+      "category": "Điện và ắc quy",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Bugi",
+      "aliases": [
+        "Bu gi",
+        "Spark plug"
+      ],
+      "category": "Đánh lửa",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Chụp bugi",
+      "aliases": [
+        "Nắp bugi"
+      ],
+      "category": "Đánh lửa",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Mô bin sườn",
+      "aliases": [
+        "Bô bin đánh lửa",
+        "Cuộn đánh lửa"
+      ],
+      "category": "Đánh lửa",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Bộ đánh lửa CDI",
+      "aliases": [
+        "IC đánh lửa"
+      ],
+      "category": "Đánh lửa",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Cuộn kích lửa",
+      "aliases": [
+        "Cuộn nhận tín hiệu đánh lửa"
+      ],
+      "category": "Đánh lửa",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Bộ điều khiển động cơ",
+      "aliases": [
+        "ECU",
+        "ECM"
+      ],
+      "category": "Điện tử điều khiển",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Cảm biến ô xy",
+      "aliases": [
+        "Cảm biến oxy",
+        "O2 sensor"
+      ],
+      "category": "Điện tử điều khiển",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Cảm biến vị trí trục khuỷu",
+      "aliases": [
+        "CKP"
+      ],
+      "category": "Điện tử điều khiển",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Cảm biến tốc độ xe",
+      "aliases": [
+        "VSS"
+      ],
+      "category": "Điện tử điều khiển",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Cảm biến nghiêng xe",
+      "aliases": [
+        "Cảm biến góc nghiêng"
+      ],
+      "category": "Điện tử điều khiển",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Cụm khóa thông minh",
+      "aliases": [
+        "Bộ khóa smartkey"
+      ],
+      "category": "Điện tử điều khiển",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Bộ điều khiển khóa thông minh",
+      "aliases": [
+        "SCU"
+      ],
+      "category": "Điện tử điều khiển",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Điều khiển khóa thông minh",
+      "aliases": [
+        "Remote smartkey"
+      ],
+      "category": "Điện tử điều khiển",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Cảm biến tốc độ bánh xe",
+      "aliases": [
+        "Cảm biến ABS"
+      ],
+      "category": "Điện tử điều khiển",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Bộ điều khiển ABS",
+      "aliases": [
+        "Cụm ABS"
+      ],
+      "category": "Điện tử điều khiển",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Cụm đèn pha",
+      "aliases": [
+        "Đèn trước"
+      ],
+      "category": "Đèn và đồng hồ",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Bóng đèn pha",
+      "aliases": [
+        "Bóng đèn trước"
+      ],
+      "category": "Đèn và đồng hồ",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Cụm đèn hậu",
+      "aliases": [
+        "Đèn sau"
+      ],
+      "category": "Đèn và đồng hồ",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Bóng đèn hậu",
+      "aliases": [
+        "Bóng đèn sau"
+      ],
+      "category": "Đèn và đồng hồ",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Đèn xi nhan trước",
+      "aliases": [
+        "Đèn báo rẽ trước"
+      ],
+      "category": "Đèn và đồng hồ",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Đèn xi nhan sau",
+      "aliases": [
+        "Đèn báo rẽ sau"
+      ],
+      "category": "Đèn và đồng hồ",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Bóng đèn xi nhan",
+      "aliases": [
+        "Bóng báo rẽ"
+      ],
+      "category": "Đèn và đồng hồ",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Rơ le xi nhan",
+      "aliases": [
+        "Cục chớp",
+        "Rơle báo rẽ"
+      ],
+      "category": "Đèn và đồng hồ",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Cụm đồng hồ",
+      "aliases": [
+        "Bảng đồng hồ"
+      ],
+      "category": "Đèn và đồng hồ",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Dây công tơ mét",
+      "aliases": [
+        "Dây đồng hồ tốc độ"
+      ],
+      "category": "Đèn và đồng hồ",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Nhông công tơ mét",
+      "aliases": [
+        "Bánh răng đồng hồ tốc độ"
+      ],
+      "category": "Đèn và đồng hồ",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Má phanh đĩa",
+      "aliases": [
+        "Bố thắng đĩa",
+        "Má phanh dầu"
+      ],
+      "category": "Hệ thống phanh",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Đĩa phanh trước",
+      "aliases": [
+        "Đĩa thắng trước"
+      ],
+      "category": "Hệ thống phanh",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Đĩa phanh sau",
+      "aliases": [
+        "Đĩa thắng sau"
+      ],
+      "category": "Hệ thống phanh",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Heo phanh trước",
+      "aliases": [
+        "Heo dầu trước",
+        "Cùm phanh trước"
+      ],
+      "category": "Hệ thống phanh",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Heo phanh sau",
+      "aliases": [
+        "Heo dầu sau",
+        "Cùm phanh sau"
+      ],
+      "category": "Hệ thống phanh",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Pít tông heo phanh",
+      "aliases": [
+        "Piston heo dầu"
+      ],
+      "category": "Hệ thống phanh",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Phớt heo phanh",
+      "aliases": [
+        "Phốt heo dầu"
+      ],
+      "category": "Hệ thống phanh",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Chốt má phanh",
+      "aliases": [
+        "Chốt bố thắng"
+      ],
+      "category": "Hệ thống phanh",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Tổng phanh trước",
+      "aliases": [
+        "Heo cái trước",
+        "Xi lanh phanh chính trước"
+      ],
+      "category": "Hệ thống phanh",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Tổng phanh sau",
+      "aliases": [
+        "Heo cái sau",
+        "Xi lanh phanh chính sau"
+      ],
+      "category": "Hệ thống phanh",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Ống dầu phanh",
+      "aliases": [
+        "Dây dầu thắng"
+      ],
+      "category": "Hệ thống phanh",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Bình dầu phanh",
+      "aliases": [
+        "Bình dầu thắng"
+      ],
+      "category": "Hệ thống phanh",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Tay phanh trái",
+      "aliases": [
+        "Tay thắng trái"
+      ],
+      "category": "Hệ thống phanh",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Tay phanh phải",
+      "aliases": [
+        "Tay thắng phải"
+      ],
+      "category": "Hệ thống phanh",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Vòng tín hiệu ABS",
+      "aliases": [
+        "Đĩa xung ABS"
+      ],
+      "category": "Hệ thống phanh",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Má phanh tang trống",
+      "aliases": [
+        "Bố thắng đùm",
+        "Bố thắng cơ"
+      ],
+      "category": "Hệ thống phanh",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Dây phanh",
+      "aliases": [
+        "Dây thắng"
+      ],
+      "category": "Hệ thống phanh",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Cần đạp phanh",
+      "aliases": [
+        "Cần đạp thắng",
+        "Bàn đạp phanh"
+      ],
+      "category": "Hệ thống phanh",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Đũa phanh",
+      "aliases": [
+        "Đũa thắng"
+      ],
+      "category": "Hệ thống phanh",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Cam phanh",
+      "aliases": [
+        "Cốt má phanh"
+      ],
+      "category": "Hệ thống phanh",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Lò xo má phanh",
+      "aliases": [
+        "Lò xo bố thắng"
+      ],
+      "category": "Hệ thống phanh",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Lò xo bàn đạp phanh",
+      "aliases": [
+        "Lò xo cần thắng"
+      ],
+      "category": "Hệ thống phanh",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Lốp trước",
+      "aliases": [
+        "Vỏ trước"
+      ],
+      "category": "Lốp và ruột xe",
+      "source_url": "https://global.yamaha-motor.com/business/mc/customer-support/vn/genuine-parts/"
+    },
+    {
+      "name": "Lốp sau",
+      "aliases": [
+        "Vỏ sau"
+      ],
+      "category": "Lốp và ruột xe",
+      "source_url": "https://global.yamaha-motor.com/business/mc/customer-support/vn/genuine-parts/"
+    },
+    {
+      "name": "Săm trước",
+      "aliases": [
+        "Ruột trước"
+      ],
+      "category": "Lốp và ruột xe",
+      "source_url": "https://global.yamaha-motor.com/business/mc/customer-support/vn/genuine-parts/"
+    },
+    {
+      "name": "Săm sau",
+      "aliases": [
+        "Ruột sau"
+      ],
+      "category": "Lốp và ruột xe",
+      "source_url": "https://global.yamaha-motor.com/business/mc/customer-support/vn/genuine-parts/"
+    },
+    {
+      "name": "Van lốp không săm",
+      "aliases": [
+        "Van vòi vỏ không ruột"
+      ],
+      "category": "Lốp và ruột xe",
+      "source_url": "https://global.yamaha-motor.com/business/mc/customer-support/vn/genuine-parts/"
+    },
+    {
+      "name": "Vành trước",
+      "aliases": [
+        "Niềng trước"
+      ],
+      "category": "Bánh xe và hệ thống treo",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Vành sau",
+      "aliases": [
+        "Niềng sau"
+      ],
+      "category": "Bánh xe và hệ thống treo",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Mâm trước",
+      "aliases": [
+        "Bánh mâm trước"
+      ],
+      "category": "Bánh xe và hệ thống treo",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Mâm sau",
+      "aliases": [
+        "Bánh mâm sau"
+      ],
+      "category": "Bánh xe và hệ thống treo",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Đùm trước",
+      "aliases": [
+        "Moay ơ trước"
+      ],
+      "category": "Bánh xe và hệ thống treo",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Đùm sau",
+      "aliases": [
+        "Moay ơ sau"
+      ],
+      "category": "Bánh xe và hệ thống treo",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Nan hoa",
+      "aliases": [
+        "Căm xe"
+      ],
+      "category": "Bánh xe và hệ thống treo",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Đầu nan hoa",
+      "aliases": [
+        "Ốc căm"
+      ],
+      "category": "Bánh xe và hệ thống treo",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Trục bánh trước",
+      "aliases": [
+        "Cốt bánh trước"
+      ],
+      "category": "Bánh xe và hệ thống treo",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Trục bánh sau",
+      "aliases": [
+        "Cốt bánh sau"
+      ],
+      "category": "Bánh xe và hệ thống treo",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Ống căn bánh xe",
+      "aliases": [
+        "Ống chỉ bánh xe"
+      ],
+      "category": "Bánh xe và hệ thống treo",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Phuộc trước",
+      "aliases": [
+        "Giảm xóc trước"
+      ],
+      "category": "Bánh xe và hệ thống treo",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Phuộc sau",
+      "aliases": [
+        "Giảm xóc sau"
+      ],
+      "category": "Bánh xe và hệ thống treo",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Ty phuộc trước",
+      "aliases": [
+        "Ống trượt phuộc trước"
+      ],
+      "category": "Bánh xe và hệ thống treo",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Phớt dầu phuộc trước",
+      "aliases": [
+        "Phốt dầu phuộc trước"
+      ],
+      "category": "Bánh xe và hệ thống treo",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Phớt bụi phuộc trước",
+      "aliases": [
+        "Phốt bụi phuộc trước"
+      ],
+      "category": "Bánh xe và hệ thống treo",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Lò xo phuộc trước",
+      "aliases": [
+        "Lò xo giảm xóc trước"
+      ],
+      "category": "Bánh xe và hệ thống treo",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Chảng ba",
+      "aliases": [
+        "Cụm cổ lái"
+      ],
+      "category": "Bánh xe và hệ thống treo",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Gắp sau",
+      "aliases": [
+        "Càng sau"
+      ],
+      "category": "Bánh xe và hệ thống treo",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Bạc gắp",
+      "aliases": [
+        "Ống lót gắp"
+      ],
+      "category": "Bánh xe và hệ thống treo",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Trục gắp",
+      "aliases": [
+        "Cốt gắp"
+      ],
+      "category": "Bánh xe và hệ thống treo",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Tay lái",
+      "aliases": [
+        "Ghi đông"
+      ],
+      "category": "Bánh xe và hệ thống treo",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Bao tay trái",
+      "aliases": [
+        "Tay nắm trái"
+      ],
+      "category": "Bánh xe và hệ thống treo",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Ống tay ga",
+      "aliases": [
+        "Cùm tay ga"
+      ],
+      "category": "Bánh xe và hệ thống treo",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Chân chống đứng",
+      "aliases": [
+        "Chống giữa"
+      ],
+      "category": "Khung gầm",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Chân chống nghiêng",
+      "aliases": [
+        "Chống bên"
+      ],
+      "category": "Khung gầm",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Lò xo chân chống đứng",
+      "aliases": [
+        "Lò xo chống giữa"
+      ],
+      "category": "Khung gầm",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Lò xo chân chống nghiêng",
+      "aliases": [
+        "Lò xo chống bên"
+      ],
+      "category": "Khung gầm",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Gác chân trước",
+      "aliases": [
+        "Để chân trước"
+      ],
+      "category": "Khung gầm",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Gác chân sau",
+      "aliases": [
+        "Để chân sau"
+      ],
+      "category": "Khung gầm",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Cao su gác chân",
+      "aliases": [
+        "Cao su để chân"
+      ],
+      "category": "Khung gầm",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Yên xe",
+      "aliases": [
+        "Cụm yên"
+      ],
+      "category": "Khung gầm",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Khóa yên",
+      "aliases": [
+        "Ổ khóa yên"
+      ],
+      "category": "Khung gầm",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Dây mở yên",
+      "aliases": [
+        "Cáp khóa yên"
+      ],
+      "category": "Khung gầm",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Bản lề yên",
+      "aliases": [
+        "Bát bản lề yên"
+      ],
+      "category": "Khung gầm",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Tay dắt sau",
+      "aliases": [
+        "Cản sau"
+      ],
+      "category": "Khung gầm",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Gương trái",
+      "aliases": [
+        "Kính chiếu hậu trái"
+      ],
+      "category": "Khung gầm",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Gương phải",
+      "aliases": [
+        "Kính chiếu hậu phải"
+      ],
+      "category": "Khung gầm",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Mặt nạ trước",
+      "aliases": [
+        "Ốp mặt nạ"
+      ],
+      "category": "Dàn áo và thân xe",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Ốp đầu trước",
+      "aliases": [
+        "Ốp đầu đèn trước"
+      ],
+      "category": "Dàn áo và thân xe",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Ốp đầu sau",
+      "aliases": [
+        "Ốp đồng hồ"
+      ],
+      "category": "Dàn áo và thân xe",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Yếm trái",
+      "aliases": [
+        "Bửng trái"
+      ],
+      "category": "Dàn áo và thân xe",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Yếm phải",
+      "aliases": [
+        "Bửng phải"
+      ],
+      "category": "Dàn áo và thân xe",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Ốp hông trái",
+      "aliases": [
+        "Dè sườn trái"
+      ],
+      "category": "Dàn áo và thân xe",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Ốp hông phải",
+      "aliases": [
+        "Dè sườn phải"
+      ],
+      "category": "Dàn áo và thân xe",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Ốp đuôi",
+      "aliases": [
+        "Ốp đuôi xe"
+      ],
+      "category": "Dàn áo và thân xe",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Dè trước",
+      "aliases": [
+        "Chắn bùn trước"
+      ],
+      "category": "Dàn áo và thân xe",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Dè sau",
+      "aliases": [
+        "Chắn bùn sau"
+      ],
+      "category": "Dàn áo và thân xe",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Sàn để chân",
+      "aliases": [
+        "Sàn chân xe ga"
+      ],
+      "category": "Dàn áo và thân xe",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Cốp xe",
+      "aliases": [
+        "Hộc chứa đồ dưới yên"
+      ],
+      "category": "Dàn áo và thân xe",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Móc treo đồ",
+      "aliases": [
+        "Móc treo túi"
+      ],
+      "category": "Dàn áo và thân xe",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Ốp pô",
+      "aliases": [
+        "Che pô",
+        "Tấm chắn nhiệt ống xả"
+      ],
+      "category": "Dàn áo và thân xe",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Pát biển số",
+      "aliases": [
+        "Giá biển số"
+      ],
+      "category": "Dàn áo và thân xe",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Chốt nhựa dàn áo",
+      "aliases": [
+        "Nút nhựa dàn áo"
+      ],
+      "category": "Dàn áo và thân xe",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2022/11/vario160-parts.pdf"
+    },
+    {
+      "name": "Ống xả",
+      "aliases": [
+        "Pô xe",
+        "Bô xe"
+      ],
+      "category": "Ống xả",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Cổ ống xả",
+      "aliases": [
+        "Cổ pô"
+      ],
+      "category": "Ống xả",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Ống giảm thanh",
+      "aliases": [
+        "Bầu pô"
+      ],
+      "category": "Ống xả",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Pát treo ống xả",
+      "aliases": [
+        "Giá treo pô"
+      ],
+      "category": "Ống xả",
+      "source_url": "https://boonsiewhonda.com.my/wp-content/uploads/2023/08/Wave-Alpha-Parts-Catalogue_18K71LM2.pdf"
+    },
+    {
+      "name": "Lọc gió",
+      "aliases": [
+        "Tấm lọc gió"
+      ],
+      "category": "Bộ lọc",
+      "source_url": "https://global.yamaha-motor.com/business/mc/customer-support/vn/genuine-parts/"
+    },
+    {
+      "name": "Lọc nhớt",
+      "aliases": [
+        "Lọc dầu"
+      ],
+      "category": "Bộ lọc",
+      "source_url": "https://global.yamaha-motor.com/business/mc/customer-support/vn/genuine-parts/"
+    }
+  ]
+}

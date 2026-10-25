@@ -1,5 +1,15 @@
 # Gợi ý tên phụ tùng và nhắc trùng
 
+## Mở rộng từ điển ngày 2026-10-26
+
+- Đã áp dụng `202610260002_part_reference_vocabulary.sql`: bộ tham chiếu 253 tên, 297 alias, 17 nhóm. Sau gộp với danh sách cũ, database có 254 tên, 18 nhóm và 2 thương hiệu. Đây là dữ liệu tham chiếu được yêu cầu, không phải dữ liệu mẫu hàng hóa.
+- Nguồn và toàn bộ danh sách: `data/part-name-reference.json`; tái tạo migration bằng `node --experimental-strip-types scripts/build-part-reference.mjs`. Không chạy lại generator để sửa một migration đã áp dụng; thay đổi tiếp theo cần migration mới.
+- Đối chiếu nhóm cơ khí xe số với catalogue Honda Wave Alpha, xe ga/phun xăng/làm mát với catalogue Honda Vario 160, vật tư bảo dưỡng với Yamaha Genuine Parts. Tên tiếng Việt và alias địa phương là biên tập để tìm kiếm, không phải bản dịch được hãng chứng nhận. Các URL được ghi ở từng tên.
+- Đây là từ điển tên chung phục vụ nhập phụ tùng Honda/Yamaha; chưa phải catalogue đầy đủ theo mã OEM, đời xe, phiên bản hoặc khả năng lắp lẫn. Không tự gắn thương hiệu/đời xe khi chọn tên. Có thể tiếp tục nhập tên mới theo luồng lưu hiện hữu.
+- Migration chỉ upsert `part_terms`, gộp alias, giữ tên/category/source có sẵn; không thay RLS hoặc dữ liệu sản phẩm/kho/giá.
+- Đối chiếu sau apply: đủ 253 tên và alias; dấu vân tay toàn bộ dữ liệu `parts`, `part_costs`, `stock_balances`, `stock_movements` giữ nguyên (đều 0 bản ghi tại lúc kiểm tra). 27 unit test pass, gồm kiểm tra duy nhất tên chuẩn hóa, nguồn và tìm alias không dấu. Không tạo fixture production, chưa kiểm tra tương tác browser.
+- UI đang tải từ điển trực tiếp từ Supabase; dữ liệu mới có sau tải lại trang `/parts`, không cần deploy ứng dụng cho thay đổi chỉ gồm dữ liệu này. Tìm kiếm hiện trả tối đa 8 gợi ý phù hợp từ toàn bộ danh sách, không chỉ tìm trong 8 tên ban đầu.
+
 Người dùng duyệt danh mục tham chiếu Honda/Yamaha và làm rõ: đây là gợi ý khi nhập form, không nhập hàng hay tạo tồn. Tên mới được lưu để chọn lại; cần cảnh báo trùng.
 
 ## Luồng

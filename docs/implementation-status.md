@@ -22,6 +22,8 @@ Cập nhật: 26/10/2026. Đây là nguồn phân biệt code hiện có với y
 
 ## Quy tắc cập nhật
 
+Bổ sung 2026-10-26: migration `202610260002` đã mở rộng từ điển tên tham chiếu; Supabase có 254 tên (bộ mở rộng 253 tên/297 alias), 18 nhóm và 2 thương hiệu. Đã đối chiếu đủ dữ liệu và xác nhận sản phẩm/giá vốn/tồn kho/lịch sử kho không đổi; 27 unit test pass. Nguồn, phạm vi tên chung và giới hạn về mã OEM/đời xe tại `docs/features/part-name-suggestions.md`. Không đổi bundle Vercel; tải lại trang lấy danh sách mới từ Supabase.
+
 Mỗi thay đổi cập nhật đúng dòng liên quan và ghi bằng chứng trong báo cáo giao việc. Không tăng mức chỉ vì có tài liệu hoặc migration. Chỉ thay “chưa” khi đã có code lẫn bằng chứng tương ứng.
 
 ## Khoảng thiếu ưu tiên tiếp theo
