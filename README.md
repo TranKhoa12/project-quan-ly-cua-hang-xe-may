@@ -61,14 +61,16 @@ npm.cmd start
 - `/customers`: thêm khách và xe, xem số phiếu sửa và khoản còn phải thu.
 - `/cashbook`: tổng hợp tiền đã thu; chưa có nghiệp vụ chi.
 - `/reports`: tổng hợp doanh thu, lợi nhuận gộp bán tại quầy và giá trị tồn.
-- `/staff`: minh họa vai trò nhân viên, chưa tạo tài khoản thật.
-- `/settings`: thông tin cửa hàng, xuất/nhập JSON, đặt lại dữ liệu mẫu.
+- `/staff`: danh sách trống, chưa tạo tài khoản thật.
+- `/settings`: thông tin cửa hàng, xuất/nhập JSON, xóa dữ liệu nghiệp vụ cục bộ.
 
 ## Trạng thái dữ liệu — cần đọc trước khi dùng
 
 **Đây là khung tương tác, chưa phải hệ thống sẵn sàng vận hành kinh doanh.**
 
-Ứng dụng khởi tạo dữ liệu mẫu và lưu bằng localStorage trên trình duyệt. Không có đăng nhập, đồng bộ nhiều người dùng, kiểm soát quyền thật, giao dịch server hoặc nhật ký bất biến. Thông tin nhân viên là minh họa. Không nhập dữ liệu khách hàng thật, không coi dữ liệu trình duyệt là sổ sách kinh doanh. Trang quản lý đang mở công khai ở chế độ demo.
+Ứng dụng khởi tạo trống, không còn khách hàng, xe, phụ tùng, phiếu sửa, đơn bán hoặc nhân viên mẫu. Khi mở phiên bản mới, key `motocare-demo-v1` được xóa; dữ liệu mới lưu bằng `motocare-workspace-v2`. Thông tin cửa hàng được giữ riêng. Fixture tổng hợp chỉ nằm trong tests, không được import vào ứng dụng hoặc seed lên Supabase.
+
+Chưa có đăng nhập, đồng bộ nhiều người dùng, kiểm soát quyền thật, giao dịch server hoặc nhật ký bất biến. Không nhập dữ liệu khách hàng thật hoặc coi dữ liệu trình duyệt là sổ sách kinh doanh. Trang quản lý vẫn mở ở chế độ trải nghiệm.
 
 Phiếu mẫu dùng ngày tạo để phân nhóm báo cáo; khi triển khai thật phải dùng ngày chốt, ngày bàn giao và ngày thanh toán tương ứng. Một khách trong UI mẫu gắn một xe; schema thật đã tách nhiều xe/khách. Nhập kho mẫu chưa tạo khoản chi/phải trả nhà cung cấp. Chưa có giữ kho, trả hàng, duyệt báo giá, hóa đơn điện tử, kiểm kê hoặc xử lý mất mạng. Chưa có lợi nhuận sửa chữa vì cần chốt giá vốn từng lần xuất dùng.
 
@@ -95,7 +97,7 @@ Chưa tạo project Supabase hoặc Vercel, chưa triển khai lên Internet và
 
 - TypeScript: `npm.cmd run typecheck`.
 - Build production: `npm.cmd run build`.
-- Kiểm thử nghiệp vụ mẫu và cấu hình: `npm.cmd test` — 8 test về giá/tồn/nhập hàng và validation/khôi phục tên cửa hàng.
+- Kiểm thử: `npm.cmd test` — giá/tồn/nhập hàng với fixture chỉ dành cho test, cấu hình cửa hàng, khởi tạo trống và dọn storage demo cũ.
 - Skill theo dự án: `npm.cmd run skills:check` — frontmatter đơn giản, tên skill và tham chiếu tài liệu. Checker Node thay thế kiểm tra cấu trúc cục bộ do Python không khả dụng; không phải chứng nhận hành vi AI hoặc bảo mật.
 - HTTP smoke check cho 10 trang chính.
 

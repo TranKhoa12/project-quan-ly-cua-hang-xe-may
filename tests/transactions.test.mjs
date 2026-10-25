@@ -1,12 +1,12 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { seed } from '../src/lib/data.ts';
+import { transactionFixture } from './fixtures/transactions.mjs';
 import { completeSale, receiveStock } from '../src/lib/transactions.ts';
 
 const saleInput = (cart) => ({ id: 'TEST-SALE', cart, customer: '', method: 'Tiền mặt', createdAt: '2026-10-25T08:00:00Z' });
 
 test('chốt đơn bảo toàn số lượng, chốt giá và không thay đổi dữ liệu gốc', () => {
-  const before = seed();
+  const before = transactionFixture();
   const after = completeSale(before, saleInput({ PT001: 2, PT003: 1 }));
   assert.equal(before.parts[0].stock, 24);
   assert.equal(after.parts[0].stock, 22);
@@ -21,7 +21,7 @@ test('chốt đơn bảo toàn số lượng, chốt giá và không thay đổi
 });
 
 test('không thể bán quá tồn hoặc bán hai lần món cuối', () => {
-  const state = seed();
+  const state = transactionFixture();
   assert.throws(() => completeSale(state, saleInput({ PT006: 3 })), /Không đủ tồn/);
   const last = completeSale(state, saleInput({ PT006: 2 }));
   assert.equal(last.parts.find(p=>p.id==='PT006').stock, 0);
@@ -30,18 +30,18 @@ test('không thể bán quá tồn hoặc bán hai lần món cuối', () => {
 
 test('từ chối giỏ rỗng, mã lạ, số lượng âm, lẻ hoặc không hữu hạn', () => {
   for (const cart of [{}, { UNKNOWN: 1 }, { PT001: -1 }, { PT001: 0 }, { PT001: 1.5 }, { PT001: Infinity }]) {
-    assert.throws(() => completeSale(seed(), saleInput(cart)));
+    assert.throws(() => completeSale(transactionFixture(), saleInput(cart)));
   }
 });
 
 test('gửi lại cùng mã đơn không trừ kho hoặc ghi thu trùng', () => {
   const input = saleInput({ PT001: 1 });
-  const once = completeSale(seed(), input);
+  const once = completeSale(transactionFixture(), input);
   assert.strictEqual(completeSale(once, input), once);
 });
 
 test('nhập hàng tính giá vốn theo lượng tồn cũ và lượng mới', () => {
-  const state = seed();
+  const state = transactionFixture();
   const input = { id: 'TEST-IN', partId: 'PT006', quantity: 2, cost: 255000, reason: 'Nhập hàng', createdAt: '2026-10-25T08:00:00Z' };
   const after = receiveStock(state, input);
   assert.equal(after.parts.find(p=>p.id==='PT006').stock, 4);

@@ -4,7 +4,7 @@
 
 - Một cửa hàng kinh doanh thật; quản lý, bán hàng, thợ sửa xe. Chưa triển khai bán online.
 - Next.js + TypeScript, Supabase PostgreSQL/Auth/Storage, triển khai mục tiêu Vercel.
-- Hiện UI là demo localStorage. Schema SQL chưa chạy trên Supabase thật; chưa có Auth hoặc RPC nghiệp vụ. Không mô tả demo là backend hoàn chỉnh.
+- Hiện UI là demo localStorage. Migration nền `202610250001` đã áp dụng lên Supabase; chưa có luồng Auth trong ứng dụng hoặc RPC nghiệp vụ. Không mô tả demo là backend hoàn chỉnh.
 - Tên cửa hàng là cấu hình, khác tên sản phẩm MotoCare. Không thêm tên cửa hàng, địa chỉ, số điện thoại gắn cứng vào màn hình hoặc mẫu in.
 - Dùng tiếng Việt cho giao diện và báo cáo cho chủ cửa hàng. Tiền VND; ngày nghiệp vụ theo Asia/Ho_Chi_Minh.
 
