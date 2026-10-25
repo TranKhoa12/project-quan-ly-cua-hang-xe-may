@@ -14,14 +14,12 @@ export async function loginAction(_state: AuthResult, form: FormData): Promise<A
     if (!password || password.length > 128) return { error: 'Tên đăng nhập hoặc mật khẩu không đúng.' };
     const h = await headers();
     const ip = h.get('x-vercel-forwarded-for') || h.get('x-real-ip') || 'local';
-    await consumeAuthAttempt(`login-user:${username}`);
-    await consumeAuthAttempt(`login-ip:${ip}`);
+    await Promise.all([consumeAuthAttempt(`login-user:${username}`),consumeAuthAttempt(`login-ip:${ip}`)]);
     const client = await sessionClient();
     const { error } = await client.auth.signInWithPassword({ email: internalEmail(username), password });
     if (error) return { error: 'Tên đăng nhập hoặc mật khẩu không đúng.' };
-    // Read the profile directly, avoiding request-cache reuse after sign-in.
-    const { data: { user } } = await client.auth.getUser();
-    const { data: profile } = user ? await client.from('profiles').select('active,login_name,role').eq('id',user.id).single() : { data: null };
+    // signInWithPassword already verifies credentials; the RPC checks live role/session.
+    const { data: profile } = await client.rpc('current_staff_actor');
     if (!profile?.active || profile.login_name !== username || !['manager','sales','technician'].includes(profile.role)) {
       await client.auth.signOut({ scope: 'local' });
       return { error: 'Tài khoản chưa được cấp quyền hoặc đã ngừng hoạt động. Liên hệ quản lý cửa hàng.' };

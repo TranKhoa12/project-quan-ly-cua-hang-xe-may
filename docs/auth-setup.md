@@ -5,7 +5,7 @@
 - `/login`: tên đăng nhập và mật khẩu, không cần email cá nhân; không có tự đăng ký.
 - `/account`: thông tin tài khoản, đổi mật khẩu có xác minh mật khẩu cũ và đăng xuất.
 - `/staff`: chỉ quản lý; tạo tài khoản, đổi vai trò, bật/tắt và đặt lại mật khẩu nhân viên.
-- Server xác minh Supabase user và profile active cho page/action. Proxy làm mới session cookie; cookie HttpOnly, SameSite=Lax, Secure khi production. Không dùng localStorage lưu token.
+- Server xác minh JWT bằng getClaims, rồi RPC `current_staff_actor` kiểm tra profile active và session_id còn trong auth.sessions/chưa quá not_after. Proxy làm mới session cookie; cookie HttpOnly, SameSite=Lax, Secure khi production. Không dùng localStorage lưu token hoặc cache quyền giữa các request. Luồng sign-in xác minh mật khẩu trực tiếp với Supabase Auth trước RPC.
 - Profile role lấy từ database; không tin user metadata hoặc role client gửi. Không cấp INSERT/UPDATE profile từ trình duyệt; RPC tự kiểm tra actor.
 - Mật khẩu mới 12–128 ký tự, gồm chữ và số. Bộ đếm thử đăng nhập lưu database, bucket HMAC không chứa username/IP dạng thô; Supabase Auth vẫn có giới hạn riêng.
 - Supabase đã tắt đăng ký công khai và đặt mật khẩu tối thiểu 12 ký tự. Không tắt nhà cung cấp email/password: Auth vẫn cần provider này cho định danh nội bộ.

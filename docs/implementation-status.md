@@ -1,10 +1,10 @@
 # Hiện trạng triển khai
 
-Cập nhật: 25/10/2026. Đây là nguồn phân biệt code hiện có với yêu cầu đích trong tài liệu quy trình.
+Cập nhật: 26/10/2026. Đây là nguồn phân biệt code hiện có với yêu cầu đích trong tài liệu quy trình.
 
 | Hạng mục | Hiện có | Mức / còn thiếu |
 | --- | --- | --- |
-| Tổng quan và 10 trang quản lý | Đã có guard server; quản lý dùng workspace trống tách user ID, nhân viên đọc Supabase theo role | Các nghiệp vụ ghi kho/tiền vẫn chưa có backend; chưa E2E/browser QA |
+| Tổng quan và 10 trang quản lý | Cùng ShopSidebar có icon/nhóm/thẻ cửa hàng trên tất cả trang; pending menu, prefetch theo tương tác; phần dữ liệu parts/staff stream sau guard | Nghiệp vụ kho/tiền cũ chưa có backend; chưa browser QA |
 | Cấu hình tên/điện thoại/địa chỉ | Validation, draft riêng, lưu/khôi phục localStorage; UI/title/mẫu in dùng chung | Demo; chưa quyền cập nhật, server version hoặc snapshot chứng từ |
 | Danh mục phụ tùng và gợi ý | `/parts` đọc Supabase, combobox tên/nhóm/brand cho nhập mới, nhắc trùng, RPC manager-only tạo danh mục với tồn 0 và nhớ từ mới | Migration `202610250003`; 23 từ tham chiếu, không seed sản phẩm; chặn trùng chính xác và cảnh báo tương tự ở database; chưa browser QA hoặc test ghi giao dịch trên môi trường riêng |
 | Khách hàng/xe | Form và danh sách mẫu | Demo gộp 1 xe/khách; SQL đã tách bảng; chưa nối database |
@@ -18,7 +18,7 @@ Cập nhật: 25/10/2026. Đây là nguồn phân biệt code hiện có với y
 | Bảo mật | 25 kiểm tra tích hợp JWT/RLS/HTTP/Server Action đã pass trên project mới, fixtures được dọn; signup tắt | Chưa test Storage hoặc giao dịch kho/tiền đồng thời; chưa E2E browser |
 | Bộ quy trình AI | AGENTS.md, 5 skill và tài liệu luồng/hợp đồng/test/release | Đã viết; validator cấu trúc không chứng minh AI luôn làm đúng |
 | Kiểm thử tự động | Unit nghiệp vụ/cấu hình/quyền/storage; `test:auth` chạy JWT/RLS/HTTP thật, build/typecheck | Chưa runner transaction kho/tiền hoặc E2E browser |
-| Triển khai | Vercel production `https://dangkietmoto.vercel.app`, deployment `dpl_DXGMLrmQ7PukN5ZEhkVj5rXqrjX3` READY, có trang parts mới; giữ sin1, env Auth và font tự host | 25 unit pass, schema lint pass, truy vấn danh mục/23 gợi ý qua API thành công; /parts chưa đăng nhập redirect /login; chưa browser QA hoặc nghiệm thu nghiệp vụ kinh doanh |
+| Triển khai | Vercel production `https://dangkietmoto.vercel.app`, deployment `dpl_3m8HfP8rQEZZFTopF7DTZDsi2UyJ` READY; sidebar thống nhất và RPC live actor/session; giữ sin1 | 25 unit pass, schema lint pass, 8 test truy vấn actor/session bằng bảng tạm rollback; local/web login và guard/cookie giả pass. Chưa đo menu trong phiên đăng nhập của người dùng hoặc browser QA |
 
 ## Quy tắc cập nhật
 

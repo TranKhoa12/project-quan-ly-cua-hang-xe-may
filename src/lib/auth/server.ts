@@ -8,7 +8,7 @@ import { createHmac } from 'node:crypto';
 import { isRole, type Actor } from './permissions';
 import { hasAuthCookie } from './cookie-presence';
 
-export async function sessionClient() {
+export const sessionClient = cache(async () => {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const key = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
   if (!url || !key) throw new Error('Chưa cấu hình Supabase.');
@@ -23,7 +23,7 @@ export async function sessionClient() {
       },
     },
   });
-}
+});
 
 export function adminClient() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -36,10 +36,10 @@ export const currentActor = cache(async (): Promise<Actor | null> => {
   const jar = await cookies();
   if (!hasAuthCookie(jar.getAll().map(cookie => cookie.name), process.env.NEXT_PUBLIC_SUPABASE_URL)) return null;
   const client = await sessionClient();
-  const { data: { user }, error } = await client.auth.getUser();
-  if (error || !user) return null;
-  const { data: profile, error: profileError } = await client.from('profiles').select('id,full_name,login_name,role,active').eq('id', user.id).single();
-  if (profileError || !profile || !profile.active || !isRole(profile.role) || !profile.login_name) return null;
+  const { data: verified, error } = await client.auth.getClaims();
+  if (error || !verified?.claims?.sub) return null;
+  const { data: profile, error: profileError } = await client.rpc('current_staff_actor');
+  if (profileError || !profile || profile.id !== verified.claims.sub || !profile.active || !isRole(profile.role) || !profile.login_name) return null;
   return { id: profile.id, fullName: profile.full_name, username: profile.login_name, role: profile.role };
 });
 

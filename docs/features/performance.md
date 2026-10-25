@@ -10,6 +10,7 @@ Proxy và currentActor đều gọi getUser khi có session. CSS còn dùng @imp
 
 - `vercel.json` chọn sin1 để hàm chạy gần Supabase và người dùng Việt Nam.
 - Proxy dùng getClaims để refresh/verify token; pages/actions vẫn xác minh getUser và profile active ở server. Không cache quyền xuyên request hoặc bỏ RLS. Với key HS256, getClaims có thể vẫn gọi Auth; không cam kết loại bỏ mọi request Auth.
+- Cập nhật 26/10: pages/actions dùng getClaims + một RPC kiểm tra live profile/session; thay hai lượt getUser/profile nối tiếp. Đối chiếu session trong database giữ kiểm tra thu hồi phiên, không chỉ dựa JWT. Xem `docs/features/sidebar-and-navigation.md`.
 - Khi không có cookie session, bỏ khởi tạo client Auth ở Proxy/currentActor. Cookie có mặt không được coi là xác thực; cookie đơn hoặc chia chunk đều phải qua kiểm tra đầy đủ.
 - Font được phục vụ từ asset trong dự án, bỏ @import bên ngoài; display swap để chữ hiển thị sớm.
 - Các truy vấn đọc độc lập của màn hình nhân viên chạy song song, vẫn dùng cùng client và RLS của người dùng.
