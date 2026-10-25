@@ -1,4 +1,5 @@
 node_modules/
+.inventory-test/
 .npm-cache/
 .next/
 .env*

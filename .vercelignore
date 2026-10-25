@@ -3,6 +3,7 @@
 .npm-cache
 .vercel
 node_modules
+.inventory-test
 .env*
 *.tsbuildinfo
 supabase/.temp

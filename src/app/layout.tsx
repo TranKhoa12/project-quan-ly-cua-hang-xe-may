@@ -5,6 +5,7 @@ import './globals.css';
 import './auth.css';
 import './catalog.css';
 import './sidebar.css';
+import './garage.css';
 
 export const metadata: Metadata = { title: 'MotoCare — Quản lý cửa hàng', description: 'Quản lý sửa chữa, phụ tùng và vận hành cửa hàng xe máy.' };
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

@@ -11,6 +11,8 @@
 
 Có runner `npm.cmd run test:auth` cho Supabase Auth/RLS và HTTP bằng JWT thật, có fixture tạm và cleanup; setup tại `auth-setup.md`. Chưa có runner concurrency kho/tiền hoặc E2E browser. Không ghi tên lệnh giả như lệnh đã hoạt động.
 
+Cập nhật 26/10/2026: `npm.cmd run test:inventory` đã có, 32 kiểm tra PostgreSQL native cách ly; không dùng `.env`/production. Kiểm tra migrations, SET ROLE/RLS, transaction rollback với trigger gây lỗi, hai kết nối mua món cuối, thu và trả nhà cung cấp đồng thời, retry, phiên bị thu hồi, công nợ/báo cáo và snapshot. Auth schema trong runner là tối thiểu, không phải Supabase Auth HTTP/JWT thật; chưa có E2E browser. Dữ liệu cụm test nằm trong `.inventory-test/` đã ignore, giữ lại để xem khi cần; dùng port localhost 55439, dừng server sau chạy.
+
 ## Ma trận bắt buộc theo rủi ro
 
 | ID | Tình huống | Tầng kiểm chứng / tiêu chí |

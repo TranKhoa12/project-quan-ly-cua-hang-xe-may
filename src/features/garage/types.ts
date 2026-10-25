@@ -1,0 +1,13 @@
+export type Store = {name:string;phone:string;address:string;version:number};
+export type StockPart = {id:string;sku:string;name:string;category:string;brand:string;price:number;stock:number;stock_version:number;min:number;cost?:number};
+export type CustomerRow = {id:string;name:string;phone:string;address:string};
+export type VehicleRow = {id:string;customer_id:string;plate:string;model:string;customer:string;phone:string};
+export type Line = {partId:string;quantity:number;price:number;name?:string};
+export type Quote = {id:string;version:number;items:Line[];labor:number;total:number;customer_confirmation:string|null;approved_at:string|null};
+export type RepairRow = {id:string;code:number;issue:string;status:string;version:number;km:number;technician_id:string|null;technician:string|null;created_at:string;delivered_at:string|null;quality_note:string|null;store_snapshot:Store;customer:{name:string;phone?:string;plate:string;model:string};quote:Quote|null;items:{id:string;partId:string;name:string;quantity:number;price:number}[];paid:number|null};
+export type SaleRow = {id:string;code:number;customer_name:string;total:number;payment_method:string;created_at:string;store_snapshot:Store;items:{id:string;name:string;quantity:number;price:number;returned:number}[]};
+export type PurchaseRow = {id:string;code:number;total:number;paid:number;supplier_snapshot:{name:string;phone:string};store_snapshot:Store;created_at:string;items:{name:string;quantity:number;cost:number}[]};
+export type CashRow = {id:string;direction:'in'|'out';amount:number;method:string;reason:string;actor:string;created_at:string;purchase_id:string|null;sale_id:string|null;repair_id:string|null};
+export type StockMovement = {id:string;part_id:string;name:string;quantity:number;reason:string;created_at:string};
+export type GarageSnapshot = {store:Store;page:number;from:string;to:string;parts:StockPart[];partCount:number;customers?:CustomerRow[];customerCount?:number;vehicles?:VehicleRow[];vehicleCount?:number;technicians?:{id:string;full_name:string;role:string}[];repairs?:RepairRow[];repairCount?:number;sales?:SaleRow[];saleCount?:number;purchases?:PurchaseRow[];purchaseCount?:number;suppliers?:{id:string;name:string;phone:string}[];supplierCount?:number;cash?:CashRow[];cashCount?:number;movements?:StockMovement[];movementCount?:number;summary?:{sales:number;repairs:number;refunds:number;cost:number;received:number;spent:number;payable:number;receivable:number;inventoryValue:number;activeRepairs:number;lowStock:number}};
+export const repairLabels:Record<string,string>={received:'Chờ kiểm tra',awaiting_approval:'Chờ khách duyệt',in_progress:'Đang sửa',ready:'Chờ bàn giao',delivered:'Đã bàn giao',cancelled:'Đã hủy'};

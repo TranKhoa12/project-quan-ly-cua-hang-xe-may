@@ -1,31 +1,33 @@
 # Hiện trạng triển khai
 
-Cập nhật: 26/10/2026. Đây là nguồn phân biệt code hiện có với yêu cầu đích trong tài liệu quy trình.
+Cập nhật 26/10/2026. Phân biệt năng lực hiện có với quy trình đích; chưa nghiệm thu vận hành qua trình duyệt.
 
-| Hạng mục | Hiện có | Mức / còn thiếu |
+| Hạng mục | Hiện có | Giới hạn |
 | --- | --- | --- |
-| Tổng quan và 10 trang quản lý | Cùng ShopSidebar có icon/nhóm/thẻ cửa hàng trên tất cả trang; pending menu, prefetch theo tương tác; phần dữ liệu parts/staff stream sau guard | Nghiệp vụ kho/tiền cũ chưa có backend; chưa browser QA |
-| Cấu hình tên/điện thoại/địa chỉ | Validation, draft riêng, lưu/khôi phục localStorage; UI/title/mẫu in dùng chung | Demo; chưa quyền cập nhật, server version hoặc snapshot chứng từ |
-| Danh mục phụ tùng và gợi ý | `/parts` đọc Supabase, combobox tên/nhóm/brand cho nhập mới, nhắc trùng, RPC manager-only tạo danh mục với tồn 0 và nhớ từ mới | Migration `202610250003`; 23 từ tham chiếu, không seed sản phẩm; chặn trùng chính xác và cảnh báo tương tự ở database; chưa browser QA hoặc test ghi giao dịch trên môi trường riêng |
-| Khách hàng/xe | Form và danh sách mẫu | Demo gộp 1 xe/khách; SQL đã tách bảng; chưa nối database |
-| Sửa chữa | Tiếp nhận, đổi trạng thái, xuất dùng, thu thêm | Demo; chưa máy trạng thái backend, báo giá/duyệt/QC/bảo hành |
-| Bán tại quầy | Giỏ, chốt và trừ tồn local, snapshot giá/cost | Unit test mẫu; chưa transaction/lock/idempotency payload backend |
-| Nhập kho | Tăng tồn, giá vốn bình quân mẫu | Chưa phiếu mua/nhà cung cấp/phải trả thật |
-| Thu chi/công nợ | Tổng hợp các khoản thu mẫu | Chưa khoản chi/đối soát/ledger hoàn chỉnh |
-| Báo cáo | Tổng hợp demo | Chưa mốc thu/bàn giao riêng và giá vốn sửa chữa |
-| Nhân viên/quyền | Supabase Auth username/password, cookie SSR, guard role, tạo/bật/tắt/đổi role/reset mật khẩu; RPC có audit | Cần người dùng chạy `auth:create-manager` để đặt tài khoản đầu tiên; chưa browser QA |
-| Supabase | Áp dụng migration `202610250001` và `202610250002`, gồm Auth/RPC phân quyền và limiter | Đã nối Auth, staff và đọc dữ liệu nhân viên; chưa có RPC ghi kho/tiền |
-| Bảo mật | 25 kiểm tra tích hợp JWT/RLS/HTTP/Server Action đã pass trên project mới, fixtures được dọn; signup tắt | Chưa test Storage hoặc giao dịch kho/tiền đồng thời; chưa E2E browser |
-| Bộ quy trình AI | AGENTS.md, 5 skill và tài liệu luồng/hợp đồng/test/release | Đã viết; validator cấu trúc không chứng minh AI luôn làm đúng |
-| Kiểm thử tự động | Unit nghiệp vụ/cấu hình/quyền/storage; `test:auth` chạy JWT/RLS/HTTP thật, build/typecheck | Chưa runner transaction kho/tiền hoặc E2E browser |
-| Triển khai | Vercel production `https://dangkietmoto.vercel.app`, deployment `dpl_3m8HfP8rQEZZFTopF7DTZDsi2UyJ` READY; sidebar thống nhất và RPC live actor/session; giữ sin1 | 25 unit pass, schema lint pass, 8 test truy vấn actor/session bằng bảng tạm rollback; local/web login và guard/cookie giả pass. Chưa đo menu trong phiên đăng nhập của người dùng hoặc browser QA |
+| Tổng quan/menu | Sidebar chung, server guard, stream dữ liệu; tổng quan đọc Supabase | Chưa đo chuyển menu trong phiên người dùng bằng browser |
+| Cấu hình cửa hàng | Lưu Supabase, đối chiếu version, đồng bộ tên sidebar; chứng từ giữ snapshot | Cấu hình local cũ không tự upload; cần lưu lại ở Cài đặt |
+| Phụ tùng | Tạo danh mục/gợi ý có nhắc trùng; quản lý sửa giá bán/ngưỡng tồn qua RPC | Danh mục quản lý tối đa 1.000 hàng; từ điển không xác nhận fitment |
+| Khách/xe | Tạo khách và nhiều xe; biển số chuẩn hóa unique trong database | Chưa gộp khách/chuyển chủ xe; lựa chọn xe tối đa 2.000 |
+| Nhập hàng | Nhà cung cấp, nhiều dòng/phiếu, chốt tăng tồn, giá vốn bình quân, trả một phần/trả thêm và phải trả | Chưa PO/nhận từng phần/trả nhà cung cấp |
+| Bán tại quầy | Giá từ server, khóa tồn, xuất kho/snapshot cost/thu đủ cùng transaction | Chưa bán chịu, giảm giá, thanh toán một phần |
+| Sửa chữa | Tiếp nhận, phân công, báo giá version, ghi khách duyệt, xuất theo báo giá, chất lượng, thu nhiều lần, bàn giao khi thu đủ | Chưa sửa báo giá sau xuất/nhập trả phụ tùng sửa/bảo hành; hủy chỉ trước phát sinh |
+| Kiểm kê/trả bán | Quản lý kiểm kê đối chiếu số dư + stock version; nhận trả hàng bán được, hoàn theo dòng gốc và giới hạn lũy kế | Chưa hàng lỗi, trả không nhập kho, trả nhà cung cấp |
+| Thu chi/công nợ | Ledger bán/sửa/hoàn/nhập hàng/chi vận hành; phải thu sửa/phải trả nhập tính từ chứng từ | Chưa chốt ca/đối soát ngân hàng/đảo chi phí vận hành |
+| Báo cáo | Khoảng ngày Việt Nam; doanh thu bán + sửa bàn giao − trả, cost snapshot/lợi nhuận gộp, thu/chi riêng; tổng toàn DB | Chưa xuất báo cáo kế toán/hóa đơn điện tử |
+| Nhân viên/quyền | Supabase Auth username/password, session HttpOnly, active role/session trong DB, quản lý cấp/tắt/reset/quyền | Chưa cấu hình quyền con/hạn mức |
+| Backend | Migrations đến `202610260004` đã áp dụng; RPC kho/tiền kiểm tra session/quyền, idempotency, transaction và audit | Chưa đầy đủ mọi quy trình đích trong business-workflows |
+| Dữ liệu cũ | Route nghiệp vụ dùng `features/garage`; không đọc/ghi localStorage nghiệp vụ, không fallback demo | `components/workspace.tsx` và `staff-workspace.tsx` còn mã cũ nhưng không được route import; local cũ giữ nguyên, không tự migrate |
+| Kiểm thử | 27 unit đạt; 32 kiểm tra PostgreSQL native cách ly đạt; typecheck/build/skills checker đạt | Auth trong runner kho là schema tối thiểu; chưa HTTP JWT cho command kho, browser E2E, phục hồi backup |
+| Production | Vercel `https://dangkietmoto.vercel.app`, `dpl_4aRsNCY5QhkKiGcW4PGFspAEzXSb` READY | HTTP login 200, 9 route nghiệp vụ không session trả 307; chưa nghiệm thu thao tác có đăng nhập |
 
-## Quy tắc cập nhật
+## Bằng chứng dữ liệu và bảo mật
 
-Bổ sung 2026-10-26: migration `202610260002` đã mở rộng từ điển tên tham chiếu; Supabase có 254 tên (bộ mở rộng 253 tên/297 alias), 18 nhóm và 2 thương hiệu. Đã đối chiếu đủ dữ liệu và xác nhận sản phẩm/giá vốn/tồn kho/lịch sử kho không đổi; 27 unit test pass. Nguồn, phạm vi tên chung và giới hạn về mã OEM/đời xe tại `docs/features/part-name-suggestions.md`. Không đổi bundle Vercel; tải lại trang lấy danh sách mới từ Supabase.
+Trước/sau migration: giữ 1 phụ tùng, 1 giá vốn, 1 số dư; 274 từ điển (bao gồm các bổ sung trước đó). Chưa có chứng từ kho/bán/sửa/khách/xe/thu tiền trước triển khai; các bảng giao dịch mới vẫn rỗng sau triển khai. Không tạo fixture trong production.
 
-Mỗi thay đổi cập nhật đúng dòng liên quan và ghi bằng chứng trong báo cáo giao việc. Không tăng mức chỉ vì có tài liệu hoặc migration. Chỉ thay “chưa” khi đã có code lẫn bằng chứng tương ứng.
+Metadata production xác nhận 9 bảng mới bật RLS, anon không SELECT, authenticated không INSERT/UPDATE trực tiếp. `garage_command`, `garage_snapshot`, `garage_store` chỉ authenticated có EXECUTE; helper không mở EXECUTE cho client; definer cố định search_path. PostgREST anon gọi cả 3 RPC trả 42501. Schema lint không lỗi, một cảnh báo biến `ver` chưa dùng. Test riêng kiểm tra không lộ cost cho nhân viên, thợ không được giao, tài khoản tắt và phiên bị thu hồi.
 
-## Khoảng thiếu ưu tiên tiếp theo
+Chi tiết phạm vi, nguồn tên gợi ý và runner: `docs/features/live-inventory.md`, `docs/features/part-name-suggestions.md`, `docs/testing-strategy.md`.
 
-Auth và quyền server → cấu hình cửa hàng server → migrations/fixture test → nhập hàng/kho → chốt bán/thu tiền nguyên tử → luồng sửa hoàn chỉnh → trả/hủy/kiểm kê → báo cáo/backup/nghiệm thu. Thực hiện theo `release-process.md`, không dùng toàn bộ bản demo để vận hành thật.
+## Việc tiếp theo để nghiệm thu vận hành
+
+Thử luồng thực tế bằng tài khoản quản lý/nhân viên trên browser; đối soát dữ liệu đầu kỳ và tiền; thử backup/restore trong môi trường riêng; đào tạo thao tác và chốt các nghiệp vụ nâng cao còn thiếu theo `docs/release-process.md`. Không ghi Production verified trước khi có bằng chứng tương ứng.

@@ -11,7 +11,8 @@
     "test": "node --experimental-strip-types --test tests/*.test.mjs",
     "skills:check": "node scripts/check-skills.mjs",
     "auth:create-manager": "node --experimental-strip-types scripts/create-manager.mjs",
-    "test:auth": "node --experimental-strip-types tests/integration/auth-access.mjs"
+    "test:auth": "node --experimental-strip-types tests/integration/auth-access.mjs",
+    "test:inventory": "node tests/integration/inventory.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.7",
@@ -26,6 +27,8 @@
     "@types/node": "^24.0.0",
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.0",
+    "embedded-postgres": "^18.4.0-beta.17",
+    "pg": "^8.23.1",
     "typescript": "^5.9.0"
   }
 }

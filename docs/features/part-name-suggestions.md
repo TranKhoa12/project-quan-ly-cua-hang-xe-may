@@ -14,6 +14,8 @@ Người dùng duyệt danh mục tham chiếu Honda/Yamaha và làm rõ: đây 
 
 ## Luồng
 
+- Điều chỉnh combobox: ô trống hoặc chỉ có khoảng trắng không mở danh sách; chỉ hiện gợi ý khi đã nhập ký tự tìm kiếm. Ẩn thanh cuộn của dropdown, vẫn cuộn bằng chuột/cảm ứng. Typecheck/build pass; chưa QA tương tác bằng browser.
+
 - Trang `/parts` của quản lý đọc danh mục thật từ Supabase. Nhân viên giữ quyền đọc theo role, không được tự tạo danh mục.
 - Ô tên là combobox có thể tìm không dấu, chọn gợi ý hoặc nhập mới. Nhóm/thương hiệu cũng có gợi ý và cho nhập mới.
 - Gợi ý tên bắt đầu bằng loại phụ tùng thông dụng đã được duyệt; không sinh SKU hãng, đời xe, giá hoặc số lượng tồn giả. Chỉ tạo bản ghi phụ tùng khi người dùng bấm Lưu.
