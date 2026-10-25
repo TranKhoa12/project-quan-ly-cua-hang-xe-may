@@ -1,6 +1,6 @@
 # Mô hình bảo mật
 
-Đây là yêu cầu đích và kế hoạch kiểm chứng. Ứng dụng demo hiện không có Auth hoặc bảo vệ quyền thật.
+Auth, guard server và quyền quản lý tài khoản đã triển khai; xem `auth-setup.md` và `implementation-status.md` cho bằng chứng. Bảng dưới là quyền nghiệp vụ đích; quyền ghi kho/tiền chưa triển khai, không suy ra đã có chỉ vì Auth hoạt động.
 
 ## Phân quyền nghiệp vụ dự kiến
 
@@ -17,7 +17,7 @@
 | Hủy/hoàn/duyệt chỉnh kho | Có | Không mặc định | Không |
 | Xem audit/export toàn bộ | Có | Không mặc định | Không |
 
-UI chưa cho phép cấu hình các quyền này. Khi triển khai cần chuyển thành permission kiểm tra server/database, không chỉ chuỗi role trên client. Bảo vệ tài khoản quản lý cuối cùng khỏi tự tắt/hạ quyền gây mất quyền quản trị.
+UI hiện gán ba role, chưa có cấu hình hạn mức/quyền con. Các RPC quản lý profile kiểm tra manager active và bảo vệ tự tắt/hạ quyền cùng quản lý cuối. Quyền nghiệp vụ chi tiết vẫn cần triển khai tương ứng khi nối backend kho/tiền.
 
 ## Ranh giới và biện pháp
 

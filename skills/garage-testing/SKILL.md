@@ -12,7 +12,7 @@ description: Choose and execute meaningful unit, database, RLS, concurrency and 
 3. Với kho/tiền: test món cuối từ hai kết nối độc lập, trả lỗi ở giữa transaction để chứng minh rollback, retry cùng key, cùng key khác payload và giới hạn hoàn tiền/thu tiền.
 4. Với cửa hàng đổi tên: lưu rồi tải lại/chuyển trang, title/menu/lời chào/footer/mẫu in đồng bộ; tên dài, tiếng Việt, tên rỗng, draft chưa lưu và người không có quyền lưu khi có Auth.
 5. Dùng database test riêng và dữ liệu tổng hợp. Cleanup đúng tài nguyên test, không reset production. Không tải dữ liệu khách thật về máy test.
-6. Chạy lệnh có thật trong package.json. Hiện có `typecheck`, `test`, `build`, `skills:check`; runner DB/RLS/browser chưa được xây dựng. Ghi blocked/not-run cùng lý do nếu thiếu môi trường, không gán pass.
+6. Chạy lệnh có thật trong package.json: `typecheck`, `test`, `build`, `skills:check`; có `test:auth` kiểm tra Auth/RLS/HTTP với fixture tạm và project test tường minh (đọc `docs/auth-setup.md`). Runner kho/tiền đồng thời và browser chưa có. Ghi blocked/not-run cùng lý do nếu thiếu môi trường, không gán pass.
 7. Báo kết quả bằng lệnh, số pass/fail, phạm vi và giới hạn. Chỉ chạy lại khi input thay đổi hoặc có lỗi/chưa rõ cần giải quyết.
 
 Đầu ra: test phù hợp rủi ro, kết quả thực tế và tiêu chí chưa đạt. Không dùng build thành công hoặc HTTP 200 làm bằng chứng luồng nghiệp vụ đã chạy trên trình duyệt.

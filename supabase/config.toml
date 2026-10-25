@@ -1,0 +1,6 @@
+# Only declared remote settings are managed by config push.
+project_id = "moto-care-manager"
+
+[auth]
+enable_signup = false
+minimum_password_length = 12

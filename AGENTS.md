@@ -4,7 +4,7 @@
 
 - Một cửa hàng kinh doanh thật; quản lý, bán hàng, thợ sửa xe. Chưa triển khai bán online.
 - Next.js + TypeScript, Supabase PostgreSQL/Auth/Storage, triển khai mục tiêu Vercel.
-- Hiện UI là demo localStorage. Migration nền `202610250001` đã áp dụng lên Supabase; chưa có luồng Auth trong ứng dụng hoặc RPC nghiệp vụ. Không mô tả demo là backend hoàn chỉnh.
+- Đã có Supabase Auth qua tên đăng nhập/mật khẩu, session cookie HttpOnly, guard server và RPC phân quyền. Migration `202610250001` và `202610250002` đã áp dụng. Nghiệp vụ kho/tiền chưa có backend ghi; workspace cục bộ chỉ cho quản lý và tách theo user ID. Không mô tả phần nghiệp vụ này là backend hoàn chỉnh.
 - Tên cửa hàng là cấu hình, khác tên sản phẩm MotoCare. Không thêm tên cửa hàng, địa chỉ, số điện thoại gắn cứng vào màn hình hoặc mẫu in.
 - Dùng tiếng Việt cho giao diện và báo cáo cho chủ cửa hàng. Tiền VND; ngày nghiệp vụ theo Asia/Ho_Chi_Minh.
 
@@ -34,9 +34,9 @@ Tính năng tiền/kho cần backend + security + testing. Thay đổi chữ ho�
 
 ## Lệnh hiện có
 
-`npm.cmd run typecheck`, `npm.cmd test`, `npm.cmd run build`, `npm.cmd run skills:check`.
+`npm.cmd run typecheck`, `npm.cmd test`, `npm.cmd run build`, `npm.cmd run skills:check`. Có `test:auth` tích hợp với project test được chỉ định tường minh và server HTTP cục bộ; xem `docs/auth-setup.md`.
 
-Chạy bộ kiểm tra phù hợp thay đổi. Test database/RLS/E2E chưa có runner: đánh dấu chưa thực hiện, không tự tạo báo cáo pass. Chi tiết trong `docs/testing-strategy.md`.
+Chạy bộ kiểm tra phù hợp thay đổi. Runner Auth/RLS có thật; transaction kho/tiền và E2E browser chưa có runner. Đánh dấu phần chưa thực hiện, không tự tạo báo cáo pass. Chi tiết trong `docs/testing-strategy.md`.
 
 <!-- BEGIN:nextjs-agent-rules -->
 

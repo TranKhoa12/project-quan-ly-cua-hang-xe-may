@@ -34,6 +34,10 @@ Vào `/settings`, đổi tên/điện thoại/địa chỉ và bấm **Lưu thô
 
 ## Chạy ứng dụng
 
+Đăng nhập đã được triển khai. Xem [thiết lập Auth và phân quyền](docs/auth-setup.md). Không cần email cá nhân; người dùng đăng nhập bằng tên và mật khẩu.
+
+Để tạo quản lý đầu tiên, chạy `npm.cmd run auth:create-manager` trong Terminal và tự nhập mật khẩu. Script cần `.env.local` có key quản trị phía server; key này đã được cấu hình cục bộ, không được commit hoặc đưa vào client.
+
 Khuyến nghị Node.js 22.18 trở lên để chạy cả ứng dụng và bộ kiểm thử TypeScript bằng Node.
 
 ```powershell
@@ -61,7 +65,9 @@ npm.cmd start
 - `/customers`: thêm khách và xe, xem số phiếu sửa và khoản còn phải thu.
 - `/cashbook`: tổng hợp tiền đã thu; chưa có nghiệp vụ chi.
 - `/reports`: tổng hợp doanh thu, lợi nhuận gộp bán tại quầy và giá trị tồn.
-- `/staff`: danh sách trống, chưa tạo tài khoản thật.
+- `/login`: đăng nhập bằng tên tài khoản/mật khẩu.
+- `/account`: đổi mật khẩu và đăng xuất.
+- `/staff`: quản lý tạo tài khoản, gán vai trò, bật/tắt và đặt lại mật khẩu.
 - `/settings`: thông tin cửa hàng, xuất/nhập JSON, xóa dữ liệu nghiệp vụ cục bộ.
 
 ## Trạng thái dữ liệu — cần đọc trước khi dùng
@@ -70,7 +76,7 @@ npm.cmd start
 
 Ứng dụng khởi tạo trống, không còn khách hàng, xe, phụ tùng, phiếu sửa, đơn bán hoặc nhân viên mẫu. Khi mở phiên bản mới, key `motocare-demo-v1` được xóa; dữ liệu mới lưu bằng `motocare-workspace-v2`. Thông tin cửa hàng được giữ riêng. Fixture tổng hợp chỉ nằm trong tests, không được import vào ứng dụng hoặc seed lên Supabase.
 
-Chưa có đăng nhập, đồng bộ nhiều người dùng, kiểm soát quyền thật, giao dịch server hoặc nhật ký bất biến. Không nhập dữ liệu khách hàng thật hoặc coi dữ liệu trình duyệt là sổ sách kinh doanh. Trang quản lý vẫn mở ở chế độ trải nghiệm.
+Đã có đăng nhập, guard server, quyền Auth/RLS và quản lý nhân viên thật. Nghiệp vụ ghi kho/tiền cũ vẫn chỉ là prototype của quản lý, được tách localStorage theo user ID; nhân viên có workspace đọc Supabase theo quyền. Chưa đồng bộ các thao tác ghi nghiệp vụ và chưa dùng được như sổ sách kinh doanh thật.
 
 Phiếu mẫu dùng ngày tạo để phân nhóm báo cáo; khi triển khai thật phải dùng ngày chốt, ngày bàn giao và ngày thanh toán tương ứng. Một khách trong UI mẫu gắn một xe; schema thật đã tách nhiều xe/khách. Nhập kho mẫu chưa tạo khoản chi/phải trả nhà cung cấp. Chưa có giữ kho, trả hàng, duyệt báo giá, hóa đơn điện tử, kiểm kê hoặc xử lý mất mạng. Chưa có lợi nhuận sửa chữa vì cần chốt giá vốn từng lần xuất dùng.
 
@@ -81,9 +87,9 @@ Phiếu mẫu dùng ngày tạo để phân nhóm báo cáo; khi triển khai th
 3. Chạy migration trong `supabase/migrations/` trên project mới bằng quy trình migration của Supabase.
 4. Tạo tài khoản Auth và cấp profile quản lý bằng công cụ quản trị tin cậy; không cho phép người dùng tự gán role.
 
-`src/lib/supabase.ts` có client khởi tạo, **chưa được nối vào UI**. Chỉ điền biến môi trường không làm bản demo tự chuyển sang database.
+Client Auth/server nằm tại `src/lib/auth/server.ts`. Auth, quản lý nhân viên và màn hình đọc theo role đã nối Supabase; các thao tác ghi nghiệp vụ cũ chưa được chuyển sang backend. `src/lib/supabase.ts` là client nền cũ, không phải luồng Auth mới.
 
-Migration là nền tảng bảng, khóa ngoại, chỉ mục và RLS. Chặn truy cập ẩn danh; người dùng có role được đọc theo policy; chưa mở quyền ghi từ trình duyệt. Chưa có RPC chốt đơn, thu tiền, xuất kho hoặc quản lý tài khoản. Không nới RLS để đưa bản demo vào sản xuất.
+Đã áp dụng hai migration nền và Auth/phân quyền, có RPC quản lý profile/limiter; chặn ghi profile trực tiếp. Chưa có RPC chốt đơn, thu tiền hoặc xuất kho. Không nới RLS để đưa phần prototype vào sản xuất.
 
 Các bước tiếp theo để vận hành thật: Auth/phiên server; quyền từng nghiệp vụ; RPC giao dịch nguyên tử, khóa dòng và chống ghi lặp; UI gọi backend; lịch sử thanh toán/giá vốn; duyệt/hủy/trả/kiểm kê; kiểm thử đồng thời và RLS; sao lưu và thử khôi phục database cùng file Storage.
 
@@ -91,7 +97,7 @@ Các bước tiếp theo để vận hành thật: Auth/phiên server; quyền t
 
 Đưa repository lên tài khoản Git của bạn, import trong Vercel và chọn framework Next.js. Build command `npm run build`, thư mục gốc là thư mục dự án này. Nếu chưa cấu hình backend, bản triển khai vẫn chỉ là demo localStorage. Chọn gói phù hợp hoạt động thương mại khi sử dụng thật.
 
-Chưa tạo project Supabase hoặc Vercel, chưa triển khai lên Internet và chưa có thông tin đăng nhập dịch vụ.
+Supabase đã liên kết và cấu hình Auth; chưa triển khai website lên Vercel. Cần đặt ba biến môi trường nêu tại `docs/auth-setup.md` khi deploy. Key quản trị chỉ dùng server.
 
 ## Kiểm tra đã thực hiện
 
@@ -101,4 +107,4 @@ Chưa tạo project Supabase hoặc Vercel, chưa triển khai lên Internet và
 - Skill theo dự án: `npm.cmd run skills:check` — frontmatter đơn giản, tên skill và tham chiếu tài liệu. Checker Node thay thế kiểm tra cấu trúc cục bộ do Python không khả dụng; không phải chứng nhận hành vi AI hoặc bảo mật.
 - HTTP smoke check cho 10 trang chính.
 
-Chưa chạy migration trên Supabase thật và chưa kiểm tra tương tác/hiển thị trong trình duyệt do không có trình duyệt kết nối trong phiên xây dựng.
+Đã áp dụng migration trên Supabase thật, kiểm tra Auth/RLS bằng JWT và HTTP local; chưa kiểm tra tương tác/hiển thị trong trình duyệt. Xem `docs/auth-setup.md` để phân biệt phạm vi đã kiểm chứng.

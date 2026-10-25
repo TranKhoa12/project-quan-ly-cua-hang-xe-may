@@ -8,6 +8,8 @@ import { createEmptyState, money, shortMoney, dateLabel, repairTotal, uid, statu
 import { completeSale, receiveStock } from '@/lib/transactions';
 import { WORKSPACE_STORAGE_KEY, loadWorkspace } from '@/lib/workspace-storage';
 import { DEFAULT_STORE, STORE_SETTINGS_KEY, restoreStoreSettings, storeDocumentTitle, validateStoreSettings } from '@/lib/store-settings';
+import { roleLabels, type Actor } from '@/lib/auth/permissions';
+import { logoutAction } from '@/app/auth-actions';
 
 const nav = [
   { group: 'KHÔNG GIAN LÀM VIỆC', items: [ ['dashboard', 'Tổng quan', LayoutDashboard], ['repairs', 'Sửa chữa', Wrench], ['sales', 'Bán tại quầy', ShoppingBag] ] },
@@ -26,10 +28,10 @@ const headings: Record<string, [string, string]> = {
   staff: ['Nhân viên & phân quyền', 'Một đội ngũ, cùng chăm sóc những chiếc xe.'],
   settings: ['Cài đặt cửa hàng', 'Thông tin cửa hàng và dữ liệu của bạn.'],
 };
-const storageKey = WORKSPACE_STORAGE_KEY;
 type Modal = 'repair' | 'customer' | 'part' | 'purchase' | 'notifications' | null;
 
-export default function Workspace() {
+export default function Workspace({actor}:{actor:Actor}) {
+  const storageKey = `${WORKSPACE_STORAGE_KEY}:${actor.id}`;
   const pathname = usePathname();
   const page = pathname.split('/')[1] || 'dashboard';
   const [data, setData] = useState<State>(createEmptyState);
@@ -47,7 +49,7 @@ export default function Workspace() {
   const [storeDraft, setStoreDraft] = useState({ ...DEFAULT_STORE });
   const fileRef = useRef<HTMLInputElement>(null);
   useEffect(() => {
-    try { setData(loadWorkspace(localStorage)); } catch { /* Keep the empty workspace if storage is unavailable. */ }
+    try { setData(loadWorkspace(localStorage, storageKey)); } catch { /* Keep the empty workspace if storage is unavailable. */ }
     try { const savedStore = restoreStoreSettings(localStorage.getItem(STORE_SETTINGS_KEY)); setStore(savedStore); setStoreDraft(savedStore); } catch { /* Keep defaults when storage is unavailable. */ }
     setReady(true);
   }, []);
@@ -106,7 +108,7 @@ export default function Workspace() {
       <nav>{nav.map(g => <div className="nav-group" key={g.group}><p>{g.group}</p>{g.items.map(([id, label, Icon]) => <Link key={id} href={id === 'dashboard' ? '/' : `/${id}`} className={`nav-item ${page === id ? 'active' : ''}`}><Icon size={19} /><span>{label}</span>{id === 'repairs' && <span className="nav-count">{active.length}</span>}{id === 'parts' && low.length > 0 && <span className="nav-dot" />}</Link>)}</div>)}</nav>
       <div className="sidebar-bottom"><div className="sidebar-foot"><span className="online-dot" /> Không gian làm việc mẫu <span>v0.1</span></div></div>
     </aside>
-    <div className="main-shell"><header className="topbar"><div className="breadcrumb"><button className="icon-button mobile-toggle" aria-label="Mở menu" onClick={() => setMobile(true)}><Menu size={21} /></button><span>Không gian làm việc</span><ChevronRight size={13} /><strong>{headings[page]?.[0] || 'Không tìm thấy'}</strong></div><div className="topbar-actions"><span className="demo-pill"><span />Chế độ trải nghiệm</span><button className="icon-button notification-button" aria-label="Thông báo tồn kho" onClick={() => setModal('notifications')}><Bell size={19} />{low.length > 0 && <i />}</button><div className="header-divider" /><Link href="/settings" className="profile"><span className="avatar">QL</span><span><strong>Quản lý</strong><small>Quản lý cửa hàng</small></span><ChevronDown size={14} /></Link></div></header>
+    <div className="main-shell"><header className="topbar"><div className="breadcrumb"><button className="icon-button mobile-toggle" aria-label="Mở menu" onClick={() => setMobile(true)}><Menu size={21} /></button><span>Không gian làm việc</span><ChevronRight size={13} /><strong>{headings[page]?.[0] || 'Không tìm thấy'}</strong></div><div className="topbar-actions"><span className="demo-pill"><span />Đã đăng nhập · {actor.username}</span><button className="icon-button notification-button" aria-label="Thông báo tồn kho" onClick={() => setModal('notifications')}><Bell size={19} />{low.length > 0 && <i />}</button><div className="header-divider" /><Link href="/account" className="profile"><span className="avatar">{actor.fullName.split(" ").map(n=>n[0]).slice(-2).join("")}</span><span><strong>{actor.fullName}</strong><small>{roleLabels[actor.role]}</small></span><ChevronDown size={14} /></Link><form action={logoutAction}><button className="button">Đăng xuất</button></form></div></header>
     <main>
       <div className="page-heading"><div><div className="eyebrow">{store.name} <span>/</span> {page === 'dashboard' ? 'TỔNG QUAN' : 'QUẢN LÝ'}</div><h1>{headings[page]?.[0] || 'Trang không tồn tại'}</h1><p>{headings[page]?.[1]}</p></div><div className="heading-actions">{page === 'dashboard' ? <><div className="date-display"><Clock3 size={15} />{ready ? new Date().toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric' }) : 'Hôm nay'}</div><button className="button primary" onClick={() => setModal('repair')}><Plus size={17} />Tiếp nhận xe</button></> : page === 'repairs' ? <button className="button primary" onClick={() => setModal('repair')}><Plus size={17} />Tiếp nhận xe</button> : page === 'parts' ? <><button className="button" onClick={() => setModal('purchase')}><ArrowDownToLine size={16} />Nhập kho</button><button className="button primary" onClick={() => setModal('part')}><Plus size={17} />Thêm phụ tùng</button></> : page === 'customers' ? <button className="button primary" onClick={() => setModal('customer')}><Plus size={17} />Thêm khách hàng</button> : page === 'purchases' ? <button className="button primary" onClick={() => setModal('purchase')}><Plus size={17} />Tạo phiếu nhập</button> : ['reports', 'cashbook'].includes(page) ? <button className="button" onClick={exportData}><Download size={17} />Xuất dữ liệu</button> : null}</div></div>
 

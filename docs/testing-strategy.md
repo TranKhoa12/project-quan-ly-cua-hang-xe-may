@@ -9,7 +9,7 @@
 | `npm.cmd run build` | Build production Next.js | Đã deploy, đúng nghiệp vụ hoặc an toàn production |
 | `npm.cmd run skills:check` | Cấu trúc/frontmatter skill và tham chiếu tài liệu nội bộ | AI luôn tuân thủ hoặc bảo mật đã đạt |
 
-Chưa có runner integration Supabase, database concurrency hoặc E2E browser. Khi thêm runner, thêm script có thật và hướng dẫn setup; không ghi tên lệnh giả như lệnh đã hoạt động.
+Có runner `npm.cmd run test:auth` cho Supabase Auth/RLS và HTTP bằng JWT thật, có fixture tạm và cleanup; setup tại `auth-setup.md`. Chưa có runner concurrency kho/tiền hoặc E2E browser. Không ghi tên lệnh giả như lệnh đã hoạt động.
 
 ## Ma trận bắt buộc theo rủi ro
 

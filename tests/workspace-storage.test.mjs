@@ -25,3 +25,10 @@ test('new locally created records survive reload; corrupt data never restores de
   assert.deepEqual(loadWorkspace(memoryStorage([[WORKSPACE_STORAGE_KEY, JSON.stringify(state)]])), state);
   for (const raw of ['null', '{broken', '{}']) assert.deepEqual(loadWorkspace(memoryStorage([[WORKSPACE_STORAGE_KEY, raw]])), createEmptyState());
 });
+test('account-scoped storage never falls back to another account or shared workspace', () => {
+  const shared = { ...createEmptyState(), customers: [{ id: 'SHARED' }] };
+  const owner = { ...createEmptyState(), customers: [{ id: 'OWNER' }] };
+  const storage = memoryStorage([[WORKSPACE_STORAGE_KEY, JSON.stringify(shared)], [`${WORKSPACE_STORAGE_KEY}:manager-a`, JSON.stringify(owner)]]);
+  assert.deepEqual(loadWorkspace(storage, `${WORKSPACE_STORAGE_KEY}:manager-a`), owner);
+  assert.deepEqual(loadWorkspace(storage, `${WORKSPACE_STORAGE_KEY}:manager-b`), createEmptyState());
+});

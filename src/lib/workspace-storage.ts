@@ -5,10 +5,10 @@ export const LEGACY_DEMO_STORAGE_KEY = 'motocare-demo-v1';
 type WorkspaceStorage = Pick<Storage, 'getItem' | 'removeItem'>;
 
 /** Retire the entire old demo workspace; keep store settings in their separate key. */
-export function loadWorkspace(storage: WorkspaceStorage): State {
+export function loadWorkspace(storage: WorkspaceStorage, key = WORKSPACE_STORAGE_KEY): State {
   storage.removeItem(LEGACY_DEMO_STORAGE_KEY);
   const empty: State = { customers: [], parts: [], repairs: [], sales: [], movements: [] };
-  const raw = storage.getItem(WORKSPACE_STORAGE_KEY);
+  const raw = storage.getItem(key);
   if (!raw) return empty;
   try {
     const value = JSON.parse(raw);
