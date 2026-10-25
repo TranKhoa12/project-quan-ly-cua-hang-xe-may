@@ -6,10 +6,12 @@ import { money, dateLabel } from '@/lib/data';
 const titles:Record<string,string>={dashboard:'Công việc của tôi',parts:'Phụ tùng & tồn kho',repairs:'Phiếu sửa chữa',customers:'Khách hàng',sales:'Bán tại quầy'};
 export default async function StaffWorkspace({actor,section}:{actor:Actor;section:string}) {
   const client = await sessionClient();
-  const repairs = ['dashboard','repairs'].includes(section) ? await client.from('repair_orders').select('id,code,issue,status,created_at').order('created_at',{ascending:false}).limit(100) : null;
-  const parts = ['dashboard','parts'].includes(section) ? await client.from('parts').select('id,sku,name,sale_price').eq('active',true).order('name').limit(100) : null;
-  const stocks = section==='parts' ? await client.from('stock_balances').select('part_id,quantity').limit(1000) : null;
-  const customers = section==='customers' ? await client.from('customers').select('id,name,phone').order('name').limit(100) : null;
+  const [repairs, parts, stocks, customers] = await Promise.all([
+    ['dashboard','repairs'].includes(section) ? client.from('repair_orders').select('id,code,issue,status,created_at').order('created_at',{ascending:false}).limit(100) : null,
+    ['dashboard','parts'].includes(section) ? client.from('parts').select('id,sku,name,sale_price').eq('active',true).order('name').limit(100) : null,
+    section==='parts' ? client.from('stock_balances').select('part_id,quantity').limit(1000) : null,
+    section==='customers' ? client.from('customers').select('id,name,phone').order('name').limit(100) : null,
+  ]);
   const error = repairs?.error || parts?.error || stocks?.error || customers?.error;
   return <AccessShell actor={actor} section={section} title={titles[section]||'Công việc'}><div className="info-banner"><div><strong>Dữ liệu từ Supabase theo quyền tài khoản</strong><p>{actor.role==='technician'?'Chỉ hiển thị phiếu sửa được giao cho bạn. ':' ' }Các thao tác ghi nghiệp vụ đang được hoàn thiện; màn hình này chưa cho phép chốt bán, xuất kho hoặc thu tiền.</p></div></div>{error ? <div role="alert" className="auth-error">Không tải được dữ liệu theo quyền hiện tại. Vui lòng thử lại hoặc liên hệ quản lý.</div> : <>
   {section==='dashboard'&&<section className="mini-stats"><div className="mini-stat"><span>Phiếu có quyền xem (tối đa 100)</span><strong>{repairs?.data?.length||0}</strong></div><div className="mini-stat"><span>Phụ tùng được tải (tối đa 100)</span><strong>{parts?.data?.length||0}</strong></div></section>}

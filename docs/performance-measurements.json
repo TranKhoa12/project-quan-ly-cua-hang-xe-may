@@ -1,0 +1,116 @@
+{
+  "date": "2026-10-25",
+  "before": [
+    {
+      "path": "/login",
+      "ms": [
+        466,
+        711,
+        318
+      ]
+    },
+    {
+      "path": "/",
+      "ms": [
+        334,
+        319,
+        299
+      ]
+    }
+  ],
+  "after": [
+    {
+      "path": "/login",
+      "status": 200,
+      "ms": 334,
+      "region": "sin1::sin1::ngfpm-1792945603133-816524c45a86",
+      "location": null
+    },
+    {
+      "path": "/",
+      "status": 307,
+      "ms": 99,
+      "region": "sin1::sin1::7gt99-1792945603289-05907b5b4db3",
+      "location": "/login"
+    },
+    {
+      "path": "/login",
+      "status": 200,
+      "ms": 162,
+      "region": "sin1::sin1::2xjgs-1792945603450-96eeacd157e6",
+      "location": null
+    },
+    {
+      "path": "/",
+      "status": 307,
+      "ms": 107,
+      "region": "sin1::sin1::sdmcl-1792945603554-3ed4c251f82d",
+      "location": "/login"
+    },
+    {
+      "path": "/login",
+      "status": 200,
+      "ms": 104,
+      "region": "sin1::sin1::5lgtx-1792945603668-94ccf44df189",
+      "location": null
+    },
+    {
+      "path": "/",
+      "status": 307,
+      "ms": 97,
+      "region": "sin1::sin1::hhtj4-1792945603767-d4f6f6d50ee3",
+      "location": "/login"
+    }
+  ],
+  "intermediate": [
+    {
+      "path": "/login",
+      "status": 200,
+      "ms": 906,
+      "region": "sin1::sin1::g7g6v-1792945443318-4842b82be2ab",
+      "loginForm": true,
+      "location": null
+    },
+    {
+      "path": "/",
+      "status": 307,
+      "ms": 159,
+      "region": "sin1::sin1::g7g6v-1792945444079-da4018253f5b",
+      "loginForm": false,
+      "location": "/login"
+    },
+    {
+      "path": "/login",
+      "status": 200,
+      "ms": 411,
+      "region": "sin1::sin1::cdpw9-1792945444300-39ac8f001136",
+      "loginForm": true,
+      "location": null
+    },
+    {
+      "path": "/",
+      "status": 307,
+      "ms": 154,
+      "region": "sin1::sin1::g7g6v-1792945444664-06039e87ec0e",
+      "loginForm": false,
+      "location": "/login"
+    },
+    {
+      "path": "/login",
+      "status": 200,
+      "ms": 86,
+      "region": "sin1::sin1::8jnjt-1792945444806-d47eb8229760",
+      "loginForm": true,
+      "location": null
+    },
+    {
+      "path": "/",
+      "status": 307,
+      "ms": 373,
+      "region": "sin1::sin1::vstsp-1792945444901-ebc0e4903681",
+      "loginForm": false,
+      "location": "/login"
+    }
+  ],
+  "deployment": "dpl_A2eDmJ73c3siePwSh7U3f1777efc"
+}

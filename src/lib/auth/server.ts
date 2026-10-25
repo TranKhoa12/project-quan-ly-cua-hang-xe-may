@@ -6,6 +6,7 @@ import { createServerClient } from '@supabase/ssr';
 import { createClient } from '@supabase/supabase-js';
 import { createHmac } from 'node:crypto';
 import { isRole, type Actor } from './permissions';
+import { hasAuthCookie } from './cookie-presence';
 
 export async function sessionClient() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -32,6 +33,8 @@ export function adminClient() {
 }
 
 export const currentActor = cache(async (): Promise<Actor | null> => {
+  const jar = await cookies();
+  if (!hasAuthCookie(jar.getAll().map(cookie => cookie.name), process.env.NEXT_PUBLIC_SUPABASE_URL)) return null;
   const client = await sessionClient();
   const { data: { user }, error } = await client.auth.getUser();
   if (error || !user) return null;

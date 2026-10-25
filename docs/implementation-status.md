@@ -17,7 +17,7 @@ Cập nhật: 25/10/2026. Đây là nguồn phân biệt code hiện có với y
 | Bảo mật | 25 kiểm tra tích hợp JWT/RLS/HTTP/Server Action đã pass trên project mới, fixtures được dọn; signup tắt | Chưa test Storage hoặc giao dịch kho/tiền đồng thời; chưa E2E browser |
 | Bộ quy trình AI | AGENTS.md, 5 skill và tài liệu luồng/hợp đồng/test/release | Đã viết; validator cấu trúc không chứng minh AI luôn làm đúng |
 | Kiểm thử tự động | Unit nghiệp vụ/cấu hình/quyền/storage; `test:auth` chạy JWT/RLS/HTTP thật, build/typecheck | Chưa runner transaction kho/tiền hoặc E2E browser |
-| Triển khai | Supabase đã cấu hình; Vercel production cập nhật tại `https://dangkietmoto.vercel.app`, deployment `dpl_9nUaPyj8ZeLUfp38TBoo2DUGRzgD` READY; đã cấu hình 3 env Auth | HTTP production: login 200 có form, / và /staff và /account redirect 307 về login; chưa browser QA hoặc nghiệm thu nghiệp vụ kinh doanh |
+| Triển khai | Vercel production `https://dangkietmoto.vercel.app`, deployment `dpl_A2eDmJ73c3siePwSh7U3f1777efc` READY tại sin1 gần Supabase Singapore; 3 env Auth, font tự host | 20 unit pass; HTTP guard/cookie giả pass; số đo login trung vị 466→162ms trong 3 lượt, xem `docs/features/performance.md`; chưa browser QA hoặc nghiệm thu nghiệp vụ kinh doanh |
 
 ## Quy tắc cập nhật
 
