@@ -60,7 +60,7 @@ npm.cmd start
 - `/`: tổng quan, doanh thu trong ngày, tiến độ sửa chữa, cảnh báo tồn kho.
 - `/repairs`: tìm/lọc phiếu, tiếp nhận xe, phân công thợ, cập nhật tiến độ, xuất phụ tùng, ghi nhận thu thêm, in phiếu.
 - `/sales`: chọn phụ tùng, chỉnh số lượng, thanh toán mẫu, trừ tồn và xem lịch sử bán.
-- `/parts`: tìm phụ tùng, lọc hàng sắp hết, thêm danh mục và nhập kho.
+- `/parts`: danh mục Supabase thật; tên/nhóm/thương hiệu gợi ý và cho nhập mới; cảnh báo trùng, lưu từ mới sau khi tạo thành công. Tạo danh mục có tồn 0, không nhập hàng.
 - `/purchases`: nhập hàng và xem lịch sử giao dịch kho.
 - `/customers`: thêm khách và xe, xem số phiếu sửa và khoản còn phải thu.
 - `/cashbook`: tổng hợp tiền đã thu; chưa có nghiệp vụ chi.
@@ -76,7 +76,7 @@ npm.cmd start
 
 Ứng dụng khởi tạo trống, không còn khách hàng, xe, phụ tùng, phiếu sửa, đơn bán hoặc nhân viên mẫu. Khi mở phiên bản mới, key `motocare-demo-v1` được xóa; dữ liệu mới lưu bằng `motocare-workspace-v2`. Thông tin cửa hàng được giữ riêng. Fixture tổng hợp chỉ nằm trong tests, không được import vào ứng dụng hoặc seed lên Supabase.
 
-Đã có đăng nhập, guard server, quyền Auth/RLS và quản lý nhân viên thật. Nghiệp vụ ghi kho/tiền cũ vẫn chỉ là prototype của quản lý, được tách localStorage theo user ID; nhân viên có workspace đọc Supabase theo quyền. Chưa đồng bộ các thao tác ghi nghiệp vụ và chưa dùng được như sổ sách kinh doanh thật.
+Đã có đăng nhập, guard server, quyền Auth/RLS, quản lý nhân viên và tạo danh mục phụ tùng thật. Trang `/parts` lưu Supabase; dữ liệu cũ từ prototype không tự chuyển lên database. Nghiệp vụ ghi kho/tiền cũ vẫn chỉ là prototype của quản lý, được tách localStorage theo user ID; nhân viên có workspace đọc Supabase theo quyền. Chưa đồng bộ các thao tác ghi nghiệp vụ và chưa dùng được như sổ sách kinh doanh thật.
 
 Phiếu mẫu dùng ngày tạo để phân nhóm báo cáo; khi triển khai thật phải dùng ngày chốt, ngày bàn giao và ngày thanh toán tương ứng. Một khách trong UI mẫu gắn một xe; schema thật đã tách nhiều xe/khách. Nhập kho mẫu chưa tạo khoản chi/phải trả nhà cung cấp. Chưa có giữ kho, trả hàng, duyệt báo giá, hóa đơn điện tử, kiểm kê hoặc xử lý mất mạng. Chưa có lợi nhuận sửa chữa vì cần chốt giá vốn từng lần xuất dùng.
 

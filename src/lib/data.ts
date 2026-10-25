@@ -1,5 +1,5 @@
 export type Customer = { id: string; name: string; phone: string; plate: string; vehicle: string };
-export type Part = { id: string; name: string; category: string; brand: string; stock: number; min: number; price: number; cost: number };
+export type Part = { id: string; sku?: string; name: string; category: string; brand: string; stock: number; min: number; price: number; cost: number };
 export type Repair = { id: string; customerId: string; issue: string; status: string; technician: string; labor: number; paid: number; items: { partId: string; quantity: number; price: number }[]; createdAt: string };
 export type Sale = { id: string; customer: string; items: { partId: string; name: string; quantity: number; price: number; cost: number }[]; total: number; method: string; createdAt: string };
 export type Movement = { id: string; partId: string; quantity: number; reason: string; createdAt: string };
