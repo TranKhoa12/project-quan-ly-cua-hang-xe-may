@@ -1,9 +1,10 @@
 'use client';
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
-import { Plus, RefreshCw, Printer, Trash2 } from 'lucide-react';
+import Link from 'next/link';
+import { ArrowRight, PackagePlus, ShoppingCart, Plus, RefreshCw, Printer, Trash2 } from 'lucide-react';
 import { money, dateLabel } from '@/lib/data';
-import type { Actor } from '@/lib/auth/permissions';
+import { canAccess, type Actor } from '@/lib/auth/permissions';
 import { garageCommand } from './actions';
 import { repairLabels, type GarageSnapshot, type RepairRow, type StockPart, type Store } from './types';
 
@@ -65,7 +66,12 @@ function Stats({data}:{data:GarageSnapshot}){
 function Dates(){const router=useRouter(),path=usePathname(),params=useSearchParams();const today=new Date().toLocaleDateString('en-CA',{timeZone:'Asia/Ho_Chi_Minh'});return <form className="live-dates" onSubmit={e=>{e.preventDefault();const f=new FormData(e.currentTarget);const p=new URLSearchParams();p.set('from',text(f,'from'));p.set('to',text(f,'to'));router.push(`${path}?${p}`);}}><Field label="Từ ngày" name="from" type="date" defaultValue={params.get('from')||`${today.slice(0,7)}-01`} required/><Field label="Đến ngày" name="to" type="date" defaultValue={params.get('to')||today} required/><button className="button">Xem báo cáo</button></form>;}
 export default function LiveWorkspace({actor,section,data,error}:{actor:Actor;section:string;data?:GarageSnapshot;error?:string}){
  const router=useRouter();
- return <div className="live-workspace"><div className="catalog-toolbar"><p>Dữ liệu đồng bộ từ Supabase</p><button className="button" onClick={()=>router.refresh()}><RefreshCw size={16}/>Tải lại</button></div>
+ return <div className="live-workspace">
+ {section==='dashboard'&&canAccess(actor.role,'sales')&&<nav className="live-dashboard-actions" aria-label="Thao tác nhanh">
+  <Link href="/sales" className="live-dashboard-action live-dashboard-sale"><ShoppingCart size={32} aria-hidden="true"/><span><strong>Bán phụ tùng</strong><small>Lên đơn và thu tiền tại quầy</small></span><ArrowRight size={24} aria-hidden="true"/></Link>
+  {canAccess(actor.role,'purchases')&&<Link href="/purchases" className="live-dashboard-action live-dashboard-purchase"><PackagePlus size={32} aria-hidden="true"/><span><strong>Nhập phụ tùng</strong><small>Lập phiếu nhập hàng vào kho</small></span><ArrowRight size={24} aria-hidden="true"/></Link>}
+ </nav>}
+ <div className="catalog-toolbar"><p>Dữ liệu đồng bộ từ Supabase</p><button className="button" onClick={()=>router.refresh()}><RefreshCw size={16}/>Tải lại</button></div>
  {error||!data?<p role="alert" className="auth-error">{error||'Không tải được dữ liệu.'}</p>:<>
  {data.partCount>data.parts.length&&<p className="auth-error">Đang tải {data.parts.length}/{data.partCount} phụ tùng để lựa chọn. Cần thu hẹp danh mục trước khi thao tác hàng ngoài danh sách.</p>}
  {['dashboard','cashbook','reports'].includes(section)&&<><Dates/><Stats data={data}/><p className="form-hint">Doanh thu, thu/chi và lợi nhuận theo khoảng ngày đã chọn (giờ Việt Nam). Công nợ, tồn kho và số xe là số hiện tại. Lợi nhuận gộp chưa trừ chi phí vận hành.</p></>}
