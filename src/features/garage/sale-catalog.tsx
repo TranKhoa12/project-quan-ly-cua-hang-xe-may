@@ -23,9 +23,10 @@ function PartIllustration({name}:{name:string}) {
 export default function SaleCatalog({parts,quantities,onAdd}:{parts:StockPart[];quantities:Record<string,number>;onAdd:(part:StockPart)=>void}) {
  const [query,setQuery]=useState(''),[category,setCategory]=useState('');
  const normalize=(value:string)=>value.normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/đ/g,'d').toLowerCase();
- const matches=parts.filter(p=>(!category||p.category===category)&&normalize(`${p.name} ${p.sku} ${p.brand}`).includes(normalize(query.trim())));
+ const sellable=parts.filter(p=>p.pos_visible!==false);
+ const matches=sellable.filter(p=>(!category||p.category===category)&&normalize(`${p.name} ${p.sku} ${p.brand}`).includes(normalize(query.trim())));
  return <section className="sale-catalog" aria-label="Chọn phụ tùng bằng hình">
-  <div className="sale-catalog-filters"><label className="field">Tìm phụ tùng<input type="search" value={query} onChange={e=>setQuery(e.target.value)} placeholder="Tên, mã hoặc thương hiệu…"/></label><label className="field">Nhóm phụ tùng<select value={category} onChange={e=>setCategory(e.target.value)}><option value="">Tất cả nhóm</option>{Array.from(new Set(parts.map(p=>p.category))).filter(Boolean).sort().map(c=><option key={c} value={c}>{c}</option>)}</select></label></div>
+  <div className="sale-catalog-filters"><label className="field">Tìm phụ tùng<input type="search" value={query} onChange={e=>setQuery(e.target.value)} placeholder="Tên, mã hoặc thương hiệu…"/></label><label className="field">Nhóm phụ tùng<select value={category} onChange={e=>setCategory(e.target.value)}><option value="">Tất cả nhóm</option>{Array.from(new Set(sellable.map(p=>p.category))).filter(Boolean).sort().map(c=><option key={c} value={c}>{c}</option>)}</select></label></div>
   <p className="form-hint">Hình minh họa theo loại phụ tùng. Đối chiếu tên và mã hàng trước khi bán.</p>
   {Object.keys(quantities).length>=100&&<p role="status">Đơn đã đủ 100 mặt hàng. Thanh toán đơn này trước khi tạo đơn tiếp.</p>}
   <div className="sale-catalog-grid">{matches.map(p=>{const quantity=quantities[p.id]||0;return <button key={p.id} type="button" className="sale-product" disabled={p.stock<=quantity||(!quantity&&Object.keys(quantities).length>=100)} onClick={()=>onAdd(p)} aria-label={`Thêm ${p.name}, mã ${p.sku} vào đơn`}>

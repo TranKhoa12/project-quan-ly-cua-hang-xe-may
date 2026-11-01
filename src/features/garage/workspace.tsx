@@ -1,41 +1,17 @@
 'use client';
-import { useEffect, useRef, useState, type ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import Link from 'next/link';
 import SalePos from './sale-pos';
 import { ArrowRight, PackagePlus, ShoppingCart, Plus, RefreshCw, Printer, Trash2 } from 'lucide-react';
 import { money, dateLabel } from '@/lib/data';
 import { canAccess, type Actor } from '@/lib/auth/permissions';
-import { garageCommand } from './actions';
+import { CommandForm } from './command-form';
+import PurchaseIntake from './purchase-intake';
 import { repairLabels, type GarageSnapshot, type RepairRow, type StockPart, type Store } from './types';
 
-type Payload=Record<string,unknown>;
 const text=(f:FormData,k:string)=>String(f.get(k)||'').trim();
 const num=(f:FormData,k:string)=>Number(f.get(k)||0);
-export function CommandForm({action,build,children,label,onSuccess,reset=false}:{action:string;build:(f:FormData)=>Payload;children:ReactNode;label:string;onSuccess?:()=>void;reset?:boolean}) {
- const router=useRouter();const ref=useRef<HTMLFormElement>(null);
- const request=useRef<{key:string;json:string;payload:Payload}|null>(null);
- const [busy,setBusy]=useState(false),[error,setError]=useState(''),[success,setSuccess]=useState(''),[uncertain,setUncertain]=useState(false);
- async function send(payload:Payload){
-  if(busy)return;
-  const json=JSON.stringify(payload);
-  if(!request.current||request.current.json!==json)request.current={key:crypto.randomUUID(),json,payload};
-  setBusy(true);setError('');setSuccess('');
-  try{
-   const result=await garageCommand(action,payload,request.current.key);
-   if(result.error){setError(result.error);setUncertain(!!result.uncertain);return;}
-   request.current=null;setUncertain(false);setSuccess('Đã lưu trên Supabase.');if(reset)ref.current?.reset();
-   onSuccess?.();router.refresh();
-   if(action==='settings')window.dispatchEvent(new Event('shop-settings-updated'));
-  }catch{setError('Chưa xác nhận kết quả. Thử lại cùng yêu cầu bên dưới.');setUncertain(true);}
-  finally{setBusy(false);}
- }
- return <form ref={ref} aria-busy={busy} className="live-form" onSubmit={e=>{e.preventDefault();void send(build(new FormData(e.currentTarget)));}}>
-  <fieldset disabled={busy||uncertain}>{children}<button className="button primary" type="submit">{busy?'Đang lưu…':label}</button></fieldset>
-  {error&&<p className="auth-error" role="alert">{error}</p>}{success&&<p className="auth-success" role="status">{success}</p>}
-  {uncertain&&<button className="button" type="button" disabled={busy} onClick={()=>request.current&&void send(request.current.payload)}>Kiểm tra lại cùng yêu cầu</button>}
- </form>;
-}
 function Field({label,...props}:{label:string}&React.InputHTMLAttributes<HTMLInputElement>){return <label className="field">{label}<input {...props}/></label>;}
 function Method(){return <label className="field">Phương thức<select name="method" defaultValue="cash"><option value="cash">Tiền mặt</option><option value="transfer">Chuyển khoản</option></select></label>;}
 function Panel({title,children}:{title:string;children:ReactNode}){return <section className="panel live-panel"><h3>{title}</h3>{children}</section>;}
@@ -95,8 +71,7 @@ export default function LiveWorkspace({actor,section,data,error}:{actor:Actor;se
 }
 function Customers({data}:{data:GarageSnapshot}){return <div className="live-grid"><Panel title="Thêm khách hàng"><CommandForm action="customer" label="Lưu khách hàng" reset build={f=>({name:text(f,'name'),phone:text(f,'phone'),address:text(f,'address')})}><Field label="Tên khách" name="name" required maxLength={180}/><Field label="Số điện thoại" name="phone" maxLength={30}/><Field label="Địa chỉ" name="address" maxLength={250}/></CommandForm></Panel><Panel title="Thêm xe cho khách"><CommandForm action="vehicle" label="Lưu xe" reset build={f=>({customerId:text(f,'customerId'),plate:text(f,'plate'),model:text(f,'model')})}><label className="field">Khách hàng<select name="customerId" required defaultValue=""><option value="">Chọn khách trên trang này</option>{data.customers?.map(c=><option key={c.id} value={c.id}>{c.name} · {c.phone}</option>)}</select></label><Field label="Biển số" name="plate" required maxLength={30}/><Field label="Hãng / dòng xe" name="model" required maxLength={100}/></CommandForm></Panel><Panel title="Khách hàng và xe">{!data.customers?.length?<Empty/>:data.customers.map(c=><details key={c.id} className="live-document"><summary>{c.name} · {c.phone}</summary><p>{c.address}</p>{data.vehicles?.filter(v=>v.customer_id===c.id).map(v=><p key={v.id}>{v.plate} · {v.model}</p>)}</details>)}<Pager count={data.customerCount||0} page={data.page}/>{(data.vehicleCount||0)>(data.vehicles?.length||0)&&<p className="form-hint">Danh sách lựa chọn xe giới hạn 2.000 xe mới nhất.</p>}</Panel></div>;}
 function Purchases({data}:{data:GarageSnapshot}){
- const [lines,setLines]=useState<DraftLine[]>([{partId:'',quantity:1,cost:0}]);const total=lines.reduce((s,l)=>s+l.quantity*l.cost,0);
- return <><div className="live-grid"><Panel title="Nhà cung cấp mới"><CommandForm action="supplier" label="Lưu nhà cung cấp" reset build={f=>({name:text(f,'name'),phone:text(f,'phone')})}><Field label="Tên nhà cung cấp" name="name" required maxLength={180}/><Field label="Số điện thoại" name="phone" maxLength={30}/></CommandForm></Panel><Panel title="Nhận hàng vào kho"><CommandForm action="purchase" label="Chốt nhập hàng" build={f=>({supplierId:text(f,'supplierId'),lines,paid:num(f,'paid'),method:text(f,'method')})} onSuccess={()=>setLines([{partId:'',quantity:1,cost:0}])} reset><label className="field">Nhà cung cấp<select name="supplierId" required defaultValue=""><option value="">Chọn nhà cung cấp</option>{data.suppliers?.map(s=><option key={s.id} value={s.id}>{s.name}</option>)}</select></label><LineEditor parts={data.parts} lines={lines} setLines={setLines} purchase/><p>Tổng nhập: <strong>{money(total)}</strong></p><Field label="Đã trả nhà cung cấp (đ)" type="number" name="paid" min={0} max={total} step={1} defaultValue={0} required/><Method/></CommandForm></Panel></div><Panel title="Phiếu nhập đã chốt">{data.purchases?.map(p=><details key={p.id} className="live-document"><summary>NK-{p.code} · {p.supplier_snapshot.name} · {money(p.total)} · {dateLabel(p.created_at)}</summary><StoreHeader store={p.store_snapshot}/>{p.items.map((i,n)=><p key={n}>{i.name} × {i.quantity} · {money(i.cost)}/đơn vị</p>)}<p>Đã trả: {money(p.paid)} · Còn phải trả: <strong>{money(p.total-p.paid)}</strong></p>{p.paid<p.total&&<CommandForm key={p.paid} action="purchase_payment" label="Ghi nhận trả nhà cung cấp" build={f=>({id:p.id,amount:num(f,'amount'),method:text(f,'method')})}><Field label="Số tiền trả thêm (đ)" name="amount" type="number" min={1} max={p.total-p.paid} step={1} required/><Method/></CommandForm>}<PrintButton/></details>)}{!data.purchases?.length&&<Empty/>}<Pager count={data.purchaseCount||0} page={data.page}/></Panel><MovementTable data={data}/></>;
+ return <><PurchaseIntake data={data}/><details className="purchase-history"><summary>Phiếu nhập đã chốt ({data.purchaseCount||0})</summary><Panel title="Phiếu nhập đã chốt">{data.purchases?.map(p=><details key={p.id} className="live-document"><summary>NK-{p.code} · {p.supplier_snapshot.name} · {money(p.total)} · {dateLabel(p.created_at)}</summary><StoreHeader store={p.store_snapshot}/>{p.items.map((i,n)=><p key={n}>{i.name} × {i.quantity} · {money(i.cost)}/đơn vị</p>)}<p>Đã trả: {money(p.paid)} · Còn phải trả: <strong>{money(p.total-p.paid)}</strong></p>{p.paid<p.total&&<CommandForm key={p.paid} action="purchase_payment" label="Ghi nhận trả nhà cung cấp" build={f=>({id:p.id,amount:num(f,'amount'),method:text(f,'method')})}><Field label="Số tiền trả thêm (đ)" name="amount" type="number" min={1} max={p.total-p.paid} step={1} required/><Method/></CommandForm>}<PrintButton/></details>)}{!data.purchases?.length&&<Empty/>}<Pager count={data.purchaseCount||0} page={data.page}/></Panel></details><details className="purchase-history"><summary>Lịch sử kho</summary><MovementTable data={data}/></details></>;
 }
 function Sales({data,manager}:{data:GarageSnapshot;manager:boolean}){
  return <><SalePos data={data}/><details className="sale-history"><summary>Lịch sử đơn bán</summary><Panel title="Đơn bán đã chốt">{data.sales?.map(s=><details className="live-document" key={s.id}><summary>BH-{s.code} · {s.customer_name} · {money(s.total)} · {dateLabel(s.created_at)}</summary><StoreHeader store={s.store_snapshot}/><p>Đã thu đủ · {s.payment_method==='cash'?'Tiền mặt':'Chuyển khoản'}</p>{s.items.map(i=><div key={i.id}><p>{i.name} × {i.quantity} · {money(i.price)}/đơn vị {i.returned>0&&`· Đã trả ${i.returned}`}</p>{manager&&i.returned<i.quantity&&<details className="no-print"><summary>Nhận trả hàng / hoàn tiền</summary><CommandForm key={i.returned} action="sale_return" label="Nhận trả và hoàn tiền" build={f=>({itemId:i.id,quantity:num(f,'quantity'),reason:text(f,'reason'),resellable:f.get('resellable')==='on',method:text(f,'method')})}><Field label="Số lượng trả" type="number" name="quantity" min={1} max={i.quantity-i.returned} step={1} required/><Field label="Lý do" name="reason" required maxLength={500}/><label className="live-check"><input name="resellable" type="checkbox" required/>Đã kiểm tra hàng còn bán được và nhập lại kho</label><Method/></CommandForm></details>}</div>)}<PrintButton/></details>)}{!data.sales?.length&&<Empty/>}<Pager count={data.saleCount||0} page={data.page}/></Panel></details></>;

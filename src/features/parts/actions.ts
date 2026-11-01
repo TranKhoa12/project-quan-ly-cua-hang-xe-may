@@ -8,12 +8,12 @@ export async function loadPartCatalog():Promise<{parts:Part[];terms:PartTerm[];e
   await requireManager();
   const client=await sessionClient();
   const [parts,terms]=await Promise.all([
-    client.from('parts').select('id,sku,name,category,brand,sale_price,minimum_stock,part_costs(average_cost),stock_balances(quantity)',{count:'exact'}).eq('active',true).order('created_at',{ascending:false}).limit(1000),
+    client.from('parts').select('id,sku,name,category,brand,sale_price,minimum_stock,pos_visible,details_version,part_costs(average_cost),stock_balances(quantity)',{count:'exact'}).eq('active',true).order('created_at',{ascending:false}).limit(1000),
     client.from('part_terms').select('id,kind,name,aliases,category').order('name').limit(2000),
   ]);
   if(parts.error||terms.error)return {parts:[],terms:[],count:0,error:'Không tải được danh mục phụ tùng. Vui lòng thử lại, không dùng dữ liệu cục bộ thay thế.'};
   const first=(value:unknown):Record<string,unknown>=> (Array.isArray(value)?value[0]:value) as Record<string,unknown> || {};
-  return {parts:(parts.data||[]).map(p=>({id:p.id,sku:p.sku,name:p.name,category:p.category,brand:p.brand,price:Number(p.sale_price),cost:Number(first(p.part_costs).average_cost||0),stock:Number(first(p.stock_balances).quantity||0),min:p.minimum_stock})),terms:(terms.data||[]) as PartTerm[],count:parts.count||0};
+  return {parts:(parts.data||[]).map(p=>({id:p.id,sku:p.sku,name:p.name,category:p.category,brand:p.brand,price:Number(p.sale_price),cost:Number(first(p.part_costs).average_cost||0),stock:Number(first(p.stock_balances).quantity||0),min:p.minimum_stock,pos_visible:p.pos_visible,details_version:p.details_version})),terms:(terms.data||[]) as PartTerm[],count:parts.count||0};
 }
 
 export async function savePart(input:PartInput):Promise<PartSaveResult> {

@@ -19,6 +19,7 @@ export default function SaleCart({parts,draft,onDraft,store,confirmed,onConfirm,
   <small>{part.sku} · {money(part.price)}/đơn vị</small>
   <div className="sale-cart-item-bottom"><div className="sale-quantity"><button type="button" aria-label={`Giảm số lượng ${part.name}`} disabled={line.quantity<=1} onClick={()=>update(part.id,line.quantity-1)}><Minus size={16}/></button><input aria-label={`Số lượng ${part.name}`} type="number" min={1} max={part.stock} step={1} required value={line.quantity||''} onChange={e=>update(part.id,Number(e.target.value))}/><button type="button" aria-label={`Tăng số lượng ${part.name}`} disabled={line.quantity>=part.stock} onClick={()=>update(part.id,line.quantity+1)}><Plus size={16}/></button></div><strong>{money(part.price*line.quantity)}</strong></div>
   {line.quantity>part.stock&&<p role="alert">Tồn kho hiện còn {part.stock}. Hãy giảm số lượng.</p>}
+  {part.pos_visible===false&&<p role="alert">Hàng đã ẩn khỏi POS. Hãy xóa khỏi đơn trước khi thanh toán.</p>}
  </div>;})}</div>
  <label className="field">Khách hàng<input name="customer" value={draft.customer} onChange={e=>onDraft({...draft,customer:e.target.value})} maxLength={180} placeholder="Khách lẻ (không bắt buộc nhập)"/></label>
  <div className="sale-cart-total"><span>Tổng thanh toán</span><strong>{money(total)}</strong></div>

@@ -5,6 +5,11 @@ import { canAccess } from '@/lib/auth/permissions';
 import type { GarageSnapshot, SaleRow, Store } from './types';
 
 const messages:Record<string,string>={
+ PART_DETAILS_INVALID:'Tên, nhóm và thương hiệu không được để trống. Tên tối đa 180 ký tự; nhóm và thương hiệu tối đa 100 ký tự.',
+ PART_DETAILS_DUPLICATE:'Tên và thương hiệu này đã có ở một mặt hàng khác. Hãy đổi thông tin hoặc dùng mặt hàng đã có.',
+ PART_DUPLICATE:'Có mặt hàng mới trùng tên và thương hiệu trong kho. Hãy chọn hàng đã có thay vì tạo mới; chưa chốt phiếu nhập.',
+ PART_SIMILAR:'Có mặt hàng tên gần giống. Đối chiếu và đánh dấu xác nhận hàng khác tại dòng mới trước khi chốt; chưa lưu phiếu nhập.',
+ PART_HIDDEN:'Có mặt hàng đã bị ẩn khỏi POS. Hãy kiểm tra lại trạng thái và xóa hàng đó khỏi đơn trước khi thanh toán.',
  PAYMENT_PENDING:'Có yêu cầu thanh toán cần kiểm tra. Hãy tải lại trạng thái POS trước khi tiếp tục.',
  PAYMENT_CONFIRMATION_REQUIRED:'Cần xác nhận đã nhận đủ tiền trước khi chốt đơn.',
  UNAUTHENTICATED:'Phiên đăng nhập không còn hợp lệ. Hãy đăng nhập lại.',FORBIDDEN:'Bạn không có quyền thực hiện thao tác này.',
@@ -22,14 +27,22 @@ export async function loadGarage(section:string,page=0,from?:string,to?:string):
  const c=await sessionClient();
  const {data,error}=await c.rpc('garage_snapshot',{p_section:section,p_page:page,p_from:from||null,p_to:to||null});
  if(error)return {error:'Không tải được dữ liệu Supabase. Vui lòng thử lại.'};
+ if(section==='purchases'){
+  const terms=await c.from('part_terms').select('id,kind,name,aliases,category').order('name').limit(2000);
+  if(terms.error)return {error:'Không tải được gợi ý mặt hàng. Vui lòng tải lại trước khi nhập hàng.'};
+  return {data:{...data,partTerms:terms.data} as GarageSnapshot};
+ }
  return {data:data as GarageSnapshot};
 }
-export async function garageCommand(action:string,payload:Record<string,unknown>,requestId:string):Promise<{result?:{id:string|null;action:string;total:number;receipt?:SaleRow};error?:string;uncertain?:boolean}> {
- await requireActor();
+export async function garageCommand(action:string,payload:Record<string,unknown>,requestId:string):Promise<{result?:{id:string|null;action:string;total:number;receipt?:SaleRow;partDetails?:{id:string;name:string;category:string;brand:string;details_version:number}};error?:string;uncertain?:boolean}> {
+ const actor=await requireActor();
+ if(action==='part_details'&&actor.role!=='manager')return {error:messages.FORBIDDEN};
  if(!/^[a-f0-9-]{36}$/i.test(requestId)||!payload||JSON.stringify(payload).length>100000)return {error:messages.VALIDATION_ERROR};
  const c=await sessionClient();
  try{
-  const {data,error}=await c.rpc('garage_command',{p_action:action,p_payload:payload,p_request_id:requestId});
+  const {data,error}=action==='part_details'
+   ?await c.rpc('update_part_details',{p_payload:payload,p_request_id:requestId})
+   :await c.rpc('garage_command',{p_action:action,p_payload:payload,p_request_id:requestId});
   if(error){
    const known=Object.keys(messages).find(key=>error.message.includes(key));
    if(known)return {error:messages[known]};
