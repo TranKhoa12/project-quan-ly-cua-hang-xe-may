@@ -35,7 +35,10 @@ try {
   await c.query("select set_config('request.jwt.claim.sub',$1,false),set_config('request.jwt.claims',$2,false)",[id,JSON.stringify({sub:id,session_id:session})]);
   users[name]={c,id,session};
  }
- const cmd=async(c,action,payload,key=randomUUID())=>(await c.query('select public.garage_command($1,$2,$3) as r',[action,payload,key])).rows[0].r;
+ const cmd=async(c,action,payload,key=randomUUID())=>{
+  const body=action==='sale'?{receivedConfirmed:true,cashReceived:payload.lines.reduce((s,l)=>s+l.quantity*l.price,0),...payload}:payload;
+  return (await c.query('select public.garage_command($1,$2,$3) as r',[action,body,key])).rows[0].r;
+ };
  const snap=async(c,section)=>(await c.query('select public.garage_snapshot($1) as r',[section])).rows[0].r;
  const m=users.manager.c,sales=users.sales.c,t=users.tech.c;
  const supplier=(await cmd(m,'supplier',{name:'Synthetic supplier',phone:''})).id;
@@ -106,7 +109,55 @@ try {
  check((await root.query('select count(*) from public.sales_orders')).rows[0].count===rowsBefore&&(await snap(m,'parts')).parts.find(x=>x.id===p1).stock===stockBefore,'failure after stock update rolls back sale, items, cost, movements and stock');
  assert.deepEqual((await root.query('select (select count(*) from public.stock_movements) as moves,(select count(*) from public.sales_order_items) as items,(select count(*) from public.sale_item_costs) as costs')).rows[0],ledgerBefore);check(true,'failure leaves no orphan item, cost snapshot or movement');
  await root.query('drop trigger test_fail on public.cash_entries');
+ // POS configuration, persisted drafts, uncertain-result recovery and permission boundaries.
+ const bankVersion=(await snap(m,'settings')).store.version;
+ const bank={version:bankVersion,bank_code:'970000',bank_name:'Synthetic bank',bank_account:'12345678',bank_holder:'SYNTHETIC ACCOUNT'};
+ await assert.rejects(()=>cmd(sales,'bank_settings',bank),/FORBIDDEN/);check(true,'cashier cannot change receiving bank');
+ await assert.rejects(()=>cmd(m,'bank_settings',{...bank,bank_account:'123/x'}),/VALIDATION_ERROR/);check(true,'malformed bank account rejected');
+ const bankKey=randomUUID();await cmd(m,'bank_settings',bank,bankKey);await cmd(m,'bank_settings',bank,bankKey);
+ check((await snap(sales,'sales')).store.bank_account==='12345678','bank settings persist and are available to cashier; retry is idempotent');
+ await assert.rejects(()=>cmd(m,'bank_settings',bank),/VERSION_CONFLICT/);check(true,'stale bank form cannot overwrite settings');
+ const draft=async(c,op,revision=0,body={})=>(await c.query('select public.garage_pos_draft($1,$2,$3) as r',[op,revision,body])).rows[0].r;
+ await assert.rejects(()=>draft(t,'load'),/FORBIDDEN/);
+ await assert.rejects(()=>sales.query('select * from public.pos_drafts'),/permission/);
+ await assert.rejects(()=>sales.query('select public.pos_receipt($1)',[sale.id]),/permission/);
+ await assert.rejects(()=>sales.query("select public.garage_command_core('sale','{}',$1)",[randomUUID()]),/permission/);
+ check(true,'draft table, receipt helper and old core cannot bypass guarded RPCs');
+ let state=await draft(sales,'save',0,{lines:[{partId:p1,quantity:1,cost:0}],customer:'Synthetic POS',method:'cash',cashReceived:'200'});
+ check((await draft(sales,'load')).body.customer==='Synthetic POS','draft reload restores server data');
+ check(!(await draft(m,'load'))?.body?.customer,'cashier draft is isolated by authenticated actor');
+ await assert.rejects(()=>draft(sales,'save',0,{}),/VERSION_CONFLICT/);check(true,'stale second tab cannot overwrite draft');
+ const posCommand={pos:true,receivedConfirmed:true,cashReceived:200,customer:'Synthetic POS',method:'cash',lines:[{partId:p1,quantity:1,price:120}]};
+ await assert.rejects(()=>cmd(sales,'sale',{...posCommand,pos:false,receivedConfirmed:false}),/PAYMENT_CONFIRMATION_REQUIRED/);check(true,'server requires explicit received-money confirmation');
+ await assert.rejects(()=>cmd(sales,'sale',{...posCommand,pos:false,cashReceived:1}),/PAYMENT_REQUIRED/);check(true,'server rejects insufficient received cash');
+ const posKey=randomUUID();state=await draft(sales,'prepare',state.revision,{draft:state.body,command:posCommand,requestId:posKey});
+ check((await draft(sales,'load')).request_id===posKey,'pending payment retains exact request key across reload');
+ await assert.rejects(()=>draft(sales,'save',state.revision,{}),/PAYMENT_PENDING/);
+ await assert.rejects(()=>draft(sales,'clear',state.revision),/PAYMENT_PENDING/);
+ await assert.rejects(()=>cmd(sales,'sale',posCommand),/PAYMENT_PENDING/);check(true,'pending payment blocks edits, clear and a different payment request');
+ const posSale=await cmd(sales,'sale',posCommand,posKey);
+ const posRetry=await cmd(sales,'sale',posCommand,posKey);
+ check(posSale.id===posRetry.id&&posSale.receipt.code===posRetry.receipt.code&&posSale.receipt.items.length===1,'retry returns same printable server receipt without another sale');
+ state=await draft(sales,'load');check(state.status==='completed'&&state.body.receipt.id===posSale.id,'committed payment and recoverable result are stored atomically');
+ const completedRevision=state.revision;state=await draft(sales,'clear',state.revision);
+ await assert.rejects(()=>draft(sales,'save',completedRevision,{}),/VERSION_CONFLICT/);check(true,'cleared draft keeps increasing revision to reject stale tabs');
+ const lateKey=randomUUID();state=await draft(sales,'prepare',state.revision,{draft:{lines:[]},command:posCommand,requestId:lateKey});
+ state=await draft(sales,'resume',state.revision);
+ await assert.rejects(()=>cmd(sales,'sale',posCommand,lateKey),/PAYMENT_PENDING/);check(true,'reopening an uncommitted request cancels a delayed old payment safely');
+ const badKey=randomUUID(),badCommand={...posCommand,lines:[{partId:p1,quantity:1,price:1}]};
+ state=await draft(sales,'prepare',state.revision,{draft:{lines:[]},command:badCommand,requestId:badKey});
+ await assert.rejects(()=>cmd(sales,'sale',badCommand,badKey),/PRICE_CHANGED/);
+ check((await draft(sales,'load')).status==='pending','failed sale preserves original pending request for reconciliation');
+ state=await draft(sales,'resume',state.revision);check(state.status==='editing','checking failed payment restores editable draft without creating a sale');
+ // Failure in the ledger must leave the POS draft pending, not completed.
+ const failPosKey=randomUUID();state=await draft(sales,'prepare',state.revision,{draft:{lines:[]},command:posCommand,requestId:failPosKey});
+ await root.query('create trigger test_fail before insert on public.cash_entries for each row execute function public.test_fail_cash()');
+ await assert.rejects(()=>cmd(sales,'sale',posCommand,failPosKey),/INJECTED_FAILURE/);
+ check((await draft(sales,'load')).status==='pending'&&!(await root.query('select 1 from public.garage_requests where request_id=$1',[failPosKey])).rowCount,'transaction rollback cannot publish a completed POS receipt');
+ await root.query('drop trigger test_fail on public.cash_entries');
+ await draft(sales,'resume',state.revision);
  await root.query('update public.profiles set active=false where id=$1',[users.sales.id]);
+ await assert.rejects(()=>draft(sales,'load'),/UNAUTHENTICATED/);check(true,'disabled cashier cannot recover or read POS draft');
  await assert.rejects(()=>cmd(sales,'customer',{name:'Denied',phone:'',address:''}),/UNAUTHENTICATED/);await assert.rejects(()=>snap(sales,'parts'),/UNAUTHENTICATED/);check(true,'disabled account loses read and write access with existing claims');
  await root.query('delete from auth.sessions where id=$1',[users.tech.session]);
  await assert.rejects(()=>snap(t,'repairs'),/UNAUTHENTICATED/);check(true,'revoked session cannot read business RPC');

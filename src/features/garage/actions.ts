@@ -2,9 +2,11 @@
 import { revalidatePath } from 'next/cache';
 import { currentActor, requireActor, sessionClient } from '@/lib/auth/server';
 import { canAccess } from '@/lib/auth/permissions';
-import type { GarageSnapshot, Store } from './types';
+import type { GarageSnapshot, SaleRow, Store } from './types';
 
 const messages:Record<string,string>={
+ PAYMENT_PENDING:'Có yêu cầu thanh toán cần kiểm tra. Hãy tải lại trạng thái POS trước khi tiếp tục.',
+ PAYMENT_CONFIRMATION_REQUIRED:'Cần xác nhận đã nhận đủ tiền trước khi chốt đơn.',
  UNAUTHENTICATED:'Phiên đăng nhập không còn hợp lệ. Hãy đăng nhập lại.',FORBIDDEN:'Bạn không có quyền thực hiện thao tác này.',
  INSUFFICIENT_STOCK:'Không đủ tồn kho để chốt. Hãy tải lại và kiểm tra số lượng.',PRICE_CHANGED:'Giá bán đã thay đổi. Hãy tải lại và đối chiếu trước khi chốt.',
  VERSION_CONFLICT:'Dữ liệu đã được người khác cập nhật. Hãy tải lại và đối chiếu trước khi thực hiện tiếp.',
@@ -22,7 +24,7 @@ export async function loadGarage(section:string,page=0,from?:string,to?:string):
  if(error)return {error:'Không tải được dữ liệu Supabase. Vui lòng thử lại.'};
  return {data:data as GarageSnapshot};
 }
-export async function garageCommand(action:string,payload:Record<string,unknown>,requestId:string):Promise<{result?:{id:string|null;action:string;total:number};error?:string;uncertain?:boolean}> {
+export async function garageCommand(action:string,payload:Record<string,unknown>,requestId:string):Promise<{result?:{id:string|null;action:string;total:number;receipt?:SaleRow};error?:string;uncertain?:boolean}> {
  await requireActor();
  if(!/^[a-f0-9-]{36}$/i.test(requestId)||!payload||JSON.stringify(payload).length>100000)return {error:messages.VALIDATION_ERROR};
  const c=await sessionClient();
@@ -37,6 +39,17 @@ export async function garageCommand(action:string,payload:Record<string,unknown>
   for(const path of ['/','/parts','/purchases','/sales','/repairs','/customers','/cashbook','/reports','/settings'])revalidatePath(path);
   return {result:data};
  }catch{return {error:'Mất kết nối. Giữ nguyên nội dung và thử lại cùng yêu cầu để tránh ghi lặp.',uncertain:true};}
+}
+export async function posDraft(operation:'load'|'save'|'prepare'|'resume'|'clear',revision=0,body:Record<string,unknown>={}):Promise<{draft?:import('./pos-types').SavedDraft|null;error?:string}> {
+ const actor=await currentActor();
+ if(!actor||!canAccess(actor.role,'sales'))return {error:messages.FORBIDDEN};
+ if(!['load','save','prepare','resume','clear'].includes(operation)||!Number.isSafeInteger(revision)||revision<0||JSON.stringify(body).length>100000)return {error:messages.VALIDATION_ERROR};
+ try{
+  const c=await sessionClient();
+  const {data,error}=await c.rpc('garage_pos_draft',{p_operation:operation,p_revision:revision,p_body:body});
+  if(error){const known=Object.keys(messages).find(key=>error.message.includes(key));return {error:known?messages[known]:'Không truy cập được nháp POS. Kiểm tra kết nối và migration POS trên database.'};}
+  return {draft:data};
+ }catch{return {error:'Không kết nối được nơi lưu nháp POS. Hãy thử lại.'};}
 }
 export async function readStoreSettings():Promise<Store|null> {
  if(!await currentActor())return null;
