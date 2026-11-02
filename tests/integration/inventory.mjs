@@ -139,6 +139,7 @@ try {
  const posRetry=await cmd(sales,'sale',posCommand,posKey);
  check(posSale.id===posRetry.id&&posSale.receipt.code===posRetry.receipt.code&&posSale.receipt.items.length===1,'retry returns same printable server receipt without another sale');
  state=await draft(sales,'load');check(state.status==='completed'&&state.body.receipt.id===posSale.id,'committed payment and recoverable result are stored atomically');
+ check(posSale.receipt.cash_received===200&&posSale.receipt.cashier_name==='sales'&&state.body.receipt.cash_received===200,'receipt and recovered draft keep verified cash received and cashier snapshot');
  const completedRevision=state.revision;state=await draft(sales,'clear',state.revision);
  await assert.rejects(()=>draft(sales,'save',completedRevision,{}),/VERSION_CONFLICT/);check(true,'cleared draft keeps increasing revision to reject stale tabs');
  const lateKey=randomUUID();state=await draft(sales,'prepare',state.revision,{draft:{lines:[]},command:posCommand,requestId:lateKey});
@@ -219,7 +220,44 @@ try {
  ]);
  check(sharedCatalogRace.every(r=>r.status==='fulfilled'),'metadata edit and receiving can share suggestion terms without reversing catalog/inventory locks');
  const metadataAnon=await connect();await metadataAnon.query('set role anon');await assert.rejects(()=>details(metadataAnon,detailsPayload),/permission/);check(true,'anonymous role cannot execute metadata edit RPC');
- await root.query('update public.profiles set active=false where id=$1',[users.manager.id]);await assert.rejects(()=>details(m,{...detailsPayload,version:3}),/UNAUTHENTICATED/);await root.query('update public.profiles set active=true where id=$1',[users.manager.id]);check(true,'disabled manager cannot edit using an existing session');
+ // Supplier details are versioned master data; old receipt snapshots stay immutable.
+ const supplierDetails=async(c,payload,key=randomUUID())=>(await c.query('select public.update_supplier_details($1,$2) as r',[payload,key])).rows[0].r;
+ const supplierEdit={supplierId:supplier,version:1,name:'  Renamed   supplier  ',phone:' 0123 456 789 '};
+ check((await snap(m,'purchases')).suppliers.find(s=>s.id===supplier).details_version===1,'purchase choices expose supplier edit version');
+ await assert.rejects(()=>supplierDetails(sales,supplierEdit),/FORBIDDEN/);await assert.rejects(()=>supplierDetails(t,supplierEdit),/FORBIDDEN/);check(true,'sales and technician cannot edit supplier master data');
+ await assert.rejects(()=>supplierDetails(m,{...supplierEdit,name:'   '}),/SUPPLIER_DETAILS_INVALID/);await assert.rejects(()=>supplierDetails(m,{...supplierEdit,name:'X'.repeat(181)}),/SUPPLIER_DETAILS_INVALID/);await assert.rejects(()=>supplierDetails(m,{...supplierEdit,phone:'1'.repeat(31)}),/SUPPLIER_DETAILS_INVALID/);check(true,'supplier name and optional phone lengths are validated');
+ await assert.rejects(()=>supplierDetails(m,{...supplierEdit,supplierId:randomUUID()}),/NOT_FOUND/);check(true,'supplier edit cannot target a missing record');
+ const oldSupplierReceipts=(await root.query('select id,supplier_snapshot,total from public.purchase_receipts order by id')).rows;
+ const totalsBeforeSupplierEdit=(await root.query('select (select sum(quantity) from public.stock_balances) as stock,(select sum(amount) from public.cash_entries) as cash,(select count(*) from public.purchase_receipts) as receipts')).rows[0];
+ const supplierEditKey=randomUUID(),updatedSupplier=await supplierDetails(m,supplierEdit,supplierEditKey);
+ check(updatedSupplier.supplierDetails.name==='Renamed supplier'&&updatedSupplier.supplierDetails.phone==='0123 456 789'&&updatedSupplier.supplierDetails.details_version===2,'supplier edit normalizes name and phone and returns saved version');
+ assert.deepEqual((await root.query('select id,supplier_snapshot,total from public.purchase_receipts order by id')).rows,oldSupplierReceipts);assert.deepEqual((await root.query('select (select sum(quantity) from public.stock_balances) as stock,(select sum(amount) from public.cash_entries) as cash,(select count(*) from public.purchase_receipts) as receipts')).rows[0],totalsBeforeSupplierEdit);check(true,'supplier changes preserve old receipt snapshots, stock and money');
+ assert.deepEqual(await supplierDetails(m,supplierEdit,supplierEditKey),updatedSupplier);check(Number((await root.query("select count(*) from public.audit_logs where action='garage.supplier_details' and details->>'request_id'=$1",[supplierEditKey])).rows[0].count)===1,'supplier edit retry is idempotent and audits once');
+ await assert.rejects(()=>supplierDetails(m,{...supplierEdit,phone:'Different'},supplierEditKey),/IDEMPOTENCY_CONFLICT/);check(true,'supplier edit key cannot change payload');
+ await assert.rejects(()=>supplierDetails(m,{...supplierEdit,name:'Stale edit'}),/VERSION_CONFLICT/);check(true,'stale supplier form cannot overwrite newer name or phone');
+ check((await snap(m,'purchases')).suppliers.find(s=>s.id===supplier).name==='Renamed supplier'&&!Object.hasOwn(await snap(sales,'sales'),'suppliers'),'updated supplier choices stay restricted to manager purchase screen');
+ const receiptAfterSupplierEdit=await cmd(m,'purchase',{supplierId:supplier,method:'cash',paid:0,lines:[{partId:p1,quantity:1,cost:1}]});
+ const newSupplierSnapshot=(await snap(m,'purchases')).purchases.find(p=>p.id===receiptAfterSupplierEdit.id).supplier_snapshot;
+ check(newSupplierSnapshot.name==='Renamed supplier'&&newSupplierSnapshot.phone==='0123 456 789','new receipt snapshots use current supplier details');
+ const supplierRace=await Promise.allSettled([supplierDetails(m,{...supplierEdit,version:2,name:'Concurrent supplier A'}),supplierDetails(otherManager,{...supplierEdit,version:2,name:'Concurrent supplier B'})]);check(supplierRace.filter(r=>r.status==='fulfilled').length===1&&supplierRace.filter(r=>r.status==='rejected'&&/VERSION_CONFLICT/.test(r.reason.message)).length===1,'independent supplier edits cannot overwrite each other');
+ await supplierDetails(m,supplierEdit,supplierEditKey);check((await snap(m,'purchases')).suppliers.find(s=>s.id===supplier).details_version===3,'old supplier retry cannot revert a later successful edit');
+ const clearedPhone=await supplierDetails(m,{supplierId:supplier,version:3,name:'Supplier without phone',phone:''});check(clearedPhone.supplierDetails.phone==='','supplier phone can be cleared intentionally');
+ await assert.rejects(()=>supplierDetails(metadataAnon,supplierEdit),/permission/);await assert.rejects(()=>m.query("update public.suppliers set name='Bypass' where id=$1",[supplier]),/permission/);check(true,'anonymous edit and direct table writes are denied');
+ // Printable receipt fields are frozen at sale time, not reconstructed from live staff.
+ await root.query("update public.profiles set full_name='Changed manager name' where id=$1",[users.manager.id]);
+ check((await snap(m,'sales')).sales.find(s=>s.id===oldNameSale.id).cashier_name==='manager','reprinting old sale keeps cashier name after profile rename');
+ const cashReceipt=await cmd(m,'sale',{customer:'Receipt test',method:'cash',cashReceived:200,lines:[{partId:p1,quantity:1,price:120}]});
+ check(cashReceipt.receipt.cash_received===200&&cashReceipt.receipt.total===120&&cashReceipt.receipt.cashier_name==='Changed manager name','new receipt includes actual cashier and cash received for computing change');
+ const cashHistory=(await snap(m,'sales')).sales.find(s=>s.id===cashReceipt.id);check(cashHistory.cash_received===200&&cashHistory.cashier_name===cashReceipt.receipt.cashier_name,'sale result and history expose the same print metadata');
+ const transferReceipt=await cmd(m,'sale',{customer:'Receipt transfer',method:'transfer',lines:[{partId:p1,quantity:1,price:120}]});check(transferReceipt.receipt.cash_received===null,'transfer receipt does not fabricate cash received or change');
+ await root.query("update public.profiles set full_name='manager' where id=$1",[users.manager.id]);
+ // Simulate an old receipt with no captured metadata: a retry must not backfill it.
+ const legacyKey=randomUUID(),legacyPayload={customer:'Legacy receipt',method:'cash',lines:[{partId:p1,quantity:1,price:120}]};
+ const legacy=await cmd(m,'sale',legacyPayload,legacyKey);await root.query('update public.sales_orders set cashier_name=null,cash_received=null where id=$1',[legacy.id]);
+ const legacyRetry=await cmd(m,'sale',legacyPayload,legacyKey);check(legacyRetry.receipt.cashier_name===null&&legacyRetry.receipt.cash_received===null,'legacy receipt retry does not invent cashier or cash metadata');
+ await assert.rejects(()=>sales.query("select public.garage_command_inventory('sale','{}',$1)",[randomUUID()]),/permission/);
+ check(!(await root.query("select has_function_privilege('authenticated','public.snapshot_sale_cashier()','EXECUTE') as allowed")).rows[0].allowed,'receipt trigger and old command wrapper stay private');
+ await root.query('update public.profiles set active=false where id=$1',[users.manager.id]);await assert.rejects(()=>details(m,{...detailsPayload,version:3}),/UNAUTHENTICATED/);await assert.rejects(()=>supplierDetails(m,{...supplierEdit,version:4}),/UNAUTHENTICATED/);check(true,'disabled manager cannot edit supplier with an existing session');await root.query('update public.profiles set active=true where id=$1',[users.manager.id]);check(true,'disabled manager cannot edit using an existing session');
  await root.query('update public.profiles set active=false where id=$1',[users.sales.id]);
  await assert.rejects(()=>draft(sales,'load'),/UNAUTHENTICATED/);check(true,'disabled cashier cannot recover or read POS draft');
  await assert.rejects(()=>cmd(sales,'customer',{name:'Denied',phone:'',address:''}),/UNAUTHENTICATED/);await assert.rejects(()=>snap(sales,'parts'),/UNAUTHENTICATED/);check(true,'disabled account loses read and write access with existing claims');

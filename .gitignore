@@ -9,4 +9,5 @@ out/
 supabase/.temp/
 
 .vercel
+tmp/pdfs/
 .env*

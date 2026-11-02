@@ -2,9 +2,10 @@
 import { revalidatePath } from 'next/cache';
 import { currentActor, requireActor, sessionClient } from '@/lib/auth/server';
 import { canAccess } from '@/lib/auth/permissions';
-import type { GarageSnapshot, SaleRow, Store } from './types';
+import type { GarageSnapshot, SaleRow, Store, SupplierRow } from './types';
 
 const messages:Record<string,string>={
+ SUPPLIER_DETAILS_INVALID:'Tên nhà cung cấp không được để trống và tối đa 180 ký tự. Số điện thoại tối đa 30 ký tự.',
  PART_DETAILS_INVALID:'Tên, nhóm và thương hiệu không được để trống. Tên tối đa 180 ký tự; nhóm và thương hiệu tối đa 100 ký tự.',
  PART_DETAILS_DUPLICATE:'Tên và thương hiệu này đã có ở một mặt hàng khác. Hãy đổi thông tin hoặc dùng mặt hàng đã có.',
  PART_DUPLICATE:'Có mặt hàng mới trùng tên và thương hiệu trong kho. Hãy chọn hàng đã có thay vì tạo mới; chưa chốt phiếu nhập.',
@@ -34,14 +35,14 @@ export async function loadGarage(section:string,page=0,from?:string,to?:string):
  }
  return {data:data as GarageSnapshot};
 }
-export async function garageCommand(action:string,payload:Record<string,unknown>,requestId:string):Promise<{result?:{id:string|null;action:string;total:number;receipt?:SaleRow;partDetails?:{id:string;name:string;category:string;brand:string;details_version:number}};error?:string;uncertain?:boolean}> {
+export async function garageCommand(action:string,payload:Record<string,unknown>,requestId:string):Promise<{result?:{id:string|null;action:string;total:number;receipt?:SaleRow;partDetails?:{id:string;name:string;category:string;brand:string;details_version:number};supplierDetails?:SupplierRow};error?:string;uncertain?:boolean}> {
  const actor=await requireActor();
- if(action==='part_details'&&actor.role!=='manager')return {error:messages.FORBIDDEN};
+ if(['part_details','supplier_details'].includes(action)&&actor.role!=='manager')return {error:messages.FORBIDDEN};
  if(!/^[a-f0-9-]{36}$/i.test(requestId)||!payload||JSON.stringify(payload).length>100000)return {error:messages.VALIDATION_ERROR};
  const c=await sessionClient();
  try{
-  const {data,error}=action==='part_details'
-   ?await c.rpc('update_part_details',{p_payload:payload,p_request_id:requestId})
+  const {data,error}=['part_details','supplier_details'].includes(action)
+   ?await c.rpc(action==='part_details'?'update_part_details':'update_supplier_details',{p_payload:payload,p_request_id:requestId})
    :await c.rpc('garage_command',{p_action:action,p_payload:payload,p_request_id:requestId});
   if(error){
    const known=Object.keys(messages).find(key=>error.message.includes(key));

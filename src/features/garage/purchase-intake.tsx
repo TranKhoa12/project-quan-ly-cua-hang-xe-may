@@ -1,19 +1,26 @@
 'use client';
 import {useRef,useState} from 'react';
+import {useRouter} from 'next/navigation';
 import {Plus,Pencil,Search,Trash2} from 'lucide-react';
 import {CommandForm} from './command-form';
 import PurchaseItemEditor,{type NewPurchasePart} from './purchase-item-editor';
+import SupplierDetailsEditor from './supplier-details-editor';
 import {normalizePartText} from '@/features/parts/catalog';
-import type {GarageSnapshot} from './types';
+import type {GarageSnapshot,SupplierRow} from './types';
 import {money} from '@/lib/data';
 
 type IntakeLine={id:string;partId?:string;quantity:number;cost:number;newPart?:NewPurchasePart};
 const text=(f:FormData,key:string)=>String(f.get(key)||'').trim();
 export default function PurchaseIntake({data}:{data:GarageSnapshot}){
+ const router=useRouter();
  const [lines,setLines]=useState<IntakeLine[]>([]),[query,setQuery]=useState(''),[supplierId,setSupplierId]=useState('');
  const [editor,setEditor]=useState<{id:string;part:NewPurchasePart}|null>(null);
  const [itemError,setItemError]=useState('');
- const [supplierOpen,setSupplierOpen]=useState(false),[supplierName,setSupplierName]=useState(''),[createdSupplier,setCreatedSupplier]=useState<{id:string;name:string}|null>(null);
+ const [supplierOpen,setSupplierOpen]=useState(false),[supplierName,setSupplierName]=useState(''),[supplierPhone,setSupplierPhone]=useState(''),[createdSupplier,setCreatedSupplier]=useState<SupplierRow|null>(null);
+ const [supplierEditing,setSupplierEditing]=useState<SupplierRow|null>(null),[supplierSaved,setSupplierSaved]=useState<Record<string,SupplierRow>>({}),[supplierMessage,setSupplierMessage]=useState('');
+ const supplierSelect=useRef<HTMLSelectElement>(null);
+ const suppliers=[...(data.suppliers||[]),...(createdSupplier&&!data.suppliers?.some(s=>s.id===createdSupplier.id)?[createdSupplier]:[])].map(s=>supplierSaved[s.id]&&(supplierSaved[s.id].details_version||1)>=(s.details_version||1)?supplierSaved[s.id]:s);
+ const selectedSupplier=suppliers.find(s=>s.id===supplierId);
  const [payment,setPayment]=useState<'unpaid'|'full'|'partial'>('unpaid'),[partial,setPartial]=useState(''),[method,setMethod]=useState('cash');
  const search=useRef<HTMLInputElement>(null);
  const total=lines.reduce((s,l)=>s+l.quantity*l.cost,0),paid=payment==='full'?total:payment==='partial'?Number(partial||0):0;
@@ -34,9 +41,11 @@ export default function PurchaseIntake({data}:{data:GarageSnapshot}){
  function newItem(){setItemError('');setEditor({id:crypto.randomUUID(),part:{name:query.trim(),category:'',brand:'',price:0,min:5,allowSimilar:false}});}
  function saveNew(part:NewPurchasePart){if(!editor)return;const id=editor.id;setLines(current=>current.some(l=>l.id===id)?current.map(l=>l.id===id?{...l,newPart:part}:l):[...current,{id,newPart:part,quantity:1,cost:0}]);setEditor(null);setQuery('');search.current?.focus();}
  return <section className="panel live-panel simple-purchase">
-  {supplierOpen&&<div className="purchase-supplier-editor"><strong>Nhà cung cấp mới</strong><CommandForm action="supplier" label="Lưu và chọn nhà cung cấp" preventEnter reset build={f=>({name:text(f,'name'),phone:text(f,'phone')})} onSuccess={result=>{if(result.id){setCreatedSupplier({id:result.id,name:supplierName.trim()});setSupplierId(result.id);}setSupplierOpen(false);}}><div className="intake-fields"><label className="field">Tên nhà cung cấp<input name="name" maxLength={180} required value={supplierName} onChange={e=>setSupplierName(e.target.value)}/></label><label className="field">Số điện thoại (nếu có)<input name="phone" maxLength={30}/></label></div><button type="button" className="button" onClick={()=>setSupplierOpen(false)}>Hủy</button></CommandForm></div>}
-  <CommandForm action="purchase_intake" label="Chốt nhập hàng" successText="Đã nhập hàng vào kho." preventEnter reset submitDisabled={!lines.length||!!editor||supplierOpen} onSuccess={()=>{setLines([]);setSupplierId('');setPayment('unpaid');setPartial('');setMethod('cash');setQuery('');search.current?.focus();}} build={()=>({supplierId,paid,method,lines:lines.map(l=>({quantity:l.quantity,cost:l.cost,...(l.newPart?{newPart:l.newPart}:{partId:l.partId})}))})}>
-   <div className="purchase-supplier"><label className="field">Nhập từ ai?<select required value={supplierId} onChange={e=>setSupplierId(e.target.value)}><option value="">Chọn nhà cung cấp</option>{createdSupplier&&!data.suppliers?.some(s=>s.id===createdSupplier.id)&&<option value={createdSupplier.id}>{createdSupplier.name}</option>}{data.suppliers?.map(s=><option key={s.id} value={s.id}>{s.name}</option>)}</select></label><button className="button" type="button" onClick={()=>{setSupplierName('');setSupplierOpen(true);}} disabled={supplierOpen}><Plus size={16}/>Nhà cung cấp</button></div>
+  {supplierMessage&&<p role="status" className="auth-success">{supplierMessage}</p>}
+  {supplierEditing&&<SupplierDetailsEditor key={`${supplierEditing.id}-${supplierEditing.details_version||1}`} supplier={supplierEditing} onCancel={()=>{setSupplierEditing(null);router.refresh();requestAnimationFrame(()=>supplierSelect.current?.focus());}} onSaved={saved=>{setSupplierSaved(current=>({...current,[saved.id]:saved}));setSupplierEditing(null);setSupplierMessage('Đã cập nhật tên và số điện thoại nhà cung cấp.');requestAnimationFrame(()=>supplierSelect.current?.focus());}}/>}
+  {supplierOpen&&<div className="purchase-supplier-editor"><strong>Nhà cung cấp mới</strong><CommandForm action="supplier" label="Lưu và chọn nhà cung cấp" preventEnter reset build={f=>({name:text(f,'name'),phone:text(f,'phone')})} onSuccess={result=>{if(result.id){setCreatedSupplier({id:result.id,name:supplierName.trim(),phone:supplierPhone.trim(),details_version:1});setSupplierId(result.id);}setSupplierOpen(false);}}><div className="intake-fields"><label className="field">Tên nhà cung cấp<input name="name" maxLength={180} required value={supplierName} onChange={e=>setSupplierName(e.target.value)}/></label><label className="field">Số điện thoại (nếu có)<input name="phone" maxLength={30} value={supplierPhone} onChange={e=>setSupplierPhone(e.target.value)}/></label></div><button type="button" className="button" onClick={()=>setSupplierOpen(false)}>Hủy</button></CommandForm></div>}
+  <CommandForm action="purchase_intake" label="Chốt nhập hàng" successText="Đã nhập hàng vào kho." preventEnter reset submitDisabled={!lines.length||!!editor||supplierOpen||!!supplierEditing} onSuccess={()=>{setLines([]);setSupplierId('');setPayment('unpaid');setPartial('');setMethod('cash');setQuery('');search.current?.focus();}} build={()=>({supplierId,paid,method,lines:lines.map(l=>({quantity:l.quantity,cost:l.cost,...(l.newPart?{newPart:l.newPart}:{partId:l.partId})}))})}>
+   <div className="purchase-supplier"><label className="field">Nhập từ ai?<select ref={supplierSelect} disabled={supplierOpen||!!supplierEditing} required value={supplierId} onChange={e=>setSupplierId(e.target.value)}><option value="">Chọn nhà cung cấp</option>{suppliers.map(s=><option key={s.id} value={s.id}>{s.name}{s.phone?` · ${s.phone}`:''}</option>)}</select></label><button className="button" type="button" onClick={()=>{setSupplierName('');setSupplierPhone('');setSupplierEditing(null);setSupplierMessage('');setSupplierOpen(true);}} disabled={supplierOpen||!!supplierEditing}><Plus size={16}/>Nhà cung cấp</button><button className="button" type="button" disabled={!selectedSupplier||supplierOpen||!!supplierEditing} onClick={()=>{if(selectedSupplier){setSupplierEditing({...selectedSupplier});setSupplierMessage('');}}}><Pencil size={16}/>Sửa</button></div>
    <div className="purchase-search"><label className="field">Thêm hàng vào phiếu<span className="purchase-search-input"><Search size={18}/><input ref={search} type="search" disabled={!!editor} placeholder="Gõ tên, mã hoặc thương hiệu để tìm hàng…" value={query} onChange={e=>setQuery(e.target.value)} onKeyDown={e=>{if(e.key==='Enter'&&results.length===1){e.preventDefault();addExisting(results[0].id);}}}/></span></label><button className="button" type="button" disabled={!!editor||lines.length>=100} onClick={newItem}><Plus size={16}/>Hàng mới</button></div>
    {query.trim()&&!editor&&<div className="purchase-search-results" aria-label="Kết quả tìm hàng">{results.map(p=><button key={p.id} type="button" disabled={lines.length>=100&&!lines.some(l=>l.partId===p.id)} onClick={()=>addExisting(p.id)}><span><strong>{p.name}</strong><small>{p.brand} · {p.sku}{p.pos_visible===false?' · Đã ẩn POS':''}</small></span><span>Tồn {p.stock} · + Thêm</span></button>)}{!results.length&&<p>Chưa tìm thấy hàng. Bấm <strong>Hàng mới</strong> để thêm.</p>}</div>}
    {itemError&&<p className="auth-error" role="alert">{itemError}</p>}

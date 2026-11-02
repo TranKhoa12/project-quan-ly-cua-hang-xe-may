@@ -6,7 +6,9 @@ import { emptyPosDraft, type PosDraft, type SavedDraft } from './pos-types';
 import type { GarageSnapshot, SaleRow } from './types';
 import SaleCatalog from './sale-catalog';
 import SaleCart from './sale-cart';
-import { money, dateLabel } from '@/lib/data';
+import { money } from '@/lib/data';
+import SaleReceipt from './sale-receipt';
+import SaleReceiptPrint from './sale-receipt-print';
 
 export default function SalePos({data}:{data:GarageSnapshot}) {
  const router=useRouter();
@@ -14,7 +16,7 @@ export default function SalePos({data}:{data:GarageSnapshot}) {
  const [error,setError]=useState(''),[confirmed,setConfirmed]=useState(false),[pending,setPending]=useState<SavedDraft|null>(null),[receipt,setReceipt]=useState<SaleRow|null>(null),[saved,setSaved]=useState(false);
  const [reference,setReference]=useState('');
  const revision=useRef(0),latest=useRef(draft),lastSaved=useRef(''),inFlight=useRef<Promise<boolean>|null>(null),blocked=useRef(false),paymentLock=useRef(false);
- const feedback=useRef<HTMLDivElement>(null),print=useRef<HTMLDivElement>(null);
+ const feedback=useRef<HTMLDivElement>(null);
  const apply=useCallback((state:SavedDraft|null)=>{
   revision.current=state?.revision||0;
   const body=state?.status==='pending'||state?.status==='completed'?state.body.draft:state?.body;
@@ -127,7 +129,7 @@ export default function SalePos({data}:{data:GarageSnapshot}) {
     {pending&&!receipt&&<><p role="status">Đang giữ yêu cầu thanh toán. Giỏ hàng đã khóa để tránh tạo đơn trùng.</p><button type="button" className="button" disabled={busy} onClick={()=>void retry()}>Thử lại cùng yêu cầu</button><button type="button" className="button" disabled={busy} onClick={()=>void checkPending()}>Kiểm tra kết quả / mở lại nháp</button></>}
     {error&&!pending&&<button type="button" className="button" disabled={busy} onClick={()=>{if(lastSaved.current!==JSON.stringify(latest.current)&&!window.confirm('Tải bản nháp trên server sẽ bỏ phần thay đổi chưa lưu ở màn hình này. Tiếp tục?'))return;void load();}}>Tải lại trạng thái POS</button>}
    </div>
-   {receipt?<><div role="status" className="auth-success">Thanh toán thành công · BH-{receipt.code} · {money(receipt.total)}</div><div ref={print} className="live-document pos-receipt"><h2>{receipt.store_snapshot.name}</h2><p>{receipt.store_snapshot.phone} {receipt.store_snapshot.address}</p><h3>Phiếu bán BH-{receipt.code}</h3><p>{dateLabel(receipt.created_at)} · {receipt.customer_name}</p>{receipt.items.map(i=><p key={i.id}>{i.name} × {i.quantity}<br/>{money(i.price)} · <strong>{money(i.quantity*i.price)}</strong></p>)}<p>Tổng đã thu: <strong>{money(receipt.total)}</strong></p><p>{receipt.payment_method==='cash'?'Tiền mặt':'Chuyển khoản'}</p></div><button type="button" className="button" onClick={()=>{print.current?.classList.add('printing');window.print();print.current?.classList.remove('printing');}}>In phiếu</button><button type="button" className="button primary sale-pay" disabled={busy} onClick={()=>void newSale()}>Bán đơn mới</button></>:<fieldset className="pos-checkout-fieldset" disabled={!ready||busy||!!pending}>
+   {receipt?<><div role="status" className="auth-success">Thanh toán thành công · BH-{receipt.code} · {money(receipt.total)}</div><div className="sale-receipt-preview"><SaleReceipt sale={receipt}/></div><SaleReceiptPrint sale={receipt}/><button type="button" className="button primary sale-pay" disabled={busy} onClick={()=>void newSale()}>Bán đơn mới</button></>:<fieldset className="pos-checkout-fieldset" disabled={!ready||busy||!!pending}>
     <div className="pos-checkout-scroll"><SaleCart parts={data.parts} draft={draft} onDraft={change} store={data.store} confirmed={confirmed} onConfirm={setConfirmed} reference={reference}/>
     <small className="pos-save-status" role="status">{saving?'Đang lưu nháp…':saved?'Đã lưu nháp trên server':'Nháp đang chờ lưu'}</small></div>
     <button type="submit" data-pay="true" className="button primary sale-pay" disabled={!valid||!confirmed||!!pending||!ready||blocked.current}>Xác nhận đã thu · {money(total)}</button>
