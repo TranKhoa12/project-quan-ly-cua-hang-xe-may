@@ -4,6 +4,7 @@
 .vercel
 node_modules
 .inventory-test
+.browser-test
 .env*
 *.tsbuildinfo
 supabase/.temp

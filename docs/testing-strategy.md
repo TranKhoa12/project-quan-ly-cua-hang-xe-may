@@ -2,6 +2,8 @@
 
 ## Lệnh và khả năng hiện có
 
+Cập nhật 03/11/2026: `npm.cmd run test:purchase-ui` chạy UI nhập hàng bằng headless Edge và component/CSS thật với dữ liệu giả; kiểm tra 16 nhóm thao tác, lỗi/retry, payload và responsive 1440/768/375px. Cần Microsoft Edge được cài (có thể đặt `PURCHASE_BROWSER_CHANNEL=chrome` nếu dùng Chrome). Bundle dùng esbuild, browser dùng Playwright, không đọc env hay gọi production. Ảnh ở `.browser-test/purchase/`. Đây là harness cách ly với router/server actions thay thế, không phải browser E2E Auth/RLS hoặc transaction thật. Các ghi chú “chưa có browser runner” cũ không áp dụng với riêng harness này; E2E tích hợp vẫn chưa có.
+
 | Lệnh | Thực sự kiểm tra | Không chứng minh |
 | --- | --- | --- |
 | `npm.cmd run typecheck` | Kiểu TypeScript | Hành vi runtime/quyền |

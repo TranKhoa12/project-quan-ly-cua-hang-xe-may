@@ -5,6 +5,9 @@ import { canAccess } from '@/lib/auth/permissions';
 import type { GarageSnapshot, SaleRow, Store, SupplierRow } from './types';
 
 const messages:Record<string,string>={
+ PART_HAS_STOCK:'Mặt hàng còn tồn kho, không thể xóa. Bạn có thể ẩn khỏi POS để ngừng bán.',
+ PART_IN_USE:'Mặt hàng đã có giao dịch hoặc báo giá, không thể xóa. Hãy dùng Ẩn khỏi POS để giữ lịch sử.',
+ SUPPLIER_IN_USE:'Nhà cung cấp đã có phiếu nhập, không thể xóa để bảo toàn lịch sử và công nợ.',
  SUPPLIER_DETAILS_INVALID:'Tên nhà cung cấp không được để trống và tối đa 180 ký tự. Số điện thoại tối đa 30 ký tự.',
  PART_DETAILS_INVALID:'Tên, nhóm và thương hiệu không được để trống. Tên tối đa 180 ký tự; nhóm và thương hiệu tối đa 100 ký tự.',
  PART_DETAILS_DUPLICATE:'Tên và thương hiệu này đã có ở một mặt hàng khác. Hãy đổi thông tin hoặc dùng mặt hàng đã có.',
@@ -22,6 +25,17 @@ const messages:Record<string,string>={
  QUALITY_CONFIRMATION_REQUIRED:'Cần xác nhận hàng trả còn bán được.',NOT_FOUND:'Không tìm thấy dữ liệu. Hãy tải lại.',DUPLICATE_LINES:'Mỗi phụ tùng chỉ được có một dòng trên chứng từ.',
  HAS_TRANSACTIONS:'Phiếu đã phát sinh giao dịch, không thể hủy trực tiếp.',INVALID_TECHNICIAN:'Thợ được chọn không còn hoạt động.',
 };
+export async function loadSupplierItems(supplierId:string,page=0):Promise<{items?:import('./types').SupplierPurchaseItem[];total?:number;error?:string}>{
+ const actor=await requireActor();
+ if(actor.role!=='manager')return {error:messages.FORBIDDEN};
+ if(!/^[a-f0-9-]{36}$/i.test(supplierId)||!Number.isInteger(page)||page<0||page>100000)return {error:messages.VALIDATION_ERROR};
+ try{
+  const c=await sessionClient();
+  const {data,error}=await c.rpc('supplier_purchase_items',{p_supplier_id:supplierId,p_page:page});
+  if(error)return {error:messages[Object.keys(messages).find(key=>error.message.includes(key))||'']||'Không tải được hàng của nhà cung cấp. Vui lòng thử lại.'};
+  return {items:data.items,total:data.total};
+ }catch{return {error:'Không kết nối được. Vui lòng thử lại.'};}
+}
 export async function loadGarage(section:string,page=0,from?:string,to?:string):Promise<{data?:GarageSnapshot;error?:string}> {
  const actor=await requireActor();
  if(!canAccess(actor.role,section))return {error:messages.FORBIDDEN};
@@ -37,12 +51,12 @@ export async function loadGarage(section:string,page=0,from?:string,to?:string):
 }
 export async function garageCommand(action:string,payload:Record<string,unknown>,requestId:string):Promise<{result?:{id:string|null;action:string;total:number;receipt?:SaleRow;partDetails?:{id:string;name:string;category:string;brand:string;details_version:number};supplierDetails?:SupplierRow};error?:string;uncertain?:boolean}> {
  const actor=await requireActor();
- if(['part_details','supplier_details'].includes(action)&&actor.role!=='manager')return {error:messages.FORBIDDEN};
+ if(['part_details','supplier_details','supplier_delete','part_delete'].includes(action)&&actor.role!=='manager')return {error:messages.FORBIDDEN};
  if(!/^[a-f0-9-]{36}$/i.test(requestId)||!payload||JSON.stringify(payload).length>100000)return {error:messages.VALIDATION_ERROR};
  const c=await sessionClient();
  try{
-  const {data,error}=['part_details','supplier_details'].includes(action)
-   ?await c.rpc(action==='part_details'?'update_part_details':'update_supplier_details',{p_payload:payload,p_request_id:requestId})
+  const {data,error}=['part_details','supplier_details','supplier_delete','part_delete'].includes(action)
+   ?await c.rpc(action==='part_delete'?'delete_part':action==='supplier_delete'?'delete_supplier':action==='part_details'?'update_part_details':'update_supplier_details',{p_payload:payload,p_request_id:requestId})
    :await c.rpc('garage_command',{p_action:action,p_payload:payload,p_request_id:requestId});
   if(error){
    const known=Object.keys(messages).find(key=>error.message.includes(key));
