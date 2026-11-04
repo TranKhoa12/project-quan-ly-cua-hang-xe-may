@@ -12,6 +12,13 @@ const first='11111111-1111-4111-8111-111111111111',second='22222222-2222-4222-82
 const supplierA='aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa',supplierB='bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb';
 const fixture={store:{name:'Cửa hàng kiểm thử',phone:'',address:'',version:1},page:0,from:'',to:'',partCount:2,partTerms:[],suppliers:[{id:supplierA,name:'Nhà Cung Cấp A',phone:'',details_version:1},{id:supplierB,name:'Nhà Cung Cấp B',phone:'',details_version:1}],parts:[{id:first,sku:'PT-TEST-1',name:'Nhớt Xe Máy',category:'Dầu Nhớt',brand:'Thương Hiệu A',price:120000,stock:8,stock_version:1,min:1},{id:second,sku:'PT-TEST-2',name:'Phụ Tùng '+ 'Tên Dài '.repeat(12),category:'Phụ Tùng',brand:'Thương Hiệu B',price:200000,stock:2,stock_version:1,min:1}]};
 const mockActions=`
+export async function searchPartsOnWeb(query){
+ window.__webQueries=(window.__webQueries||[]).concat(query);
+ await new Promise(r=>setTimeout(r,80));
+ if(window.__webMode==='error')return {error:'Không kết nối được dịch vụ tìm kiếm. Hãy thử lại.'};
+ if(window.__webMode==='empty')return {items:[]};
+ return {items:[{title:'Má Phanh Tham Khảo',description:'Đối chiếu mã trên bao bì',url:'https://example.com/part',source:'example.com'}]};
+}
 window.__requests=[];window.__historyError=false;window.__nextCommandMode='success';
 export async function garageCommand(action,payload,key){
  window.__requests.push({action,payload,key});
@@ -25,7 +32,7 @@ export async function loadSupplierItems(id,page){
  if(window.__historyError)return {error:'Không tải được hàng nhà cung cấp. Vui lòng thử lại.'};
  return {total:page===0?21:21,items:[{part_id:'${first}',name:id==='${supplierA}'?'Nhớt Của NCC A':'Nhớt Của NCC B',sku:'PT-TEST-1',brand:'Thương Hiệu A',price:120000,quantity:15,last_cost:80000,last_received_at:'2026-11-03T01:00:00Z'}]};
 }`;
-const bundle=await build({stdin:{contents:`import React from 'react';import {createRoot} from 'react-dom/client';import PurchaseIntake from './src/features/garage/purchase-intake';createRoot(document.getElementById('root')).render(<PurchaseIntake data={${JSON.stringify(fixture)}}/>);`,loader:'tsx',resolveDir:process.cwd()},bundle:true,write:false,format:'iife',platform:'browser',jsx:'automatic',define:{'process.env.NODE_ENV':'"production"'},plugins:[{name:'isolated-boundaries',setup(b){b.onResolve({filter:/^next\/navigation$/},()=>({path:'router',namespace:'mock'}));b.onResolve({filter:/^\.\/actions$/},args=>args.importer.includes('garage')?{path:'actions',namespace:'mock'}:undefined);b.onLoad({filter:/.*/,namespace:'mock'},args=>({contents:args.path==='router'?`export const useRouter=()=>({refresh(){}});`:mockActions,loader:'js'}));}}]});
+const bundle=await build({stdin:{contents:`import React from 'react';import {createRoot} from 'react-dom/client';import PurchaseIntake from './src/features/garage/purchase-intake';createRoot(document.getElementById('root')).render(<PurchaseIntake data={${JSON.stringify(fixture)}}/>);`,loader:'tsx',resolveDir:process.cwd()},bundle:true,write:false,format:'iife',platform:'browser',jsx:'automatic',define:{'process.env.NODE_ENV':'"production"'},plugins:[{name:'isolated-boundaries',setup(b){b.onResolve({filter:/^next\/navigation$/},()=>({path:'router',namespace:'mock'}));b.onResolve({filter:/^\.\/(?:actions|part-web-actions)$/},args=>args.importer.includes('garage')?{path:'actions',namespace:'mock'}:undefined);b.onLoad({filter:/.*/,namespace:'mock'},args=>({contents:args.path==='router'?`export const useRouter=()=>({refresh(){}});`:mockActions,loader:'js'}));}}]});
 const css=['globals.css','auth.css','catalog.css','sidebar.css','garage.css','purchase.css'].map(name=>readFileSync('src/app/'+name,'utf8')).join('\n');
 const html=`<!doctype html><html lang="vi"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>${css}\nbody{background:#f5f7f5;font-family:Arial,sans-serif}#root{margin:24px 24px 24px 270px;max-width:1600px}@media(max-width:900px){#root{margin:14px}}</style><div id="root"></div><script src="/bundle.js"></script></html>`;
 writeFileSync(resolve(output,'index.html'),html);
@@ -53,6 +60,18 @@ try{
  const before=await page.evaluate(()=>window.__requests.at(-1));await page.evaluate(()=>{window.__nextCommandMode='success';});await page.getByRole('button',{name:'Kiểm tra lại cùng yêu cầu'}).click();await expect(page.getByText('Đã nhập hàng vào kho.',{exact:true})).toBeVisible();
  const after=await page.evaluate(()=>window.__requests.at(-1));assert.equal(before.key,after.key);assert.deepEqual(before.payload,after.payload);assert.equal(after.payload.supplierId,supplierA);assert.equal(after.payload.paid,50000);assert.equal(after.payload.lines[0].quantity,2);assert.equal(after.payload.lines[0].cost,80000);await expect(submit).toBeDisabled();pass('uncertain retry keeps exact request and resets only after success');
  await page.getByRole('button',{name:'Tạo hàng mới',exact:true}).click();
+ await page.getByRole('button',{name:'Tìm trên web',exact:true}).click();
+ const webQuery=page.getByRole('textbox',{name:'Mô tả hoặc mã trên bao bì',exact:true});
+ await expect(page.getByRole('button',{name:'Tìm gợi ý',exact:true})).toBeDisabled();
+ await webQuery.fill('bố thắng Wave');await page.evaluate(()=>{window.__webMode='error';});await page.getByRole('button',{name:'Tìm gợi ý',exact:true}).click();
+ await expect(page.getByRole('alert')).toContainText('Không kết nối được');await expect(webQuery).toHaveValue('bố thắng Wave');
+ await page.evaluate(()=>{window.__webMode='empty';});await page.getByRole('button',{name:'Tìm gợi ý',exact:true}).click();await expect(page.getByText(/Chưa có kết quả/)).toBeVisible();
+ await page.evaluate(()=>{window.__webMode='success';});await page.getByRole('button',{name:'Tìm gợi ý',exact:true}).click();
+ await expect(page.getByRole('link',{name:/Xem nguồn example.com/})).toHaveAttribute('rel','noopener noreferrer');
+ await page.setViewportSize({width:375,height:900});assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);await page.screenshot({path:resolve(output,'web-search-mobile-375.png'),fullPage:true});await page.setViewportSize({width:1440,height:1000});
+ await page.getByRole('button',{name:'Dùng làm tên',exact:true}).click();await expect(page.getByRole('combobox',{name:'Tên mặt hàng',exact:true})).toHaveValue('Má Phanh Tham Khảo');
+ await expect(page.getByRole('combobox',{name:'Nhóm hàng',exact:true})).toHaveValue('');await expect(page.getByRole('combobox',{name:'Thương hiệu',exact:true})).toHaveValue('');
+ pass('inline web search handles empty input, failure, retry, no results, source links and confirmed name without inferring brand');
  await page.getByRole('combobox',{name:'Tên mặt hàng',exact:true}).fill('bố thắng thử');await page.getByRole('combobox',{name:'Nhóm hàng',exact:true}).fill('phụ tùng');await page.getByRole('combobox',{name:'Thương hiệu',exact:true}).fill('hãng thử');await page.getByRole('button',{name:'Thêm vào phiếu',exact:true}).click();
  await expect(page.getByRole('spinbutton',{name:'Giá bán Bố Thắng Thử',exact:true})).toBeVisible();await page.getByRole('spinbutton',{name:'Giá nhập Bố Thắng Thử',exact:true}).fill('40000');await page.getByRole('spinbutton',{name:'Giá bán Bố Thắng Thử',exact:true}).fill('60000');pass('new goods retain title casing and expose cost and sale price');
  await page.getByRole('button',{name:'Xóa Bố Thắng Thử khỏi phiếu nhập'}).click();await expect(page.getByText('Chưa có hàng trong phiếu',{exact:true})).toBeVisible();pass('remove draft line updates empty state');

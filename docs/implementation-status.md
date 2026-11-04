@@ -1,5 +1,7 @@
 # Hiện trạng triển khai
 
+04/11/2026: thêm tra cứu web ngay trong form mặt hàng mới của Nhập hàng. Server action manager-only gọi Tavily Search Basic, giữ key server, giới hạn 12 lượt/15 phút/actor bằng limiter database hiện có; tối đa 5 kết quả có nguồn, người dùng chọn tiêu đề làm tên để sửa, không suy đoán nhóm/thương hiệu hoặc ghi kho/tiền. Không lưu từ điển kết quả. Typecheck, 36 unit, 17 nhóm UI Edge cách ly, build và skills checker pass. Chưa có API key, chưa thử provider thật/E2E Auth, chưa deploy. Chi tiết cấu hình và giới hạn: `docs/features/part-web-search.md`.
+
 Cập nhật 26/10/2026. Phân biệt năng lực hiện có với quy trình đích; chưa nghiệm thu vận hành qua trình duyệt.
 
 | Hạng mục | Hiện có | Giới hạn |
