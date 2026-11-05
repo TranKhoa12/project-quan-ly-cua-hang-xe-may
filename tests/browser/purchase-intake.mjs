@@ -10,7 +10,10 @@ import assert from 'node:assert/strict';
 const output=resolve('.browser-test/purchase');mkdirSync(output,{recursive:true});
 const first='11111111-1111-4111-8111-111111111111',second='22222222-2222-4222-8222-222222222222';
 const supplierA='aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa',supplierB='bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb';
-const fixture={store:{name:'Cửa hàng kiểm thử',phone:'',address:'',version:1},page:0,from:'',to:'',partCount:2,partTerms:[],suppliers:[{id:supplierA,name:'Nhà Cung Cấp A',phone:'',details_version:1},{id:supplierB,name:'Nhà Cung Cấp B',phone:'',details_version:1}],parts:[{id:first,sku:'PT-TEST-1',name:'Nhớt Xe Máy',category:'Dầu Nhớt',brand:'Thương Hiệu A',price:120000,stock:8,stock_version:1,min:1},{id:second,sku:'PT-TEST-2',name:'Phụ Tùng '+ 'Tên Dài '.repeat(12),category:'Phụ Tùng',brand:'Thương Hiệu B',price:200000,stock:2,stock_version:1,min:1}]};
+const reference=JSON.parse(readFileSync('data/part-name-reference.json','utf8'));
+const extra=JSON.parse(readFileSync('data/part-dictionary-extra.json','utf8'));
+const dictionary=[...reference.terms.map(t=>({...t,kind:'name'})),...extra.categories.map(t=>({...t,kind:'category'})),...extra.brands.map(t=>({...t,kind:'brand'}))].map((t,i)=>({id:String(i),category:null,...t}));
+const fixture={store:{name:'Cửa hàng kiểm thử',phone:'',address:'',version:1},page:0,from:'',to:'',partCount:2,partTerms:dictionary,suppliers:[{id:supplierA,name:'Nhà Cung Cấp A',phone:'',details_version:1},{id:supplierB,name:'Nhà Cung Cấp B',phone:'',details_version:1}],parts:[{id:first,sku:'PT-TEST-1',name:'Nhớt Xe Máy',category:'Dầu Nhớt',brand:'Thương Hiệu A',price:120000,stock:8,stock_version:1,min:1},{id:second,sku:'PT-TEST-2',name:'Phụ Tùng '+ 'Tên Dài '.repeat(12),category:'Phụ Tùng',brand:'Thương Hiệu B',price:200000,stock:2,stock_version:1,min:1}]};
 const mockActions=`
 export async function searchPartsOnWeb(query){
  window.__webQueries=(window.__webQueries||[]).concat(query);
@@ -60,6 +63,13 @@ try{
  const before=await page.evaluate(()=>window.__requests.at(-1));await page.evaluate(()=>{window.__nextCommandMode='success';});await page.getByRole('button',{name:'Kiểm tra lại cùng yêu cầu'}).click();await expect(page.getByText('Đã nhập hàng vào kho.',{exact:true})).toBeVisible();
  const after=await page.evaluate(()=>window.__requests.at(-1));assert.equal(before.key,after.key);assert.deepEqual(before.payload,after.payload);assert.equal(after.payload.supplierId,supplierA);assert.equal(after.payload.paid,50000);assert.equal(after.payload.lines[0].quantity,2);assert.equal(after.payload.lines[0].cost,80000);await expect(submit).toBeDisabled();pass('uncertain retry keeps exact request and resets only after success');
  await page.getByRole('button',{name:'Tạo hàng mới',exact:true}).click();
+ const dictionaryName=page.getByRole('combobox',{name:'Tên mặt hàng',exact:true});
+ await dictionaryName.focus();await expect(page.getByRole('listbox',{name:'Gợi ý Tên mặt hàng'})).toBeVisible();
+ await dictionaryName.fill('bo thang dia');await page.getByRole('option').filter({hasText:'Má phanh đĩa'}).first().click();
+ await expect(dictionaryName).toHaveValue('Má phanh đĩa');await expect(page.getByRole('combobox',{name:'Nhóm hàng',exact:true})).toHaveValue('Hệ thống phanh');await expect(page.getByRole('combobox',{name:'Thương hiệu',exact:true})).toHaveValue('');
+ await page.getByRole('combobox',{name:'Thương hiệu',exact:true}).fill('did');await page.getByRole('option').filter({hasText:'D.I.D'}).first().click();await expect(page.getByRole('combobox',{name:'Thương hiệu',exact:true})).toHaveValue('D.I.D');
+ await dictionaryName.fill('');await page.getByRole('combobox',{name:'Nhóm hàng',exact:true}).fill('');await page.getByRole('combobox',{name:'Thương hiệu',exact:true}).fill('');await page.getByRole('combobox',{name:'Thương hiệu',exact:true}).press('Escape');
+ pass('shared dictionary browses empty input, resolves aliases, suggests category and requires explicit brand selection');
  await page.getByRole('button',{name:'Tìm trên web',exact:true}).click();
  const webQuery=page.getByRole('textbox',{name:'Mô tả hoặc mã trên bao bì',exact:true});
  await expect(page.getByRole('button',{name:'Tìm gợi ý',exact:true})).toBeDisabled();

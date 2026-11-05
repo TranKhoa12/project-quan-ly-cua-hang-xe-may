@@ -3,13 +3,14 @@ import { revalidatePath } from 'next/cache';
 import { requireManager, sessionClient } from '@/lib/auth/server';
 import { validatePartInput, type PartInput, type PartTerm, type PartSaveResult } from './catalog';
 import type { Part } from '@/lib/data';
+import {loadDictionary} from './load-dictionary';
 
 export async function loadPartCatalog():Promise<{parts:Part[];terms:PartTerm[];error?:string;count:number}> {
   await requireManager();
   const client=await sessionClient();
   const [parts,terms]=await Promise.all([
     client.from('parts').select('id,sku,name,category,brand,sale_price,minimum_stock,pos_visible,details_version,part_costs(average_cost),stock_balances(quantity)',{count:'exact'}).eq('active',true).order('created_at',{ascending:false}).limit(1000),
-    client.from('part_terms').select('id,kind,name,aliases,category').order('name').limit(2000),
+    loadDictionary(client),
   ]);
   if(parts.error||terms.error)return {parts:[],terms:[],count:0,error:'Không tải được danh mục phụ tùng. Vui lòng thử lại, không dùng dữ liệu cục bộ thay thế.'};
   const first=(value:unknown):Record<string,unknown>=> (Array.isArray(value)?value[0]:value) as Record<string,unknown> || {};

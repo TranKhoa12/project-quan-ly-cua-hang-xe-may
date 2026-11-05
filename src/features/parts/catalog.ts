@@ -1,11 +1,10 @@
 import type { Part } from '@/lib/data';
+import {normalizePartText} from './normalize.mjs';
+export {normalizePartText} from './normalize.mjs';
 
 export type PartTerm = { id: string; kind: 'name'|'category'|'brand'; name: string; aliases: string[]; category: string | null };
 export type PartInput = { name:string;category:string;brand:string;price:number;cost:number;min:number;requestId:string;allowSimilar:boolean };
 export type PartSaveResult = { part?:Part; error?:string; duplicates?:{id:string;name:string;brand:string;category:string}[]; needsConfirmation?:boolean };
-export function normalizePartText(value:string) {
-  return value.normalize('NFD').replace(/\p{M}/gu,'').replace(/[đĐ]/g,'d').toLowerCase().replace(/[^\p{L}\p{N}]+/gu,' ').trim();
-}
 export function validatePartInput(value: PartInput): PartInput {
   if (!value || typeof value !== 'object') throw new Error('Thông tin phụ tùng không hợp lệ.');
   const result = {...value};

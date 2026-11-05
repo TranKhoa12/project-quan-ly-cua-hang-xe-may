@@ -3,6 +3,8 @@ import { useState, type ReactNode } from 'react';
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import Link from 'next/link';
 import SalePos from './sale-pos';
+import StockPartPicker from './stock-part-picker';
+import type {PartTerm} from '@/features/parts/catalog';
 import SaleReceipt from './sale-receipt';
 import SaleReceiptPrint from './sale-receipt-print';
 import { ArrowRight, PackagePlus, ShoppingCart, Plus, RefreshCw, Printer, Trash2 } from 'lucide-react';
@@ -26,10 +28,10 @@ function Pager({count,page}:{count:number;page:number}){
 function StoreHeader({store}:{store:Store}){return <div className="live-print-store"><h3>{store.name}</h3><p>{store.phone} {store.address}</p></div>;}
 function PrintButton(){return <button className="button no-print" type="button" onClick={e=>{const container=e.currentTarget.closest('.live-document');container?.classList.add('printing');window.print();container?.classList.remove('printing');}}><Printer size={16}/>In phiếu</button>;}
 type DraftLine={partId:string;quantity:number;cost:number};
-function LineEditor({parts,lines,setLines,purchase=false}:{parts:StockPart[];lines:DraftLine[];setLines:(v:DraftLine[])=>void;purchase?:boolean}){
+function LineEditor({parts,terms=[],lines,setLines,purchase=false}:{parts:StockPart[];terms?:PartTerm[];lines:DraftLine[];setLines:(v:DraftLine[])=>void;purchase?:boolean}){
  const update=(index:number,v:Partial<DraftLine>)=>setLines(lines.map((line,i)=>i===index?{...line,...v}:line));
  return <div className="live-lines">{lines.map((line,i)=><div className="live-line" key={i}>
-  <label className="field">Phụ tùng<select aria-label={`Phụ tùng dòng ${i+1}`} required value={line.partId} onChange={e=>update(i,{partId:e.target.value})}><option value="">Chọn phụ tùng</option>{parts.filter(p=>p.id===line.partId||!lines.some(l=>l.partId===p.id)).map(p=><option key={p.id} value={p.id}>{p.name} · {p.sku} · Còn {p.stock}</option>)}</select></label>
+  <StockPartPicker parts={parts.filter(p=>p.id===line.partId||!lines.some(l=>l.partId===p.id))} terms={terms} label={`Phụ tùng dòng ${i+1}`} required value={line.partId} onChange={id=>update(i,{partId:id})}/>
   <Field label="Số lượng" aria-label={`Số lượng dòng ${i+1}`} type="number" min={1} max={1000000} step={1} required value={line.quantity} onChange={e=>update(i,{quantity:Number(e.target.value)})}/>
   {purchase?<Field label="Giá nhập/đơn vị (đ)" type="number" min={0} max={1000000000} step={1} required value={line.cost} onChange={e=>update(i,{cost:Number(e.target.value)})}/>:<p className="live-line-price">{money(parts.find(p=>p.id===line.partId)?.price||0)}/đơn vị</p>}
   <button type="button" className="icon-button" aria-label={`Xóa dòng ${i+1}`} onClick={()=>setLines(lines.filter((_,j)=>j!==i))}><Trash2 size={17}/></button>
@@ -85,7 +87,7 @@ function RepairDetail({r,data,actor}:{r:RepairRow;data:GarageSnapshot;actor:Acto
  const front=actor.role!=='technician';const payload={id:r.id,version:r.version};
  return <><StoreHeader store={r.store_snapshot}/><p>{r.customer.model} · {r.customer.plate} · {r.customer.name} {r.customer.phone}</p><p>Yêu cầu: {r.issue} · Km: {r.km} · Thợ: {r.technician||'Chưa phân công'}</p>
  {actor.role==='manager'&&!['delivered','cancelled'].includes(r.status)&&<details className="no-print"><summary>Phân công thợ</summary><CommandForm action="assign" label="Lưu phân công" build={f=>({...payload,technicianId:text(f,'technicianId')})}><label className="field">Thợ phụ trách<select name="technicianId" required defaultValue={r.technician_id||''}><option value="">Chọn thợ</option>{data.technicians?.map(t=><option key={t.id} value={t.id}>{t.full_name}</option>)}</select></label></CommandForm></details>}
- {front&&['received','awaiting_approval'].includes(r.status)&&<details open={!r.quote} className="no-print"><summary>{r.quote?'Sửa báo giá (tạo phiên bản mới)':'Lập báo giá'}</summary><CommandForm action="quote" label="Lưu báo giá chờ khách duyệt" build={f=>({...payload,labor:num(f,'labor'),lines:lines.map(l=>({partId:l.partId,quantity:l.quantity}))})}><LineEditor parts={data.parts} lines={lines} setLines={setLines}/><Field label="Tiền công (đ)" name="labor" type="number" min={0} max={1000000000} step={1} defaultValue={r.quote?.labor||0} required/></CommandForm></details>}
+ {front&&['received','awaiting_approval'].includes(r.status)&&<details open={!r.quote} className="no-print"><summary>{r.quote?'Sửa báo giá (tạo phiên bản mới)':'Lập báo giá'}</summary><CommandForm action="quote" label="Lưu báo giá chờ khách duyệt" build={f=>({...payload,labor:num(f,'labor'),lines:lines.map(l=>({partId:l.partId,quantity:l.quantity}))})}><LineEditor parts={data.parts} terms={data.partTerms} lines={lines} setLines={setLines}/><Field label="Tiền công (đ)" name="labor" type="number" min={0} max={1000000000} step={1} defaultValue={r.quote?.labor||0} required/></CommandForm></details>}
  {r.quote&&<div><h4>Báo giá phiên bản {r.quote.version}</h4>{r.quote.items.map(l=><p key={l.partId}>{l.name} × {l.quantity} · {money(l.price)}/đơn vị</p>)}<p>Tiền công: {money(r.quote.labor)} · Tổng: <strong>{money(r.quote.total)}</strong></p>{r.quote.approved_at&&<p>Khách xác nhận: {r.quote.customer_confirmation} · {dateLabel(r.quote.approved_at)}</p>}</div>}
  {front&&r.status==='awaiting_approval'&&<CommandForm action="approve" label="Ghi nhận khách duyệt và bắt đầu sửa" build={f=>({...payload,confirmation:text(f,'confirmation')})}><Field label="Người xác nhận và cách xác nhận (trực tiếp / điện thoại…)" name="confirmation" required maxLength={500}/></CommandForm>}
  <h4>Phụ tùng đã xuất</h4>{r.items.length?r.items.map(i=><p key={i.id}>{i.name} × {i.quantity}</p>):<p>Chưa xuất phụ tùng.</p>}
@@ -102,7 +104,7 @@ export function MovementTable({data}:{data:GarageSnapshot}){return <Panel title=
 export function InventoryTools({data}:{data:GarageSnapshot}){
  const [id,setId]=useState('');const selected=data.parts.find(p=>p.id===id);
  return <div className="live-workspace"><Panel title="Quản lý tồn kho">
- <label className="field">Phụ tùng<select value={id} onChange={e=>setId(e.target.value)}><option value="">Chọn phụ tùng</option>{data.parts.map(p=><option key={p.id} value={p.id}>{p.name} · {p.sku}</option>)}</select></label>
+ <StockPartPicker parts={data.parts} terms={data.partTerms} value={id} onChange={setId}/>
  {selected&&<div className="live-grid"><div><h4>Kiểm kê tồn kho</h4><CommandForm key={`count-${id}-${selected.stock_version}`} action="adjustment" label="Duyệt điều chỉnh tồn kho" build={f=>({partId:id,counted:num(f,'counted'),expected:selected.stock,stockVersion:selected.stock_version,reason:text(f,'reason')})}>
  <p>Tồn đang hiển thị: {selected.stock}</p><Field label="Số lượng thực đếm" type="number" name="counted" min={0} max={1000000} step={1} required/><Field label="Lý do chênh lệch" name="reason" maxLength={500} required/>
  </CommandForm></div><div><h4>Giá bán và cảnh báo tồn</h4><CommandForm key={`price-${id}-${selected.price}-${selected.min}`} action="part_settings" label="Lưu giá bán và ngưỡng tồn" build={f=>({partId:id,expectedPrice:selected.price,expectedMin:selected.min,price:num(f,'price'),min:num(f,'min')})}>

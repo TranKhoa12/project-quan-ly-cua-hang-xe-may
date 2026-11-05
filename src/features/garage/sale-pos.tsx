@@ -116,7 +116,7 @@ export default function SalePos({data}:{data:GarageSnapshot}) {
  const valid=draft.lines.length>0&&draft.lines.every(l=>data.parts.find(p=>p.id===l.partId)?.pos_visible!==false&&Number.isInteger(l.quantity)&&l.quantity>0&&l.quantity<=(data.parts.find(p=>p.id===l.partId)?.stock??0))&&(draft.method!=='cash'||(Number.isSafeInteger(Number(draft.cashReceived))&&Number(draft.cashReceived)>=total));
  useEffect(()=>setConfirmed(false),[total,draft.method]);
  return <section className="sale-pos"><form className="live-form" aria-busy={busy} onSubmit={e=>{e.preventDefault();if(e.nativeEvent instanceof SubmitEvent&&e.nativeEvent.submitter instanceof HTMLButtonElement&&e.nativeEvent.submitter.dataset.pay==='true')void pay();}} onKeyDown={e=>{if(e.key==='Enter'&&e.target instanceof HTMLInputElement)e.preventDefault();}}>
-  <div className="sale-pos-layout"><fieldset className="pos-catalog-fieldset" disabled={!ready||busy||!!pending||!!receipt}><SaleCatalog parts={data.parts} quantities={Object.fromEntries(draft.lines.map(l=>[l.partId,l.quantity]))} onAdd={part=>{
+  <div className="sale-pos-layout"><fieldset className="pos-catalog-fieldset" disabled={!ready||busy||!!pending||!!receipt}><SaleCatalog parts={data.parts} terms={data.partTerms} quantities={Object.fromEntries(draft.lines.map(l=>[l.partId,l.quantity]))} onAdd={part=>{
    const existing=draft.lines.find(l=>l.partId===part.id);
    if(!existing&&draft.lines.length>=100)return;
    change({...draft,lines:existing?draft.lines.map(l=>l.partId===part.id?{...l,quantity:Math.min(part.stock,l.quantity+1)}:l):[...draft.lines,{partId:part.id,quantity:1,cost:0}]});

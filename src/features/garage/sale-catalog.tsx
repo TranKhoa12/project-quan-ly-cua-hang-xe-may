@@ -1,7 +1,9 @@
 'use client';
-import { useState } from 'react';
+import { useMemo,useState } from 'react';
 import { money } from '@/lib/data';
 import type { StockPart } from './types';
+import {normalizePartText,type PartTerm} from '@/features/parts/catalog';
+import {partSearchIndex} from '@/features/parts/dictionary';
 
 // Hình theo nhóm chỉ hỗ trợ nhận diện; không phải ảnh hay xác nhận mẫu hàng.
 function PartIllustration({name}:{name:string}) {
@@ -20,11 +22,11 @@ function PartIllustration({name}:{name:string}) {
  </svg>;
 }
 
-export default function SaleCatalog({parts,quantities,onAdd}:{parts:StockPart[];quantities:Record<string,number>;onAdd:(part:StockPart)=>void}) {
+export default function SaleCatalog({parts,terms=[],quantities,onAdd}:{parts:StockPart[];terms?:PartTerm[];quantities:Record<string,number>;onAdd:(part:StockPart)=>void}) {
  const [query,setQuery]=useState(''),[category,setCategory]=useState('');
- const normalize=(value:string)=>value.normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/đ/g,'d').toLowerCase();
+ const index=useMemo(()=>partSearchIndex(parts,terms),[parts,terms]);
  const sellable=parts.filter(p=>p.pos_visible!==false);
- const matches=sellable.filter(p=>(!category||p.category===category)&&normalize(`${p.name} ${p.sku} ${p.brand}`).includes(normalize(query.trim())));
+ const matches=sellable.filter(p=>(!category||p.category===category)&&index.get(p.id)?.includes(normalizePartText(query)));
  return <section className="sale-catalog" aria-label="Chọn phụ tùng bằng hình">
   <div className="sale-catalog-filters"><label className="field">Tìm phụ tùng<input type="search" value={query} onChange={e=>setQuery(e.target.value)} placeholder="Tên, mã hoặc thương hiệu…"/></label><label className="field">Nhóm phụ tùng<select value={category} onChange={e=>setCategory(e.target.value)}><option value="">Tất cả nhóm</option>{Array.from(new Set(sellable.map(p=>p.category))).filter(Boolean).sort().map(c=><option key={c} value={c}>{c}</option>)}</select></label></div>
   <p className="form-hint">Hình minh họa theo loại phụ tùng. Đối chiếu tên và mã hàng trước khi bán.</p>

@@ -26,6 +26,9 @@ try {
   await root.query(readFileSync('supabase/migrations/'+file,'utf8'));console.log('Applied '+file);
  }
  const users={};
+ const dictionaryBefore=(await root.query('select id,name,aliases,category from public.part_terms order by id')).rows;
+ await root.query(readFileSync('supabase/migrations/202611050001_shared_part_dictionary.sql','utf8'));
+ assert.deepEqual((await root.query('select id,name,aliases,category from public.part_terms order by id')).rows,dictionaryBefore);check(true,'shared dictionary migration is idempotent and preserves existing term IDs');
  for(const [name,role] of [['manager','manager'],['sales','sales'],['tech','technician'],['other','technician']]){
   const id=randomUUID(), session=randomUUID();
   await root.query('insert into auth.users values($1);',[id]);
@@ -41,6 +44,9 @@ try {
  };
  const snap=async(c,section)=>(await c.query('select public.garage_snapshot($1) as r',[section])).rows[0].r;
  const m=users.manager.c,sales=users.sales.c,t=users.tech.c;
+ for(const [role,client] of [['manager',m],['sales',sales],['technician',t]])check((await client.query("select count(*) from public.part_terms where kind='brand'")).rows[0].count>=12,role+' can read shared dictionary under RLS');
+ const dictionaryAnon=await connect();await dictionaryAnon.query('set role anon');await assert.rejects(()=>dictionaryAnon.query('select * from public.part_terms'),/permission denied/);check(true,'anonymous cannot read shared dictionary');
+ await assert.rejects(()=>sales.query("insert into public.part_terms(kind,name) values('brand','Forbidden brand')"),/permission denied/);check(true,'staff cannot write dictionary directly');
  const supplier=(await cmd(m,'supplier',{name:'Synthetic supplier',phone:''})).id;
  await cmd(m,'settings',{name:'Synthetic garage',phone:'000',address:'Test address',version:1});
  await assert.rejects(()=>cmd(m,'settings',{name:'Stale',phone:'',address:'',version:1}),/VERSION_CONFLICT/);check(true,'store settings reject stale version');

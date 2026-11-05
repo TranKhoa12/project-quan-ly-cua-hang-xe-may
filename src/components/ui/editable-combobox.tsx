@@ -5,14 +5,14 @@ import { ChevronDown, Plus, Search } from 'lucide-react';
 import { normalizePartText, rankSuggestions } from '@/features/parts/catalog';
 
 export type ComboOption={name:string;aliases?:string[];category?:string|null;brand?:string;detail?:string};
-export function EditableCombobox({capitalize=false,label,value,onChange,onSelect,options,placeholder,maxLength=100,disabled=false,rememberText='Chỉ ghi nhớ sau khi bấm Lưu thông tin'}:{capitalize?:boolean;label:string;value:string;onChange:(value:string)=>void;onSelect?:(option:ComboOption)=>void;options:ComboOption[];placeholder?:string;maxLength?:number;disabled?:boolean;rememberText?:string}) {
+export function EditableCombobox({capitalize=false,browse=false,label,value,onChange,onSelect,options,placeholder,maxLength=100,disabled=false,rememberText='Chỉ ghi nhớ sau khi bấm Lưu thông tin'}:{capitalize?:boolean;browse?:boolean;label:string;value:string;onChange:(value:string)=>void;onSelect?:(option:ComboOption)=>void;options:ComboOption[];placeholder?:string;maxLength?:number;disabled?:boolean;rememberText?:string}) {
   const id=useId();const [open,setOpen]=useState(false);const [active,setActive]=useState(-1);
-  const showSuggestions=open&&!disabled&&Boolean(normalizePartText(value));
-  const matches=rankSuggestions(options,value) as ComboOption[];
+  const showSuggestions=open&&!disabled&&(browse||Boolean(normalizePartText(value)));
+  const matches=(browse&&!normalizePartText(value)?[...options].sort((a,b)=>a.name.localeCompare(b.name,'vi')):rankSuggestions(options,value)) as ComboOption[];
   const isNew=normalizePartText(value)&&!options.some(o=>normalizePartText(o.name)===normalizePartText(value));
   function choose(option:ComboOption){onChange(option.name);onSelect?.(option);setOpen(false);setActive(-1);}
   return <div className="combo-field" onBlur={e=>{if(!e.currentTarget.contains(e.relatedTarget))setOpen(false);}}><label className="field" htmlFor={id}>{label}<span className="combo-input"><Search size={16}/><input id={id} aria-label={label} role="combobox" aria-autocomplete="list" aria-expanded={showSuggestions} aria-controls={`${id}-options`} aria-activedescendant={showSuggestions&&active>=0?`${id}-option-${active}`:undefined} value={value} onCompositionEnd={e=>{if(capitalize)onChange(capitalizeWords(e.currentTarget.value));}} onChange={e=>{onChange(capitalize&&!(e.nativeEvent as InputEvent).isComposing?capitalizeWords(e.target.value):e.target.value);setOpen(true);setActive(-1);}} onFocus={()=>setOpen(true)} onKeyDown={e=>{
-    if(e.key==='ArrowDown'&&normalizePartText(value)){e.preventDefault();setOpen(true);setActive(i=>Math.min(i+1,matches.length-1));}
+    if(e.key==='ArrowDown'&&(browse||normalizePartText(value))){e.preventDefault();setOpen(true);setActive(i=>Math.min(i+1,matches.length-1));}
     if(e.key==='ArrowUp'&&showSuggestions){e.preventDefault();setActive(i=>matches.length?Math.max(i-1,0):-1);}
     if(e.key==='Enter'&&showSuggestions){e.preventDefault();if(active>=0&&matches[active])choose(matches[active]);else setOpen(false);}
     if(e.key==='Escape'&&open){e.preventDefault();e.stopPropagation();setOpen(false);setActive(-1);}

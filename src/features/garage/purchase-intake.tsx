@@ -1,6 +1,6 @@
 'use client';
 import {capitalizeWords} from '@/lib/text-input';
-import {useRef,useState} from 'react';
+import {useMemo,useRef,useState} from 'react';
 import {useRouter} from 'next/navigation';
 import {Plus,Pencil,Search,Trash2,PackagePlus} from 'lucide-react';
 import {CommandForm} from './command-form';
@@ -8,6 +8,7 @@ import PurchaseItemEditor,{type NewPurchasePart} from './purchase-item-editor';
 import SupplierDetailsEditor from './supplier-details-editor';
 import SupplierPurchasedItems from './supplier-purchased-items';
 import {normalizePartText} from '@/features/parts/catalog';
+import {partSearchIndex} from '@/features/parts/dictionary';
 import type {GarageSnapshot,SupplierRow} from './types';
 import {money} from '@/lib/data';
 
@@ -28,7 +29,8 @@ export default function PurchaseIntake({data}:{data:GarageSnapshot}){
  const search=useRef<HTMLInputElement>(null);
  const entryRoot=useRef<HTMLDivElement>(null);
  const total=lines.reduce((s,l)=>s+l.quantity*l.cost,0),paid=Number(paidInput||0);
- const results=query.trim()?data.parts.filter(p=>normalizePartText(`${p.name} ${p.sku} ${p.brand}`).includes(normalizePartText(query))).slice(0,7):[];
+ const searchIndex=useMemo(()=>partSearchIndex(data.parts,data.partTerms||[]),[data.parts,data.partTerms]);
+ const results=query.trim()?data.parts.filter(p=>searchIndex.get(p.id)?.includes(normalizePartText(query))).slice(0,7):[];
  const update=(id:string,patch:Partial<IntakeLine>)=>setLines(current=>current.map(l=>l.id===id?{...l,...patch}:l));
  function addExisting(partId:string,replacing?:string){
   const replaced=lines.find(l=>l.id===replacing),already=lines.find(l=>l.partId===partId&&l.id!==replacing);

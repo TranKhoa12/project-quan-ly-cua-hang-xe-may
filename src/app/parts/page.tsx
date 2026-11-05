@@ -14,5 +14,5 @@ export default async function PartsPage({searchParams}:{searchParams:Promise<{pa
 }
 async function PartsData({page}:{page:number}) {
   const [catalog,inventory]=await Promise.all([loadPartCatalog(),loadGarage('parts',page)]);
-  return <><PartsManager initialParts={catalog.parts} count={catalog.count} error={catalog.error}/>{inventory.data?<InventoryTools data={inventory.data}/>:<p role="alert">{inventory.error}</p>}</>;
+  return <><PartsManager initialParts={catalog.parts} terms={catalog.terms} count={catalog.count} error={catalog.error}/>{inventory.data?<InventoryTools data={inventory.data}/>:<p role="alert">{inventory.error}</p>}</>;
 }

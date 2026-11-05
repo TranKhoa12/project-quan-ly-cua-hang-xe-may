@@ -1,0 +1,41 @@
+{
+  "reviewedOn": "2026-11-05",
+  "scope": "Reference labels only. Brand choice requires package confirmation; no brand/vehicle fitment inference.",
+  "names": [
+    {"name":"Dầu nhớt động cơ","aliases":["Nhớt máy","Dầu máy","Engine oil"],"category":"Dầu nhớt và dung dịch","source_url":"https://www.shell.com/motorist/oils-lubricants/advance-for-motorcycles.html"}
+  ],
+  "categories": [
+    {"name":"Động cơ","aliases":["Máy","Lòng máy","Engine"]},
+    {"name":"Gioăng, phớt và vòng bi","aliases":["Ron","Phốt","Bạc đạn","Bearing","Seal"]},
+    {"name":"Truyền động xe số","aliases":["Nhông sên dĩa","Nhông xích","Bộ nồi xe số"]},
+    {"name":"Truyền động xe ga","aliases":["Bộ nồi xe ga","Curoa","CVT","Bộ láp"]},
+    {"name":"Nhiên liệu và khí nạp","aliases":["Xăng gió","Phun xăng","Bình xăng con","FI"]},
+    {"name":"Làm mát","aliases":["Giải nhiệt","Két nước","Cooling"]},
+    {"name":"Điện và ắc quy","aliases":["Điện xe","Bình điện","Battery"]},
+    {"name":"Đánh lửa","aliases":["Bugi","IC lửa","Ignition"]},
+    {"name":"Điện tử điều khiển","aliases":["ECU","Cảm biến","Smartkey"]},
+    {"name":"Đèn và đồng hồ","aliases":["Đèn xe","Đồng hồ xe","Chiếu sáng"]},
+    {"name":"Hệ thống phanh","aliases":["Thắng","Bộ thắng","Bộ phanh","Brake"]},
+    {"name":"Lốp và ruột xe","aliases":["Vỏ ruột","Vỏ xe","Săm lốp","Tire","Tyre"]},
+    {"name":"Bánh xe và hệ thống treo","aliases":["Phuộc","Giảm xóc","Mâm xe","Niềng xe"]},
+    {"name":"Khung gầm","aliases":["Sườn xe","Chân chống","Gác chân"]},
+    {"name":"Dàn áo và thân xe","aliases":["Ốp nhựa","Bửng","Vỏ nhựa","Dàn mủ"]},
+    {"name":"Ống xả","aliases":["Pô","Bô","Exhaust"]},
+    {"name":"Bộ lọc","aliases":["Lọc gió","Lọc nhớt","Lọc xăng","Filter"]},
+    {"name":"Dầu nhớt và dung dịch","aliases":["Nhớt","Dầu máy","Dầu láp","Dung dịch bảo dưỡng","Lubricants"]}
+  ],
+  "brands": [
+    {"name":"Honda","aliases":[],"source_url":"https://www.honda.com.vn/xe-may/phu-tung/danh-sach-phu-tung"},
+    {"name":"Yamaha","aliases":[],"source_url":"https://global.yamaha-motor.com/business/mc/customer-support/vn/genuine-parts/"},
+    {"name":"NGK","aliases":["N G K"],"source_url":"https://www.ngkntk.com/business/2-wheel/"},
+    {"name":"DENSO","aliases":["Den so"],"source_url":"https://am.denso.com/plug-global/products/lineup-mc/"},
+    {"name":"Motul","aliases":[],"source_url":"https://cms.motul.com/images/MOTUL_Katalog_2025_EN_Single_Pages_48d8b654c3.pdf"},
+    {"name":"Yuasa","aliases":[],"source_url":"https://www.yuasabatteries.com/batteries/motorcycle-batteries/"},
+    {"name":"Shell","aliases":["Shell Advance"],"source_url":"https://www.shell.com/motorist/oils-lubricants/advance-for-motorcycles.html"},
+    {"name":"Michelin","aliases":[],"source_url":"https://www.michelinman.com/motorcycle"},
+    {"name":"D.I.D","aliases":["DID","D I D"],"source_url":"https://www.didchain.com/"},
+    {"name":"RK","aliases":["RK Takasago"],"source_url":"https://global.rk-japan.co.jp/products/motorcycle-chains/"},
+    {"name":"GS","aliases":["GS Battery"],"source_url":"https://www.gsbattery.vn/vi"},
+    {"name":"LIQUI MOLY","aliases":["Liquimoly","Liqui Moly"],"source_url":"https://www.liqui-moly.com/en/us/motorbike-4t-sae-10w-30-street-p000265.html"}
+  ]
+}
