@@ -1,5 +1,9 @@
 # Hiện trạng triển khai
 
+05/11/2026: sửa bố cục Bán tại quầy khi nhiều sản phẩm: grid row giữ chiều cao nội dung thay vì ép thẻ theo viewport, hình không co và fieldset danh mục có min-inline-size/width rõ ràng để giữ checkout trong vùng màn hình. Không đổi luồng thanh toán hoặc database. `node tests/browser/sale-layout.mjs`: tái hiện lỗi trước sửa (card clips info at 1440); sau sửa 8 kiểm tra Edge cách ly pass, gồm 1440/1386/1100/900/768/375px, chọn hàng vào giỏ và tìm không có kết quả. Ảnh `.browser-test/sale/`; đã xem bố cục 1386px. Typecheck/build/skills checker pass. Chưa chạy E2E Auth/database hoặc deploy bản sửa này.
+
+04/11/2026: đã xác nhận `TAVILY_API_KEY` tồn tại dạng Secret trong Vercel Production (không đọc/in giá trị). Triển khai commit `b4bf2e5` lên production: `dpl_Eg6Y7V5xydAqNdhERxwQNB5M42XN` READY, alias `https://dangkietmoto.vercel.app`. Ghi chú chưa deploy của tính năng web bên dưới được thay thế bởi bằng chứng này. Chưa thử truy vấn Tavily thật trong phiên quản lý; chưa xác minh key hợp lệ hoặc chất lượng kết quả tìm kiếm.
+
 04/11/2026: thêm tra cứu web ngay trong form mặt hàng mới của Nhập hàng. Server action manager-only gọi Tavily Search Basic, giữ key server, giới hạn 12 lượt/15 phút/actor bằng limiter database hiện có; tối đa 5 kết quả có nguồn, người dùng chọn tiêu đề làm tên để sửa, không suy đoán nhóm/thương hiệu hoặc ghi kho/tiền. Không lưu từ điển kết quả. Typecheck, 36 unit, 17 nhóm UI Edge cách ly, build và skills checker pass. Chưa có API key, chưa thử provider thật/E2E Auth, chưa deploy. Chi tiết cấu hình và giới hạn: `docs/features/part-web-search.md`.
 
 Cập nhật 26/10/2026. Phân biệt năng lực hiện có với quy trình đích; chưa nghiệm thu vận hành qua trình duyệt.
