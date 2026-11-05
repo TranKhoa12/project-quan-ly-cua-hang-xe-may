@@ -4,6 +4,7 @@ import { currentActor, requireActor, sessionClient } from '@/lib/auth/server';
 import { canAccess } from '@/lib/auth/permissions';
 import type { GarageSnapshot, SaleRow, Store, SupplierRow } from './types';
 import {loadDictionary} from '@/features/parts/load-dictionary';
+import {attachPartImages} from '@/features/parts/load-images';
 
 const messages:Record<string,string>={
  PART_HAS_STOCK:'Mặt hàng còn tồn kho, không thể xóa. Bạn có thể ẩn khỏi POS để ngừng bán.',
@@ -43,6 +44,9 @@ export async function loadGarage(section:string,page=0,from?:string,to?:string):
  const c=await sessionClient();
  const {data,error}=await c.rpc('garage_snapshot',{p_section:section,p_page:page,p_from:from||null,p_to:to||null});
  if(error)return {error:'Không tải được dữ liệu Supabase. Vui lòng thử lại.'};
+ if(['parts','sales'].includes(section)){
+  try{data.parts=await attachPartImages(c,data.parts||[]);}catch{return {error:'Không tải được ảnh phụ tùng. Vui lòng thử lại.'};}
+ }
  if(['purchases','parts','sales','repairs'].includes(section)){
   const terms=await loadDictionary(c);
   if(terms.error)return {error:'Không tải được từ điển phụ tùng. Vui lòng tải lại.'};

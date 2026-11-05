@@ -5,6 +5,7 @@ import {createServer} from 'node:http';
 import {readFileSync,mkdirSync} from 'node:fs';
 import {resolve} from 'node:path';
 import assert from 'node:assert/strict';
+import sharp from 'sharp';
 const out=resolve('.browser-test/parts');mkdirSync(out,{recursive:true});
 const reference=JSON.parse(readFileSync('data/part-name-reference.json','utf8'));
 const extra=JSON.parse(readFileSync('data/part-dictionary-extra.json','utf8'));
@@ -29,7 +30,26 @@ try{
  await page.getByRole('textbox',{name:'Tìm phụ tùng'}).fill('');await page.getByRole('combobox',{name:'Lọc hiển thị POS'}).selectOption('all');
  await page.getByRole('textbox',{name:'Tìm phụ tùng'}).fill('bo thang dia');await expect(rows).toHaveCount(1);await expect(rows).toContainText('Má phanh đĩa');
  await page.getByRole('button',{name:'Sửa thông tin',exact:true}).click();const nameInput=page.getByRole('combobox',{name:'Tên mặt hàng',exact:true});await nameInput.fill('bo thang dia');await page.getByRole('option').filter({hasText:'Má phanh đĩa'}).first().click();await expect(page.getByRole('combobox',{name:'Nhóm hàng',exact:true})).toHaveValue('Hệ thống phanh');await expect(page.getByRole('combobox',{name:'Thương hiệu',exact:true})).toHaveValue('Hãng thử');await page.getByRole('button',{name:'Hủy / Đóng',exact:true}).click();
+ const png=await sharp({create:{width:400,height:300,channels:3,background:'#317660'}}).png().toBuffer();
+ let imageMode='error',imageVersion=0;const imageRequests=[];
+ await page.route('**/api/parts/*/image*',async route=>{
+  if(route.request().method()==='GET'){await route.fulfill({contentType:'image/png',body:png});return;}
+  const request=route.request(),form=await new Request('http://localhost',{method:'POST',headers:{'Content-Type':request.headers()['content-type']},body:request.postDataBuffer()}).formData();
+  imageRequests.push({key:form.get('requestId'),operation:form.get('operation')});
+  if(imageMode==='error'){await route.fulfill({status:503,json:{error:'Chưa xác nhận lưu ảnh.'}});return;}
+  imageVersion++;await route.fulfill({json:{image:{image_version:imageVersion,image_url:form.get('operation')==='remove'?null:`/api/parts/part-0/image?v=${imageVersion}`}}});
+ });
+ await page.getByRole('button',{name:'Thêm ảnh',exact:true}).click();const file=page.getByLabel('Chọn ảnh',{exact:true});
+ await file.setInputFiles({name:'bad.svg',mimeType:'image/svg+xml',buffer:Buffer.from('<svg/>')});await expect(page.getByRole('alert')).toContainText('Chỉ nhận ảnh');
+ await file.setInputFiles({name:'part.png',mimeType:'image/png',buffer:png});await expect(page.getByAltText('Xem trước ảnh Má phanh đĩa')).toHaveJSProperty('naturalWidth',400);
+ await page.screenshot({path:resolve(out,'image-editor-desktop.png'),fullPage:true});await page.setViewportSize({width:375,height:980});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));await page.screenshot({path:resolve(out,'image-editor-mobile.png'),fullPage:true});await page.setViewportSize({width:1386,height:980});
+ await page.getByRole('button',{name:'Lưu ảnh',exact:true}).click();await expect(page.getByRole('alert')).toContainText('Chưa xác nhận');await expect(file).toBeDisabled();
+ imageMode='success';await page.getByRole('button',{name:'Thử lại cùng yêu cầu',exact:true}).click();await expect(page.getByText('Đã cập nhật ảnh sản phẩm.',{exact:true})).toBeVisible();assert.equal(imageRequests[0].key,imageRequests[1].key);await expect(page.getByAltText('Ảnh Má phanh đĩa')).toBeVisible();
+ await page.getByRole('button',{name:'Đổi / Gỡ ảnh',exact:true}).click();await file.setInputFiles({name:'replacement.png',mimeType:'image/png',buffer:png});await page.getByRole('button',{name:'Lưu ảnh',exact:true}).click();assert.equal(imageVersion,2);
+ await page.getByRole('button',{name:'Đổi / Gỡ ảnh',exact:true}).click();page.once('dialog',d=>d.accept());await page.getByRole('button',{name:'Gỡ ảnh',exact:true}).click();await expect(page.getByRole('button',{name:'Thêm ảnh',exact:true})).toBeVisible();assert.equal(imageVersion,3);assert.equal(imageRequests.at(-1).operation,'remove');
+ console.log('PASS image editor: invalid type, preview, failure, locked retry with same request, upload, replacement and removal (mock HTTP).');
  await page.getByRole('textbox',{name:'Tìm phụ tùng'}).fill('');
- for(const width of [1386,768,375]){await page.setViewportSize({width,height:980});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),`overflow ${width}`);await page.screenshot({path:resolve(out,`parts-${width}.png`),fullPage:true});}
+ await page.setViewportSize({width:1386,height:980});assert.ok((await rows.first().boundingBox()).height<=110,'desktop product rows stay compact');
+ for(const width of [1386,768,375]){await page.setViewportSize({width,height:980});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),`overflow ${width}`);if(width<900)assert.ok((await rows.first().boundingBox()).height<=310,'mobile cards stay compact');await page.screenshot({path:resolve(out,`parts-${width}.png`),fullPage:false});}
  assert.deepEqual(errors,[]);console.log('PASS parts pagination: 20/20/5 rows, boundaries, search reset, 50 rows, visibility filter, empty state, 1386/768/375px containment. No Auth/database calls.');
 }finally{await browser?.close();await new Promise(r=>server.close(r));}

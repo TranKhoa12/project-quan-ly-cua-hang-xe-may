@@ -4,6 +4,7 @@ import { requireManager, sessionClient } from '@/lib/auth/server';
 import { validatePartInput, type PartInput, type PartTerm, type PartSaveResult } from './catalog';
 import type { Part } from '@/lib/data';
 import {loadDictionary} from './load-dictionary';
+import {attachPartImages} from './load-images';
 
 export async function loadPartCatalog():Promise<{parts:Part[];terms:PartTerm[];error?:string;count:number}> {
   await requireManager();
@@ -14,7 +15,8 @@ export async function loadPartCatalog():Promise<{parts:Part[];terms:PartTerm[];e
   ]);
   if(parts.error||terms.error)return {parts:[],terms:[],count:0,error:'Không tải được danh mục phụ tùng. Vui lòng thử lại, không dùng dữ liệu cục bộ thay thế.'};
   const first=(value:unknown):Record<string,unknown>=> (Array.isArray(value)?value[0]:value) as Record<string,unknown> || {};
-  return {parts:(parts.data||[]).map(p=>({id:p.id,sku:p.sku,name:p.name,category:p.category,brand:p.brand,price:Number(p.sale_price),cost:Number(first(p.part_costs).average_cost||0),stock:Number(first(p.stock_balances).quantity||0),min:p.minimum_stock,pos_visible:p.pos_visible,details_version:p.details_version})),terms:(terms.data||[]) as PartTerm[],count:parts.count||0};
+  try{return {parts:await attachPartImages(client,(parts.data||[]).map(p=>({id:p.id,sku:p.sku,name:p.name,category:p.category,brand:p.brand,price:Number(p.sale_price),cost:Number(first(p.part_costs).average_cost||0),stock:Number(first(p.stock_balances).quantity||0),min:p.minimum_stock,pos_visible:p.pos_visible,details_version:p.details_version}))),terms:(terms.data||[]) as PartTerm[],count:parts.count||0};}
+  catch{return {parts:[],terms:[],count:0,error:'Không tải được ảnh phụ tùng. Vui lòng thử lại.'};}
 }
 
 export async function savePart(input:PartInput):Promise<PartSaveResult> {

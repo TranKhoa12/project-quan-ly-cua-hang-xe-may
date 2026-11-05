@@ -8,6 +8,7 @@ import './sidebar.css';
 import './garage.css';
 import './purchase.css';
 import './sale-receipt.css';
+import './sales-history.css';
 
 export const metadata: Metadata = { title: 'MotoCare — Quản lý cửa hàng', description: 'Quản lý sửa chữa, phụ tùng và vận hành cửa hàng xe máy.' };
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

@@ -1,7 +1,7 @@
 export type Store = {name:string;phone:string;address:string;version:number;bank_code?:string;bank_name?:string;bank_account?:string;bank_holder?:string};
 export type SupplierRow={id:string;name:string;phone:string;details_version?:number};
 export type SupplierPurchaseItem={part_id:string;name:string;sku:string;brand:string;price:number;quantity:number;last_cost:number;last_received_at:string};
-export type StockPart = {id:string;sku:string;name:string;category:string;brand:string;price:number;stock:number;stock_version:number;min:number;cost?:number;pos_visible?:boolean};
+export type StockPart = {image_url?:string|null;image_version?:number;id:string;sku:string;name:string;category:string;brand:string;price:number;stock:number;stock_version:number;min:number;cost?:number;pos_visible?:boolean};
 export type CustomerRow = {id:string;name:string;phone:string;address:string};
 export type VehicleRow = {id:string;customer_id:string;plate:string;model:string;customer:string;phone:string};
 export type Line = {partId:string;quantity:number;price:number;name?:string};

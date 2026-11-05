@@ -1,6 +1,7 @@
 'use client';
 import { useMemo,useState } from 'react';
 import { money } from '@/lib/data';
+import ProductImage from '@/features/parts/product-image';
 import type { StockPart } from './types';
 import {normalizePartText,type PartTerm} from '@/features/parts/catalog';
 import {partSearchIndex} from '@/features/parts/dictionary';
@@ -32,7 +33,7 @@ export default function SaleCatalog({parts,terms=[],quantities,onAdd}:{parts:Sto
   <p className="form-hint">Hình minh họa theo loại phụ tùng. Đối chiếu tên và mã hàng trước khi bán.</p>
   {Object.keys(quantities).length>=100&&<p role="status">Đơn đã đủ 100 mặt hàng. Thanh toán đơn này trước khi tạo đơn tiếp.</p>}
   <div className="sale-catalog-grid">{matches.map(p=>{const quantity=quantities[p.id]||0;return <button key={p.id} type="button" className="sale-product" disabled={p.stock<=quantity||(!quantity&&Object.keys(quantities).length>=100)} onClick={()=>onAdd(p)} aria-label={`Thêm ${p.name}, mã ${p.sku} vào đơn`}>
-   <span className="sale-product-art"><PartIllustration name={`${p.name} ${p.category}`}/><small>Hình minh họa</small></span>
+   <span className="sale-product-art"><ProductImage key={p.image_url||'empty'} src={p.image_url} name={p.name} fallback={<><PartIllustration name={`${p.name} ${p.category}`}/><small>Hình minh họa</small></>}/></span>
    <span className="sale-product-info"><small>{p.sku} · {p.brand}</small><strong>{p.name}</strong><b>{money(p.price)}</b><span>{p.stock>0?`Tồn kho: ${p.stock}`:'Hết hàng'}{quantity>0&&` · Trong đơn: ${quantity}`}</span><span className="sale-product-add">{p.stock<=quantity?(p.stock<=0?'Hết hàng':'Đã chọn hết tồn'):'+ Thêm vào đơn'}</span></span>
   </button>;})}</div>
   {!matches.length&&<p role="status">{parts.length?'Không tìm thấy phụ tùng phù hợp. Hãy đổi từ khóa hoặc nhóm hàng.':'Chưa có phụ tùng trong danh mục.'}</p>}
